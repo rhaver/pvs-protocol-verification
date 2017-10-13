@@ -3,7 +3,7 @@
 For my MSc thesis at Eindhoven University of Technology, I did some work on the verification of multi-party authentication protocols, using rank functions and the theorem prover [PVS](http://pvs.csl.sri.com/). This resulted in a published paper .
 
 ## Publications
-* Master’s thesis [*Proving correctness of a multi-party authentication protocol with rank functions*](http://repository.tue.nl/631698)*&nbsp;(2007)<br>
+* Master’s thesis [*Proving correctness of a multi-party authentication protocol with rank functions*](http://repository.tue.nl/631698)&nbsp;(2007)<br>
   ```tex
   @MASTERSTHESIS{verhoeven2007multiparty,
 	author	= {R.H.A. Verhoeven},
@@ -17,11 +17,13 @@ For my MSc thesis at Eindhoven University of Technology, I did some work on the 
 
 ## Accompanying PVS code
 The PVS code is available for multiple versions of PVS. There are three theories.
-Theory | Description
--------|------------
-```csp_rules``` | [Neil Evans’ framework](http://dx.doi.org/10.1016/j.jlap.2004.09.005) for modelling CSP and Schneider’s Rank Theorem, updated from PVS version 3.1 and slightly extended
-```nsl```*   | Analysis of the Needham-Schroeder-Lowe public key protocol using rank functions
-```gnsl```*      | Analysis of Cremers and Mauw’s [Generalised Needham-Schroeder-Lowe public key protocol](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.122.8106), using rank functions
+
+| Theory | Description |
+|--------|-------------|
+|```csp_rules``` | [Neil Evans’ framework](http://dx.doi.org/10.1016/j.jlap.2004.09.005) for modelling CSP and Schneider’s Rank Theorem, updated from PVS version 3.1 and slightly extended |
+|```nsl```*   | Analysis of the Needham-Schroeder-Lowe public key protocol using rank functions |
+|```gnsl```*      | Analysis of Cremers and Mauw’s [Generalised Needham-Schroeder-Lowe public key protocol](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.122.8106), using rank functions |
+
 \* Requires the ```csp_rules``` theory as a library, for which the appropriate path must be set in the file ```dynetwork.pvs```.
 
 ## Running the ```gnsl``` theory
@@ -36,4 +38,4 @@ Theory | Description
 * Working with the theory
   1. Perform any command on opened file (get PVS help with the command ```C‑x h```)
      * for proving the theory and its importchain, use the command ```M‑x pri```
-     * for stepping through a proof, move the cursor onto a lemma and use the command ```M‑x step-proof``` (stepping through it with ```TAB 1``` or <code>ESC n TAB 1</code> for ```n``` steps)
+     * for stepping through a proof, move the cursor onto a lemma and use the command ```M‑x step-proof``` (stepping through it with ```TAB 1``` or <code>ESC *n* TAB 1</code> for *n*&nbsp;steps)
