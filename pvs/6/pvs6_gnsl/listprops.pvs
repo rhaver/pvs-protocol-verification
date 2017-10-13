@@ -1,0 +1,61 @@
+% some list properties
+
+listprops[T: TYPE] : THEORY
+
+BEGIN
+
+ l, l1, l2, l3: VAR list[T]
+ c: VAR (cons?[T])
+ t, t1, t2: VAR T
+
+ insert(l, (n: below[length(l)+1]), t) : RECURSIVE list[T] =
+   IF n = 0 THEN cons(t, l)
+   ELSE cons(car(l), insert(cdr(l), n-1, t))
+   ENDIF MEASURE length(l)
+ length_insert: LEMMA FORALL (i: below[length(l)+1]): length(insert(l, i, t)) = 1 + length(l)
+
+ remove(l, (n: below[length(l)])) : RECURSIVE list[T] =
+   IF n = 0 THEN cdr(l)
+   ELSE cons(car(l), remove(cdr(l), n-1))
+   ENDIF MEASURE length(l)
+ length_remove: LEMMA FORALL (i: below[length(c)]) : length(c)-1 = length(remove(c, i))
+
+
+ gen_f_list(k: nat, i: below[k], f: [below[k] -> T]): RECURSIVE list[T] =
+	IF i = k-1 THEN cons(f(k-1), null)
+	ELSE cons(f(i), gen_f_list(k, i+1, f))
+	ENDIF MEASURE k-i
+ gen1 : LEMMA FORALL (k: nat, i: below[k], f: [below[k] -> T]): length(gen_f_list(k, i, f)) = k-i
+ gen2 : LEMMA FORALL (k: nat, i: below[k], j: below[k-i], f: [below[k] -> T]): nth(gen_f_list(k, i, f), j) = f(i+j)
+
+
+ elt(l, t) : bool = (EXISTS (i: below[length(l)]): nth(l, i) = t)
+ elt_singleton : LEMMA elt((: t1 :), t2) IFF t1 = t2
+
+
+ equality_length : LEMMA l1 = l2 IMPLIES length(l1) = length(l2)
+ equality_nth : LEMMA l1 = l2 IMPLIES FORALL (i: below[length(l1)]): nth(l1, i) = nth(l2, i)
+ length_nth_equality : LEMMA length(l1)=length(l2) AND (FORALL (i: below[length(l1)]): nth(l1, i)=nth(l2,i)) IMPLIES l1 = l2
+
+
+ cons_append : LEMMA cons(car(c), append(cdr(c), l)) = append(c, l)
+ cons_remove : LEMMA FORALL (i: below[length(c)-1]): cons(car(c), remove(cdr(c), i)) = remove(c, i+1)
+
+
+ nth_remove : LEMMA FORALL (i: below[length(l)], j: below[length(l)-1]):
+		nth(remove(l, i), j) = IF j<i THEN nth(l, j) ELSE nth(l, j+1) ENDIF
+ nth_append : LEMMA FORALL (i: below[length(l1)+length(l2)]):
+		nth(append(l1, l2), i) = IF i<length(l1) THEN nth(l1, i) ELSE nth(l2, i-length(l1)) ENDIF
+ nth_cdr : LEMMA FORALL (i: below[length(c)-1]): nth(cdr(c), i) = nth(c, i+1)
+
+
+ elt_append1 : LEMMA elt(l1, t) IMPLIES elt(append(l1, l2), t)
+ elt_append2 : LEMMA elt(l2, t) IMPLIES elt(append(l1, l2), t)
+ elt_append3 : LEMMA elt(append(l1, l2), t) IMPLIES elt(l1, t) OR elt(l2, t)
+ elt_append4_weak: LEMMA elt(l,t) IFF (EXISTS (l1,l2): l = append(l1, cons(t, l2)))
+ elt_append4_strong: LEMMA FORALL (i: below[length(l)]):
+                    nth(l, i) = t IFF
+                    (EXISTS (l1: {x: list[T]|length(x)=i},l2: {x: list[T]|length(x)=length(l)-i-1}): l = append(l1, cons(t, l2)))
+
+
+END listprops

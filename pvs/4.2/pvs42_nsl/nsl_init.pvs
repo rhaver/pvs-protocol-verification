@@ -1,0 +1,179 @@
+% NSLPK protocol
+
+nsl_initiator : THEORY
+
+BEGIN
+
+ Identity	: NONEMPTY_TYPE
+ Nonce		: NONEMPTY_TYPE
+
+ Message : DATATYPE WITH SUBTYPES Key, Nonkey
+ BEGIN
+  user		(x_user		: Identity)	: user?		: Nonkey
+  nonce		(x_nonce	: Nonce)	: nonce?	: Nonkey
+  conc		(x_conc, y_conc : Message)	: conc?		: Nonkey
+  public	(x_public	: Identity)	: public?	: Key
+  secret	(x_secret 	: Identity)	: secret?	: Key
+  code		(x_code	: Key, y_code : Message): code?		: Nonkey
+  running_resp (x_i, x_j : Identity, n : Nonce) : running_init? : Nonkey
+  commit_init  (x_i, x_j : Identity, n : Nonce) : commit_resp?  : Nonkey
+ END Message
+
+
+%------------------------------
+%  identities of two agents 
+%------------------------------
+
+ a : Identity
+
+ b_ax : AXIOM (EXISTS (b : Identity) : b /= a)
+ b : { i : Identity | i /= a }
+
+
+%---------------------------------------------------
+%  partitioning the nonces among users and roles
+%---------------------------------------------------
+
+ IMPORTING partition
+
+ Role : TYPE = {init, resp}
+
+ IRpart : [[Identity,Role] -> setof[Nonce]] = pt[[Identity,Role], Nonce]
+
+ Nonces(i : Identity, r : Role) : NONEMPTY_TYPE =
+                (IRpart(i,r))
+
+ na : Nonces(a, init)
+
+ n_prop : LEMMA FORALL (i: Identity, r: Role): (r /= init) => NOT pt[[Identity,Role], Nonce](i,r)(na)
+ n_orig : LEMMA FORALL (i: Identity): IRpart(i,init)(na) => i = a
+
+
+%-------------------------
+%  encryption function
+%-------------------------
+
+ E(k : Key, m : Message) : Message =
+  CASES m OF
+   code(k1, m1) : CASES k1 OF
+     public(i) : IF k = secret(i) THEN m1 ELSE code(k, m) ENDIF,
+     secret(i) : IF k = public(i) THEN m1 ELSE code(k, m) ENDIF
+    ENDCASES
+   ELSE code(k, m)
+  ENDCASES
+
+
+%----------------------
+%  generates relation
+%----------------------
+
+ k : VAR Key
+ m1, m2 : VAR Message
+
+ Gen(S : setof[Message], m : Message) : INDUCTIVE bool =
+	S(m)
+  OR	(EXISTS m1, m2 : Gen(S, m1) AND Gen(S, m2) AND m = conc(m1, m2))
+  OR	(EXISTS m1 : Gen(S, conc(m1, m)))
+  OR	(EXISTS m2 : Gen(S, conc(m, m2)))
+  OR	(EXISTS m1, k : Gen(S, m1) AND Gen(S, k) AND m = E(k, m1))
+
+;|-(S : setof[Message], m : Message) : bool = Gen(S, m)
+
+
+%-----------------------------
+%  enemy's initial knowledge
+%-----------------------------
+
+ INIT(m : Message) : bool =
+  CASES m OF
+   user(z) : TRUE,
+   nonce(z) : z /= na,
+   public(z) : TRUE,
+   secret(z) : z /= a AND z /= b
+   ELSE FALSE
+  ENDCASES
+
+ IMPORTING dynetwork[Identity, Message, INIT, |-]
+
+
+%-------------------------
+%  message abbreviations
+%-------------------------
+
+ v, w, x, y, z : VAR Message
+
+ conc2(x, y) : Message = conc(x, y)
+ conc3(x, y, z) : Message = conc(conc(x, y), z)
+ conc4(w, x, y, z) : Message = conc(conc(conc(w, x), y), z)
+ conc5(v, w, x, y, z) : Message = conc(conc(conc(conc(v, w), x), y), z)
+
+
+%-------------------------
+%  process definitions
+%-------------------------
+
+ UINIT(i : Identity, ni : Nonces(i, init)) : process[event] =
+  IF (ni = na) THEN
+   (trans(i, b, E(public(b), conc(nonce(ni), user(i)))) >>
+    Choice! (n : Nonce) :
+     (rec(i, b, E(public(i), conc3(nonce(ni), nonce(n), user(b)))) >>
+      (trans(i, b, E(public(b), nonce(n))) >> 
+       (signal(commit_init(i, b, ni)) >> Stop[event]))))
+  ELSE
+   Choice! (j : Identity) :
+    (trans(i, j, E(public(j), conc(nonce(ni), user(i)))) >>
+     Choice! (n : Nonce) :
+      (rec(i, j, E(public(i), conc3(nonce(ni), nonce(n), user(j)))) >>
+       (trans(i, j, E(public(j), nonce(n))) >> 
+        (signal(commit_init(i, j, ni)) >> Stop[event]))))
+  ENDIF
+
+ URESP(i : Identity, nr : Nonces(i, resp)) : process[event] =
+  Choice! (j : Identity, n : Nonce) :
+   (rec(i, j, E(public(i), conc(nonce(n), user(j)))) >>
+    (signal(running_resp(j, i, n)) >>
+     (trans(i, j, E(public(j), conc3(nonce(n), nonce(nr), user(i)))) >>
+      (rec(i, j, E(public(i), nonce(nr))) >> Stop[event]))))
+
+ USER(i : Identity) : process[event] =
+		(Interleave! (ni : Nonces(i, init)) : UINIT(i, ni))
+				//
+	        (Interleave! (nr : Nonces(i, resp)) : URESP(i, nr))
+
+
+%-------------------------
+%  authentication sets 
+%-------------------------
+
+ T : set[event] = { e : event | e = signal(commit_init(a, b, na)) }
+
+ R : set[event] = { e : event | e = signal(running_resp(a, b, na)) }
+
+
+%-----------------
+%  rank function
+%-----------------
+
+ rho(m : Message) : RECURSIVE bool =
+  CASES m OF
+   user(z) : TRUE,
+   nonce(z) : z /= na,
+   public(z) : TRUE,
+   secret(z) : z /= a AND z /= b,
+   conc(z1, z2) : rho(z1) AND rho(z2),
+   code(z1, z2) : rho(z2) OR
+	(z1 = public(b) AND (EXISTS (n : Nonce) : z2 = conc2(nonce(na), user(a)))),
+   commit_init(z1, z2, z3) : z1 /= a OR z2 /= b OR z3 /= na
+   ELSE TRUE
+  ENDCASES
+ MEASURE m BY <<
+
+
+%-----------------
+%  main theorem
+%-----------------
+
+ authenticated : THEOREM network(USER) |> auth(T, R)
+
+
+END nsl_initiator

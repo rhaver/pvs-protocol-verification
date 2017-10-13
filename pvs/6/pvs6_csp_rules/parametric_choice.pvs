@@ -1,0 +1,58 @@
+%
+%  Unbounded choice of a family {P(i) | i in U}
+%
+%    T = event type
+%    U = parameter type
+%
+
+parametric_choice  [ U, T : TYPE] : THEORY
+
+  BEGIN
+
+  IMPORTING process_rules
+
+  P : VAR [U -> process[T]]
+
+  Q : VAR process[T]
+
+  R : VAR set[[T, T]]
+
+  t : VAR trace[T]
+
+  i : VAR U
+
+  A : VAR setof[T]
+
+
+  %--------------
+  %  Definition
+  %--------------
+
+  Choice(P) : process[T] =  { t | null?(t) OR EXISTS i : P(i)(t) }
+
+
+
+  %-----------------
+  %  Various rules
+  %-----------------
+
+  choice_equiv : LEMMA  Choice(P) = Choice({ Q | EXISTS i : Q = P(i)})
+
+  choice_nonempty_param : LEMMA
+    (EXISTS i : true) IMPLIES Choice(P) = union! i : P(i)
+
+  choice_empty_param : LEMMA
+    (FORALL i : false) IMPLIES Choice(P) = Stop
+
+  sigma_choice3 : LEMMA  sigma(Choice(P)) = union! i : sigma(P(i))  
+
+  choice_member2 : LEMMA  subset?(P(i), Choice(P))
+
+  hide_choice2 : LEMMA (Choice! i : P(i)) / A = Choice! i : (P(i) / A)
+
+  rename_choice3 : LEMMA
+   (FORALL i : subset?(sigma(P(i)), dom(R))) IMPLIES
+	rename(Choice(P), R) = Choice! i : rename(P(i), R) 
+
+
+  END parametric_choice

@@ -1,0 +1,108 @@
+%----------------------------------------
+% dolev-yao network and its rank theorem
+%----------------------------------------
+
+dynetwork[ I : NONEMPTY_TYPE, M : TYPE,
+	   INIT : setof[M], |- : setof[[setof[M], M]] ] : THEORY
+BEGIN
+
+  lib : LIBRARY = "/home/rob/code/41/rules"
+  IMPORTING lib@csp_rules
+
+%----------------------------------
+% events of the dolev-yao network
+%----------------------------------
+
+  event : DATATYPE
+  BEGIN
+    trans(snd, rcv : I, msg : M) : trans?
+    rec(rcv, snd : I, msg : M) : rec?
+    signal(msg : M) : signal?
+    leak(msg : M) : leak?
+  END event
+
+%-------------------------------
+% enemy and network definition
+%-------------------------------
+
+  i, j : VAR I
+
+  m : VAR M
+
+  X : VAR [setof[M] -> process[event]]
+
+  S, S1 : VAR setof[M]
+
+  e : VAR event
+
+  F(X)(S) : process[event] =
+	   (Choice! i, j, m : trans(i, j, m) >> X(add(m, S)))
+	\/ (Choice! i, j, (m | S |- m) : rec(i, j, m) >> X(S))
+	\/ (Choice! (m | S |- m) : leak(m) >> X(S))
+
+  enemy : [setof[M] -> process[event]] = mu(F)
+
+  enemy_def : THEOREM
+    enemy(S) = ((Choice! i, j, m : trans(i, j, m) >> enemy(add(m, S)))
+	     \/ (Choice! i, j, (m | S |- m) : rec(i, j, m) >> enemy(S))
+	     \/ (Choice! (m | S |- m) : leak(m) >> enemy(S)))
+
+
+  users : VAR [I -> process[event]]
+
+  network(users) : process[event] =
+             Par(union(trans?, rec?))(enemy(INIT), Interleave(users))
+
+%---------------------
+% network invariant
+%---------------------
+
+  R : VAR setof[event]
+  tr : VAR trace[event]
+  rho : VAR setof[M]
+
+  RankEnemy(rho) : setof[trace[event]] =
+    LAMBDA tr : (every! e : trans?(e) => rho(msg(e)))(tr) =>
+	        (every! e : complement(trans?)(e) => rho(msg(e)))(tr)
+
+  RankUser(rho) : setof[trace[event]] =
+    LAMBDA tr : (every! e : rec?(e) => rho(msg(e)))(tr) =>
+	        (every! e : complement(rec?)(e) => rho(msg(e)))(tr)
+
+  RankNetwork(rho) : setof[trace[event]] = every! e : rho(msg(e))
+
+  invariant : LEMMA
+	(enemy(INIT) |> RankEnemy(rho) AND
+	 FORALL i : users(i) # R |> RankUser(rho)) IMPLIES
+	    network(users) # R |> RankNetwork(rho)
+
+%-------------------------
+% authentication theorem
+%-------------------------
+
+  Gen(S) : set[M] = { m | S |- m }
+
+  q1(rho) : [set[M] -> pred[event]] =
+	LAMBDA S : LAMBDA e : (trans?(e) => rho(msg(e)))
+
+  q2(rho) : [set[M] -> pred[event]] =
+    LAMBDA S : LAMBDA e : (complement(trans?)(e) AND subset?(S, rho)) =>
+	(EXISTS S1 : subset?(S1, rho) AND Gen(S1)(msg(e)))
+
+  enemy_prop2 : LEMMA
+	    subset?(INIT, rho)
+	AND (FORALL S : subset?(S, rho) IMPLIES subset?(Gen(S), rho))
+    IMPLIES
+	    enemy(INIT) |> RankEnemy(rho)
+
+  T : VAR setof[event]
+
+  authentication_by_rank : THEOREM
+	    subset?(INIT, rho)
+	AND (FORALL S, m : subset?(S, rho) AND (S |- m) IMPLIES rho(m))
+	AND (FORALL i : users(i) # R |> RankUser(rho))
+	AND (FORALL (e : (T)) : NOT rho(msg(e)))
+    IMPLIES 
+	network(users) |> auth(T, R)
+
+END dynetwork

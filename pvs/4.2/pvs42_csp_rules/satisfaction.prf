@@ -1,0 +1,181 @@
+(satisfaction
+ (sat_idempotent 0
+  (sat_idempotent-1 nil 3417191620 3417191646
+   ("" (skolem!) (("" (grind) nil nil)) nil) proved
+   ((subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil))
+   88 40 nil nil))
+ (sat_transitive1 0
+  (sat_transitive1-1 nil 3417191620 3417191646
+   ("" (skosimp) (("" (grind) nil nil)) nil) proved
+   ((subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil satisfaction nil))
+   199 160 nil nil))
+ (sat_transitive2 0
+  (sat_transitive2-1 nil 3417191620 3417191646
+   ("" (skosimp) (("" (grind) nil nil)) nil) proved
+   ((subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil satisfaction nil))
+   235 170 nil nil))
+ (sat_choice1 0
+  (sat_choice1-1 nil 3417191620 3417191647
+   ("" (skolem!) (("" (grind) nil nil)) nil) proved
+   ((T formal-type-decl nil satisfaction nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (\\/ const-decl "process" processes nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil))
+   425 340 nil nil))
+ (sat_choice2 0
+  (sat_choice2-1 nil 3417192542 3417192546
+   ("" (grind :exclude ("prefix_closed") :if-match nil)
+    (("1" (inst?) (("1" (ground) (("1" (inst + "P!1") nil)))))
+     ("2" (inst?) (("2" (assert) nil)))
+     ("3" (inst?) (("3" (assert) nil)))
+     ("4" (inst - "P!1" "x!1") (("4" (assert) nil))))
+    nil)
+   proved
+   ((Choice const-decl "process" processes nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (Stop const-decl "process" processes nil)
+    (set type-eq-decl nil sets nil)
+    (process type-eq-decl nil processes nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil satisfaction nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil))
+   2053 290 nil nil))
+ (sat_free_par1 0
+  (sat_free_par1-1 nil 3417191620 3417191647
+   ("" (skosimp)
+    (("" (use "interleaves_subset1[T]")
+      (("" (rewrite "|>" :dir rl)
+        (("" (forward-chain "sat_transitive1") nil nil)) nil))
+      nil))
+    nil)
+   proved
+   ((interleaves_subset1 formula-decl nil process_rules nil)
+    (T formal-type-decl nil satisfaction nil)
+    (process type-eq-decl nil processes nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (sat_transitive1 formula-decl nil satisfaction nil)
+    (// const-decl "process" processes nil)
+    (pred type-eq-decl nil defined_types nil)
+    (\|> const-decl "bool" satisfaction nil))
+   121 60 nil nil))
+ (sat_free_par2 0
+  (sat_free_par2-1 nil 3417191620 3417191647
+   ("" (skosimp)
+    (("" (use "interleaves_subset2[T]")
+      (("" (rewrite "|>" :dir rl)
+        (("" (forward-chain "sat_transitive1") nil nil)) nil))
+      nil))
+    nil)
+   proved
+   ((interleaves_subset2 formula-decl nil process_rules nil)
+    (T formal-type-decl nil satisfaction nil)
+    (process type-eq-decl nil processes nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (sat_transitive1 formula-decl nil satisfaction nil)
+    (// const-decl "process" processes nil)
+    (pred type-eq-decl nil defined_types nil)
+    (\|> const-decl "bool" satisfaction nil))
+   124 60 nil nil))
+ (sat_par_fullset 0
+  (sat_par_fullset-1 nil 3417191620 3417191648
+   ("" (skosimp)
+    (("" (rewrite "par_full")
+      (("" (expand "|>") (("" (grind) nil nil)) nil)) nil))
+    nil)
+   proved
+   ((par_full formula-decl nil process_rules nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (T formal-type-decl nil satisfaction nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (intersection const-decl "set" sets nil)
+    (\|> const-decl "bool" satisfaction nil))
+   263 180 nil nil))
+ (sat_par_fullset2 0
+  (sat_par_fullset2-1 nil 3417191620 3417191648
+   ("" (skosimp)
+    (("" (rewrite "par_full")
+      (("" (expand "|>") (("" (grind) nil nil)) nil)) nil))
+    nil)
+   proved
+   ((par_full formula-decl nil process_rules nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (T formal-type-decl nil satisfaction nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (intersection const-decl "set" sets nil)
+    (\|> const-decl "bool" satisfaction nil))
+   286 210 nil nil)))
+

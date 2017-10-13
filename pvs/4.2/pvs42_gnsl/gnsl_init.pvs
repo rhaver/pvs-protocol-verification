@@ -1,0 +1,275 @@
+% gNSL (initiator)
+
+gnsl_init : THEORY
+
+BEGIN
+
+ Identity	: NONEMPTY_TYPE  = nat
+ Nonce		: NONEMPTY_TYPE  = nat
+
+%------------------------------
+%  identities of honest agents
+%------------------------------
+
+ nat_from_2	: TYPE = { x: nat | 2 <= x }
+ nat_from_3	: TYPE = { x: nat | 3 <= x }
+ P		: VAR nat_from_2
+ p		: nat_from_2
+ nat_to_p	: TYPE = below[p] % I.e. { x: nat | x < P}
+ nat_1_to(P)	: TYPE = { x: nat | 0 < x AND x < P-1}
+
+ % We define a set of honest users for the arbitrary p-user instantiation
+ % that we are investigating. These users are hu(0) .. hu(p-1)
+
+
+ % h(i) = an identity
+ % i runs from 0 to P-1
+
+ hu : { h: [nat_to_p -> Identity] | FORALL (i,j: nat_to_p) : i /= j IMPLIES h(i) /= h(j) } 
+
+ % Now we have defined the honest users hu(P)(0), ..., h(P)(P-1).
+ % What makes them honest is that the intruder will not know their private keys.
+
+%---------------------------------------------------
+%  partitioning the nonces among users and roles
+%---------------------------------------------------
+
+ IMPORTING partition
+
+ % Roles per P-user instantiation run from 0 to P-1, as there are P roles
+ % in such an instantiation. However, there is a P-user instantiation, for
+ % all natural numbers at least 2. There is therefore no upper bound on the
+ % Role-identifier, forcing its type to be nat.
+
+ Role : TYPE = nat
+
+
+ % Nonces are partitioned over Roles and Identities. Since Roles can occur
+ % as duplicates (e.g. Role 2 occurs in all P-user instantiations), they
+ % are partitioned according to the size of the instantiation as well.
+
+ IRpart : [[nat_from_2, Identity, Role] -> setof[Nonce]] = pt[[nat_from_2, Identity, Role], Nonce]
+ Nonces(P: nat_from_2, i : Identity, r : Role) : NONEMPTY_TYPE = (IRpart(P,i,r))
+
+ n_init : Nonces(p, hu(0), 0)
+
+
+ n_prop : LEMMA FORALL (P: nat_from_2, u: Identity, r: Role): (P /= p OR r /= 0) => NOT pt[[nat_from_2, Identity, Role], Nonce](P,u,r)(n_init)
+ n_orig : LEMMA FORALL (P: nat_from_2, u: Identity): IRpart(P, u, 0)(n_init) => (P = p AND u = hu(0))
+
+
+%-------------------------
+%  message datatype
+%-------------------------
+
+ Message : DATATYPE WITH SUBTYPES Key, Nonkey
+ BEGIN
+  user		(x_user		: Identity)				: user?		: Nonkey
+  nonce		(x_nonce	: Nonce)				: nonce?	: Nonkey
+  nlist		(x_nlist	: list[Nonce])				: nlist?	: Nonkey
+  ilist		(x_ilist	: list[Identity])			: ilist?	: Nonkey
+  conc		(x_conc, y_conc	: Message)				: conc?		: Nonkey
+  public	(x_public	: Identity)				: public?	: Key
+  secret	(x_secret 	: Identity)				: secret?	: Key
+  code		(x_code	: Key, y_code : Message)			: code?		: Nonkey
+  commit	(x_r: Role, y_idlist: list[Identity], z_n : Nonce)	: commit?	: Nonkey
+  running	(x_r: Role, y_idlist: list[Identity], z_n : Nonce)	: running?	: Nonkey
+ END Message
+
+
+%-------------------------
+%  encryption function
+%-------------------------
+
+ E(k : Key, m : Message) : Message =
+  CASES m OF
+   code(k1, m1) : CASES k1 OF
+     public(i) : IF k = secret(i) THEN m1 ELSE code(k, m) ENDIF,
+     secret(i) : IF k = public(i) THEN m1 ELSE code(k, m) ENDIF
+    ENDCASES
+   ELSE code(k, m)
+  ENDCASES
+
+
+%----------------------
+%  generates relation
+%----------------------
+
+ k : VAR Key
+ m1, m2 : VAR Message
+
+ Gen(S : setof[Message], m : Message) : INDUCTIVE bool =
+	S(m)
+  % conc-related
+  OR	(EXISTS m1, m2 : Gen(S, m1) AND Gen(S, m2) AND m = conc(m1, m2))
+  OR	(EXISTS m1 : Gen(S, conc(m1, m)))
+  OR	(EXISTS m2 : Gen(S, conc(m, m2)))
+  % nonce list
+  OR	(EXISTS (n: Nonce) : Gen(S, nonce(n)) AND m = nlist((: n :)) )
+  OR	(EXISTS (n: Nonce) : Gen(S, nlist((: n :))) AND m = nonce(n) ) 
+  OR	(EXISTS (nl1, nl2: list[Nonce]) : Gen(S, nlist(nl1)) AND Gen(S, nlist(nl2)) AND m = nlist(append(nl1, nl2)))
+  OR	(EXISTS (nl, nl1, nl2: list[Nonce]) : Gen(S, nlist(nl)) AND nl = append(nl1, nl2) AND m = nlist(nl1))
+  OR	(EXISTS (nl, nl1, nl2: list[Nonce]) : Gen(S, nlist(nl)) AND nl = append(nl1, nl2) AND m = nlist(nl2))
+  % identity list
+  OR	(EXISTS (i: Identity) : Gen(S, user(i)) AND m = ilist((: i :)) )
+  OR	(EXISTS (i: Identity) : Gen(S, ilist((: i :))) AND m = user(i) )
+  OR	(EXISTS (il1, il2: list[Identity]) : Gen(S, ilist(il1)) AND Gen(S, ilist(il2)) AND m = ilist(append(il1, il2)))
+  OR	(EXISTS (il, il1, il2: list[Identity]) : Gen(S, ilist(il)) AND il = append(il1, il2) AND m = ilist(il1))
+  OR	(EXISTS (il, il1, il2: list[Identity]) : Gen(S, ilist(il)) AND il = append(il1, il2) AND m = ilist(il2))
+  % encrypted messages
+  OR	(EXISTS m1, k : Gen(S, m1) AND Gen(S, k) AND m = E(k, m1))
+
+;|-(S : setof[Message], m : Message) : bool = Gen(S, m)
+
+
+%-----------------------------
+%  enemy's initial knowledge
+%-----------------------------
+
+ INIT(m : Message) : bool =
+  CASES m OF
+   user(z) : TRUE,
+   nonce(z) : z /= n_init,
+   public(z) : TRUE,
+   secret(z) : NOT (EXISTS (i : nat_to_p) : z = hu(i))
+   ELSE FALSE
+  ENDCASES
+
+ IMPORTING dynetwork[Identity, Message, INIT, |-]
+
+
+%-------------------------
+%  process definitions
+%-------------------------
+
+ UROLE_INIT(P: nat_from_2, u: Identity, nn0: Nonces(P, u, 0)) : process[event] =
+  IF nn0 = n_init THEN
+	  Choice! (nl: { x: list[Nonce] | length(x) = P-1 },
+                   il: { x: list[Identity] | (length(x) = P-1) AND (FORALL (i: below[P-1]): nth(x,i) = hu(i+1)) }) :
+	   (trans(u, car(il), E(public(car(il)), conc(nlist((: nn0 :)), ilist(cons(u, cdr(il)))))) >>
+	    (rec(u, nth(il, P-2), E(public(u), conc(nlist(cons(nn0, nl)), ilist(il)))) >>
+	     (trans(u, car(il), E(public(car(il)), conc(ilist(cons(u, cdr(il))), nlist(nl)))) >>
+	      (signal(commit(0, cons(u, il), nn0)) >> Stop[event]))))
+  ELSE
+	  Choice! (nl: { x: list[Nonce] | length(x) = P-1 }, il: { x: list[Identity] | length(x) = P-1}) :
+	   (trans(u, car(il), E(public(car(il)), conc(nlist((: nn0 :)), ilist(cons(u, cdr(il)))))) >>
+	    (rec(u, nth(il, P-2), E(public(u), conc(nlist(cons(nn0, nl)), ilist(il)))) >>
+	     (trans(u, car(il), E(public(car(il)), conc(ilist(cons(u, cdr(il))), nlist(nl)))) >>
+	      (signal(commit(0, cons(u, il), nn0)) >> Stop[event]))))
+  ENDIF
+
+ UROLE_LAST(P: nat_from_2, u: Identity, nnP: Nonces(P, u, P-1)) : process[event] = 
+  Choice! (nl: { x: list[Nonce] | length(x) = P-1 }, il: { x: list[Identity] | length(x) = P-1}) :
+   (rec(u, nth(il, P-2), E(public(u), conc(nlist(nl), ilist(il)))) >> 
+    (signal(running(P-1, append(il, (:u:)), car(nl))) >>
+     (trans(u, car(il), E(public(car(il)), conc(nlist(append(nl, (:nnP:))), ilist(append(cdr(il), (:u:)))))) >> 
+      (rec(u, nth(il, P-2), E(public(u), nlist((: nnP :))) ) >> Stop[event]))))
+
+ LastMessage(P: nat_from_3, i: nat_1_to(P),
+       u: Identity,
+       nl1: { x: list[Nonce] | length(x) = i },
+       nl2: { x: list[Nonce] | length(x) = P-1-i },
+       il1: { x: list[Identity] | length(x) = i },
+       il2: { x: list[Identity] | length(x) = P-1-i } ) : event =
+        IF i=P-2 THEN
+          trans(u, car(il2), E(public(car(il2)), nlist(nl2)))
+        ELSE
+          trans(u, car(il2), E(public(car(il2)), conc(ilist(append(il1, cons(u, cdr(il2)))), nlist(nl2))))
+        ENDIF
+ 
+ UROLE_MIDDLE(P: nat_from_3, i: nat_1_to(P), u: Identity, nnI: Nonces(P, u, i)) : process[event] =
+  Choice! (nl1: { x: list[Nonce] | length(x) = i }, nl2: { x: list[Nonce] | length(x) = P-1-i },
+           il1: { x: list[Identity] | length(x) = i }, il2: { x: list[Identity] | length(x) = P-1-i }):
+   (rec(u, nth(il1, i-1), E(public(u), conc(nlist(nl1), ilist(append(il1, il2))))) >> 
+    (signal(running(i, append(il1, cons(u, il2)), car(nl1))) >>
+     (trans(u, car(il2), E(public(car(il2)), conc(nlist(append(nl1, (:nnI:))), ilist(append(il1, cons(u, cdr(il2)))) ))) >>
+      (rec(u, nth(il1, i-1), E(public(u), conc(ilist(append(il1, il2)), nlist(cons(nnI, nl2))))) >> 
+       ((
+        LastMessage(P, i, u, nl1, nl2, il1, il2)
+        ) >> Stop[event])))))
+
+% If p = 2, then UROLE_MIDDLE is not well defined. Hence the if-statement in USER.
+% If i = p-2, then il2 has a length of 1, so cdr(il2) = null. This poses no problem.
+
+ USER(i : Identity) : process[event] =
+	(Interleave! (P: nat_from_2) :
+		(Interleave! (nn0 : Nonces(P, i, 0))	: UROLE_INIT(P, i, nn0))
+				//
+		(Interleave! (nnP : Nonces(P, i, P-1))	: UROLE_LAST(P, i, nnP))
+				//
+		IF P = 2 THEN Stop[event]
+		ELSE (Interleave! (j: nat_1_to(P), nnJ : Nonces(P, i, j)) : UROLE_MIDDLE(P, j, i, nnJ))
+		ENDIF
+	)
+
+
+%-------------------------
+%  authentication sets 
+%-------------------------
+
+ IMPORTING listprops
+
+ hu_list_exists : LEMMA EXISTS (x1: {x: list[Identity] | (length[Identity](x) = p) AND
+                          (FORALL (i: nat_to_p): nth[Identity](x, i) = hu(i))}): TRUE
+
+ hu_list: { x: list[Identity] | (length(x) = p) AND (FORALL (i: nat_to_p): nth(x,i) = hu(i)) }
+
+ cons_hu_list : LEMMA cons?(hu_list) AND length(hu_list) = p
+
+ T : set[event] = { e : event | e = signal(commit(0, hu_list, n_init)) }
+ R_last : set[event] = { e : event | e = signal(running(p-1, hu_list, n_init)) }
+ R_middle(i: nat_1_to(p)) : set[event] = { e: event | e = signal(running(i, hu_list, n_init)) }
+
+
+%-----------------
+%  rank function
+%-----------------
+
+ rho_middle(i: nat_1_to(p))(m: Message) : RECURSIVE bool =
+  CASES m OF
+   nonce(z) : z /= n_init,
+   nlist(z) : NOT elt(z, n_init),
+   secret(z) : NOT (EXISTS (i : nat_to_p) : z = hu(i)),
+   conc(z1, z2) : rho_middle(i)(z1) AND rho_middle(i)(z2),
+   commit(z1, z2, z3) : z1 /= 0 OR z2 /= hu_list OR z3 /= n_init,
+   code(z1, z2) : rho_middle(i)(z2) OR
+	(EXISTS (j: { x: nat | 0<x AND x<=i }): z1 = public(hu(j)) AND (EXISTS (l: { x: list[Nonce] | length(x) = j-1}): z2 = conc(nlist(cons(n_init, l)), ilist(remove(hu_list, j)))))
+  ELSE TRUE
+  ENDCASES
+ MEASURE m BY <<
+
+ rho_last(m : Message) : RECURSIVE bool =
+  CASES m OF
+   nonce(z) : z /= n_init,
+   nlist(z) : NOT elt(z, n_init),
+   secret(z) : NOT (EXISTS (i : nat_to_p) : z = hu(i)),
+   conc(z1, z2) : rho_last(z1) AND rho_last(z2),
+   commit(z1, z2, z3) : z1 /= 0 OR z2 /= hu_list OR z3 /= n_init,
+   code(z1, z2) : rho_last(z2) OR
+	(EXISTS (i: { x: nat | 0<x AND x<p }): z1 = public(hu(i)) AND (EXISTS (l: { x: list[Nonce] | length(x) = i-1}): z2 = conc(nlist(cons(n_init, l)), ilist(remove(hu_list, i)))))
+  ELSE TRUE
+  ENDCASES
+ MEASURE m BY <<
+
+
+%-----------------
+%  main theorem and lemmata
+%-----------------
+
+ u: VAR Identity
+ i: VAR nat_1_to(p)
+
+ restrictmiddle_init	: LEMMA ((Interleave! (nn0: Nonces(P, u, 0)): UROLE_INIT(P, u, nn0)) # R_middle(i)) |> RankUser(rho_middle(i))
+ restrictmiddle_middle	: LEMMA P /= 2 => (((Interleave! (k: nat_1_to(P), nnK: Nonces(P, u, k)): UROLE_MIDDLE(P, k, u, nnK)) # R_middle(i)) |> RankUser(rho_middle(i)))
+ restrictmiddle_last	: LEMMA ((Interleave! (nnP: Nonces(P, u, P - 1)): UROLE_LAST(P, u, nnP)) # R_middle(i)) |> RankUser(rho_middle(i))
+
+ authentication_middle	: THEOREM network(USER) |> auth(T, R_middle(i))
+
+
+ restrictlast_init	: LEMMA ((Interleave! (nn0: Nonces(P, u, 0)): UROLE_INIT(P, u, nn0)) # R_last) |> RankUser(rho_last)
+ restrictlast_middle	: LEMMA P /= 2 => (((Interleave! (k: nat_1_to(P), nnK: Nonces(P, u, k)): UROLE_MIDDLE(P, k, u, nnK)) # R_last) |> RankUser(rho_last))
+ restrictlast_last	: LEMMA ((Interleave! (nnP: Nonces(P, u, P - 1)): UROLE_LAST(P, u, nnP)) # R_last) |> RankUser(rho_last)
+
+ authentication_last	: THEOREM network(USER) |> auth(T, R_last)
+
+END gnsl_init

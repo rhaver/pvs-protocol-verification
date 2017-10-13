@@ -1,0 +1,735 @@
+(|uniform_props3| (|uniform2_par23_TCC1| "" (EXISTENCE-TCC) NIL NIL)
+ (|uniform2_par23| "" (AUTO-REWRITE-THEORY "sets")
+  (("" (SKOSIMP*)
+    (("" (EXPAND "|>")
+      (("" (ASSERT)
+        (("" (INDUCT "x" :NAME "add_induction[T]")
+          (("1" (FLATTEN)
+            (("1" (EXPAND "every" 1) (("1" (PROPAX) NIL NIL)) NIL)) NIL)
+           ("2"
+            (CASE "(intersection(B!1) = emptyset[T]) = NOT (EXISTS e : FORALL i : B!1(i)(e))")
+            (("1" (ASSERT)
+              (("1" (SKOSIMP)
+                (("1" (INST? 1)
+                  (("1" (SKOLEM!)
+                    (("1" (DELETE -4)
+                      (("1" (FORWARD-CHAIN "process_add")
+                        (("1" (ASSERT)
+                          (("1" (DELETE -1)
+                            (("1" (EXPAND "add" 2)
+                              (("1" (REWRITE "every_append")
+                                (("1" (EXPAND "every" 2)
+                                  (("1" (EXPAND "every" 2)
+                                    (("1" (EXPAND "Par" -2)
+                                      (("1"
+                                        (SKOLEM!)
+                                        (("1"
+                                          (REWRITE "multiprod_add")
+                                          (("1"
+                                            (SPLIT)
+                                            (("1"
+                                              (FLATTEN)
+                                              (("1"
+                                                (SKOSIMP)
+                                                (("1"
+                                                  (TYPEPRED "t!1(i!1)")
+                                                  (("1"
+                                                    (REPLACE -3 -1)
+                                                    (("1"
+                                                      (ASSERT)
+                                                      (("1"
+                                                        (DELETE -3)
+                                                        (("1"
+                                                          (INST? -6)
+                                                          (("1"
+                                                            (ASSERT)
+                                                            (("1"
+                                                              (EXPAND
+                                                               "add"
+                                                               -6)
+                                                              (("1"
+                                                                (REWRITE
+                                                                 "every_append")
+                                                                (("1"
+                                                                  (FORWARD-CHAIN
+                                                                   "every_multiprod")
+                                                                  (("1"
+                                                                    (INST?)
+                                                                    (("1"
+                                                                      (USE
+                                                                       "every_implies[T]")
+                                                                      (("1"
+                                                                        (ASSERT)
+                                                                        (("1"
+                                                                          (INST
+                                                                           -1
+                                                                           "B!1(i!1)")
+                                                                          (("1"
+                                                                            (ASSERT)
+                                                                            (("1"
+                                                                              (EXPAND
+                                                                               "every"
+                                                                               -8
+                                                                               1)
+                                                                              (("1"
+                                                                                (EXPAND
+                                                                                 "every"
+                                                                                 -8
+                                                                                 1)
+                                                                                (("1"
+                                                                                  (REWRITE
+                                                                                   "every_append")
+                                                                                  (("1"
+                                                                                    (FLATTEN)
+                                                                                    (("1"
+                                                                                      (EXPAND
+                                                                                       "every"
+                                                                                       -9)
+                                                                                      (("1"
+                                                                                        (PROPAX)
+                                                                                        NIL
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL)
+                                             ("2"
+                                              (FLATTEN)
+                                              (("2"
+                                                (SKOSIMP)
+                                                (("2"
+                                                  (TYPEPRED "t!1(i!2)")
+                                                  (("2"
+                                                    (REPLACE -2 -1)
+                                                    (("2"
+                                                      (ASSERT)
+                                                      (("2"
+                                                        (DELETE -2)
+                                                        (("2"
+                                                          (INST? -5)
+                                                          (("2"
+                                                            (ASSERT)
+                                                            (("2"
+                                                              (EXPAND
+                                                               "add"
+                                                               -5)
+                                                              (("2"
+                                                                (REWRITE
+                                                                 "every_append")
+                                                                (("2"
+                                                                  (FORWARD-CHAIN
+                                                                   "every_multiprod")
+                                                                  (("2"
+                                                                    (INST?)
+                                                                    (("2"
+                                                                      (USE
+                                                                       "every_implies[T]")
+                                                                      (("2"
+                                                                        (ASSERT)
+                                                                        (("2"
+                                                                          (INST
+                                                                           -1
+                                                                           "B!1(i!2)")
+                                                                          (("2"
+                                                                            (ASSERT)
+                                                                            (("2"
+                                                                              (EXPAND
+                                                                               "every"
+                                                                               -7
+                                                                               1)
+                                                                              (("2"
+                                                                                (EXPAND
+                                                                                 "every"
+                                                                                 -7
+                                                                                 1)
+                                                                                (("2"
+                                                                                  (INST
+                                                                                   -6
+                                                                                   "i!2")
+                                                                                  (("2"
+                                                                                    (INST?)
+                                                                                    (("2"
+                                                                                      (ASSERT)
+                                                                                      (("2"
+                                                                                        (REWRITE
+                                                                                         "every_append")
+                                                                                        (("2"
+                                                                                          (FLATTEN)
+                                                                                          (("2"
+                                                                                            (EXPAND
+                                                                                             "every"
+                                                                                             -7)
+                                                                                            (("2"
+                                                                                              (PROPAX)
+                                                                                              NIL
+                                                                                              NIL))
+                                                                                            NIL))
+                                                                                          NIL))
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL))
+                                            NIL))
+                                          NIL))
+                                        NIL))
+                                      NIL))
+                                    NIL))
+                                  NIL))
+                                NIL))
+                              NIL))
+                            NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL)
+             ("2" (DELETE -)
+              (("2" (DELETE 2)
+                (("2" (GRIND)
+                  (("2" (DECOMPOSE-EQUALITY)
+                    (("2" (INST?)
+                      (("2" (EXPAND "intersection")
+                        (("2" (EXPAND "emptyset") (("2" (PROPAX) NIL NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL))
+  NIL)
+ (|uniform2_par56_TCC1| "" (EXISTENCE-TCC) NIL NIL)
+ (|uniform2_par56| "" (AUTO-REWRITE-THEORY "sets")
+  (("" (SKOSIMP*)
+    (("" (EXPAND "|>")
+      (("" (ASSERT)
+        (("" (INDUCT "x" :NAME "add_induction[T]")
+          (("1" (FLATTEN)
+            (("1" (EXPAND "every" 1) (("1" (PROPAX) NIL NIL)) NIL)) NIL)
+           ("2"
+            (CASE "(intersection(B!1) = emptyset[T]) = NOT (EXISTS e : FORALL i : B!1(i)(e))")
+            (("1" (ASSERT)
+              (("1" (DELETE -2)
+                (("1" (SKOSIMP)
+                  (("1" (INST? 1)
+                    (("1" (SKOLEM!)
+                      (("1" (FORWARD-CHAIN "process_add")
+                        (("1" (ASSERT)
+                          (("1" (DELETE -1)
+                            (("1" (EXPAND "add" 2)
+                              (("1" (REWRITE "every_append")
+                                (("1" (EXPAND "add" -3)
+                                  (("1" (REWRITE "every_append")
+                                    (("1" (FLATTEN)
+                                      (("1"
+                                        (ASSERT)
+                                        (("1"
+                                          (EXPAND "every" 2)
+                                          (("1"
+                                            (EXPAND "every" 2)
+                                            (("1"
+                                              (EXPAND "Par" -2)
+                                              (("1"
+                                                (SKOLEM!)
+                                                (("1"
+                                                  (REWRITE "multiprod_add")
+                                                  (("1"
+                                                    (SPLIT)
+                                                    (("1"
+                                                      (FLATTEN)
+                                                      (("1"
+                                                        (SKOSIMP)
+                                                        (("1"
+                                                          (TYPEPRED
+                                                           "t!1(i!1)")
+                                                          (("1"
+                                                            (REPLACE -3)
+                                                            (("1"
+                                                              (ASSERT)
+                                                              (("1"
+                                                                (DELETE -3)
+                                                                (("1"
+                                                                  (INST? -8)
+                                                                  (("1"
+                                                                    (ASSERT)
+                                                                    (("1"
+                                                                      (EXPAND
+                                                                       "add"
+                                                                       -8)
+                                                                      (("1"
+                                                                        (REWRITE
+                                                                         "every_append")
+                                                                        (("1"
+                                                                          (CASE
+                                                                           "every(LAMBDA e: p1!1(e) AND (B!1(i!1)(e) => p2!1(e)))(t1!1(i!1)) = (every(p1!1)(t1!1(i!1)) AND every(LAMBDA e : B!1(i!1)(e) => p2!1(e))(t1!1(i!1)))")
+                                                                          (("1"
+                                                                            (REPLACE
+
+                                                                             -1)
+                                                                            (("1"
+                                                                              (DELETE
+
+                                                                               -1)
+                                                                              (("1"
+                                                                                (LEMMA
+                                                                                 "every_multiprod[U, T]")
+                                                                                (("1"
+                                                                                  (INST
+                                                                                   -1
+                                                                                   "A!1"
+                                                                                   "p1!1"
+                                                                                   "t1!1"
+                                                                                   "l!1")
+                                                                                  (("1"
+                                                                                    (ASSERT)
+                                                                                    (("1"
+                                                                                      (INST?)
+                                                                                      (("1"
+                                                                                        (ASSERT)
+                                                                                        (("1"
+                                                                                          (DELETE
+
+                                                                                           -1)
+                                                                                          (("1"
+                                                                                            (FORWARD-CHAIN
+                                                                                             "every_multiprod")
+                                                                                            (("1"
+                                                                                              (INST?)
+                                                                                              (("1"
+                                                                                                (USE
+                                                                                                 "every_implies[T]")
+                                                                                                (("1"
+                                                                                                  (ASSERT)
+                                                                                                  (("1"
+                                                                                                    (INST
+                                                                                                     -1
+                                                                                                     "B!1(i!1)")
+                                                                                                    (("1"
+                                                                                                      (ASSERT)
+                                                                                                      (("1"
+                                                                                                        (DELETE
+
+                                                                                                         -1)
+                                                                                                        (("1"
+                                                                                                          (EXPAND
+                                                                                                           "every"
+                                                                                                           -9
+                                                                                                           1)
+                                                                                                          (("1"
+                                                                                                            (EXPAND
+                                                                                                             "every"
+                                                                                                             -7)
+                                                                                                            (("1"
+                                                                                                              (EXPAND
+                                                                                                               "every"
+                                                                                                               -7)
+                                                                                                              (("1"
+                                                                                                                (ASSERT)
+                                                                                                                (("1"
+                                                                                                                  (EXPAND
+                                                                                                                   "every"
+                                                                                                                   -9
+                                                                                                                   1)
+                                                                                                                  (("1"
+                                                                                                                    (REWRITE
+                                                                                                                     "every_append")
+                                                                                                                    (("1"
+                                                                                                                      (FLATTEN)
+                                                                                                                      (("1"
+                                                                                                                        (EXPAND
+                                                                                                                         "every"
+                                                                                                                         -10)
+                                                                                                                        (("1"
+                                                                                                                          (PROPAX)
+                                                                                                                          NIL
+                                                                                                                          NIL))
+                                                                                                                        NIL))
+                                                                                                                      NIL))
+                                                                                                                    NIL))
+                                                                                                                  NIL))
+                                                                                                                NIL))
+                                                                                                              NIL))
+                                                                                                            NIL))
+                                                                                                          NIL))
+                                                                                                        NIL))
+                                                                                                      NIL))
+                                                                                                    NIL))
+                                                                                                  NIL))
+                                                                                                NIL))
+                                                                                              NIL))
+                                                                                            NIL))
+                                                                                          NIL))
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL)
+                                                                           ("2"
+                                                                            (DELETE
+
+                                                                             -)
+                                                                            (("2"
+                                                                              (DELETE
+
+                                                                               2
+                                                                               3)
+                                                                              (("2"
+                                                                                (GENERALIZE
+                                                                                 "t1!1(i!1)"
+                                                                                 "t")
+                                                                                (("2"
+                                                                                  (INDUCT-AND-SIMPLIFY
+                                                                                   "t")
+                                                                                  NIL
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL)
+                                                     ("2"
+                                                      (FLATTEN)
+                                                      (("2"
+                                                        (SKOSIMP)
+                                                        (("2"
+                                                          (INST -6 "i!2")
+                                                          (("2"
+                                                            (INST?)
+                                                            (("2"
+                                                              (ASSERT)
+                                                              (("2"
+                                                                (TYPEPRED
+                                                                 "t!1(i!2)")
+                                                                (("2"
+                                                                  (REPLACE -2)
+                                                                  (("2"
+                                                                    (ASSERT)
+                                                                    (("2"
+                                                                      (DELETE
+
+                                                                       -2)
+                                                                      (("2"
+                                                                        (INST?)
+                                                                        (("2"
+                                                                          (ASSERT)
+                                                                          (("2"
+                                                                            (EXPAND
+                                                                             "add"
+                                                                             -6)
+                                                                            (("2"
+                                                                              (REWRITE
+                                                                               "every_append")
+                                                                              (("2"
+                                                                                (CASE
+                                                                                 "every(LAMBDA e: p1!1(e) AND (B!1(i!2)(e) => p2!1(e)))(t1!1(i!2)) = (every(p1!1)(t1!1(i!2)) AND every(LAMBDA e : B!1(i!2)(e) => p2!1(e))(t1!1(i!2)))")
+                                                                                (("1"
+                                                                                  (REPLACE
+
+                                                                                   -1)
+                                                                                  (("1"
+                                                                                    (DELETE
+
+                                                                                     -1)
+                                                                                    (("1"
+                                                                                      (LEMMA
+                                                                                       "every_multiprod[U, T]")
+                                                                                      (("1"
+                                                                                        (INST
+                                                                                         -1
+                                                                                         "A!1"
+                                                                                         "p1!1"
+                                                                                         "t1!1"
+                                                                                         "l!1")
+                                                                                        (("1"
+                                                                                          (ASSERT)
+                                                                                          (("1"
+                                                                                            (INST?)
+                                                                                            (("1"
+                                                                                              (ASSERT)
+                                                                                              (("1"
+                                                                                                (DELETE
+
+                                                                                                 -1)
+                                                                                                (("1"
+                                                                                                  (FORWARD-CHAIN
+                                                                                                   "every_multiprod")
+                                                                                                  (("1"
+                                                                                                    (INST?)
+                                                                                                    (("1"
+                                                                                                      (USE
+                                                                                                       "every_implies[T]")
+                                                                                                      (("1"
+                                                                                                        (ASSERT)
+                                                                                                        (("1"
+                                                                                                          (INST
+                                                                                                           -1
+                                                                                                           "B!1(i!2)")
+                                                                                                          (("1"
+                                                                                                            (ASSERT)
+                                                                                                            (("1"
+                                                                                                              (EXPAND
+                                                                                                               "every"
+                                                                                                               -8
+                                                                                                               1)
+                                                                                                              (("1"
+                                                                                                                (EXPAND
+                                                                                                                 "every"
+                                                                                                                 -8
+                                                                                                                 1)
+                                                                                                                (("1"
+                                                                                                                  (EXPAND
+                                                                                                                   "every"
+                                                                                                                   -7)
+                                                                                                                  (("1"
+                                                                                                                    (EXPAND
+                                                                                                                     "every"
+                                                                                                                     -7)
+                                                                                                                    (("1"
+                                                                                                                      (ASSERT)
+                                                                                                                      (("1"
+                                                                                                                        (REWRITE
+                                                                                                                         "every_append")
+                                                                                                                        (("1"
+                                                                                                                          (FLATTEN)
+                                                                                                                          (("1"
+                                                                                                                            (EXPAND
+                                                                                                                             "every"
+                                                                                                                             -9)
+                                                                                                                            (("1"
+                                                                                                                              (PROPAX)
+                                                                                                                              NIL
+                                                                                                                              NIL))
+                                                                                                                            NIL))
+                                                                                                                          NIL))
+                                                                                                                        NIL))
+                                                                                                                      NIL))
+                                                                                                                    NIL))
+                                                                                                                  NIL))
+                                                                                                                NIL))
+                                                                                                              NIL))
+                                                                                                            NIL))
+                                                                                                          NIL))
+                                                                                                        NIL))
+                                                                                                      NIL))
+                                                                                                    NIL))
+                                                                                                  NIL))
+                                                                                                NIL))
+                                                                                              NIL))
+                                                                                            NIL))
+                                                                                          NIL))
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL)
+                                                                                 ("2"
+                                                                                  (DELETE
+
+                                                                                   -)
+                                                                                  (("2"
+                                                                                    (DELETE
+
+                                                                                     2
+                                                                                     3
+
+                                                                                     4
+                                                                                     5)
+                                                                                    (("2"
+                                                                                      (GENERALIZE
+                                                                                       "t1!1(i!2)"
+                                                                                       "t")
+                                                                                      (("2"
+                                                                                        (INDUCT-AND-SIMPLIFY
+                                                                                         "t")
+                                                                                        NIL
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL))
+                                            NIL))
+                                          NIL))
+                                        NIL))
+                                      NIL))
+                                    NIL))
+                                  NIL))
+                                NIL))
+                              NIL))
+                            NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL)
+             ("2" (DELETE -)
+              (("2" (DELETE 2)
+                (("2" (GRIND)
+                  (("2" (DECOMPOSE-EQUALITY)
+                    (("2" (INST?)
+                      (("2" (EXPAND "emptyset")
+                        (("2" (EXPAND "intersection") (("2" (PROPAX) NIL NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL))
+  NIL)
+ (|uniform2_interleave_TCC1| "" (EXISTENCE-TCC) NIL NIL)
+ (|uniform2_interleave| "" (AUTO-REWRITE-THEORY "sets")
+  (("" (SKOLEM!)
+    (("" (SPLIT)
+      (("1" (GROUND)
+        (("1" (USE "sat_free_par3[U, T]")
+          (("1" (SKOLEM!) (("1" (INST?) (("1" (ASSERT) NIL NIL)) NIL)) NIL))
+          NIL))
+        NIL)
+       ("2" (FLATTEN)
+        (("2" (EXPAND "Interleave")
+          (("2" (REWRITE "uniform2_par23")
+            (("2" (DELETE 2)
+              (("2" (INST 1 "lambda i : emptyset[T]")
+                (("2" (SPLIT)
+                  (("1" (SKOSIMP)
+                    (("1" (SKOLEM!)
+                      (("1" (EXPAND "emptyset") (("1" (PROPAX) NIL NIL)) NIL))
+                      NIL))
+                    NIL)
+                   ("2" (EXPAND "intersection")
+                    (("2" (APPLY-EXTENSIONALITY :HIDE? T) NIL NIL)) NIL)
+                   ("3" (SKOLEM!)
+                    (("3" (ASSERT)
+                      (("3" (GRIND)
+                        (("3" (DELETE -2)
+                          (("3" (ETA "pred[T]")
+                            (("3" (INST?) (("3" (ASSERT) NIL NIL)) NIL)) NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL))
+  NIL)
+ (|uniform2_interleave2| "" (AUTO-REWRITE-THEORY "sets")
+  (("" (SKOLEM!)
+    (("" (SPLIT)
+      (("1" (GROUND)
+        (("1" (USE "sat_free_par3[U, T]") (("1" (ASSERT) NIL NIL)) NIL)) NIL)
+       ("2" (FLATTEN)
+        (("2" (EXPAND "Interleave")
+          (("2" (REWRITE "uniform2_par56")
+            (("2" (DELETE 2)
+              (("2" (INST 1 "lambda i : emptyset[T]")
+                (("2" (SPLIT)
+                  (("1" (SKOSIMP*)
+                    (("1" (EXPAND "emptyset") (("1" (PROPAX) NIL NIL)) NIL))
+                    NIL)
+                   ("2" (DELETE -)
+                    (("2" (EXPAND "intersection")
+                      (("2" (APPLY-EXTENSIONALITY :HIDE? T) NIL NIL)) NIL))
+                    NIL)
+                   ("3" (SKOLEM!)
+                    (("3" (GRIND)
+                      (("1" (DELETE -2)
+                        (("1" (ETA "pred[T]")
+                          (("1" (INST?) (("1" (ASSERT) NIL NIL)) NIL)) NIL))
+                        NIL)
+                       ("2" (DELETE 1)
+                        (("2" (ETA "pred[T]")
+                          (("2" (INST?) (("2" (ASSERT) NIL NIL)) NIL)) NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL))
+  NIL))
+

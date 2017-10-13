@@ -1,0 +1,356 @@
+%
+%  Traces over events of type T
+%  defines operators specific to PVS
+%
+%  Functions defined in the prelude:
+%    length(t) : nat
+%    member(a, t) : bool
+%    nth(t, i) : T   (i : below[length(t)])
+%    append(t1, t2) : trace
+%    reverse(t) : trace
+%    cons(a, t) : trace
+%    null : trace
+%    car(t) : T
+%    cdr(t) : trace
+%
+%    filter(t, S) : trace
+%    filter(S)(t) : trace
+%    list2set(t) : set[T]
+%
+%  Defined in more_list_props
+%    add(t, a) : trace
+%
+%  Defined in trace
+%    prefix(t1, t2) : bool
+%    proj(t, S) : trace
+%    prod(S)(t1, t2, t) : bool
+%    sigma(t) : set[T]
+%
+
+
+traces [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING more_list_props
+
+  trace : TYPE = list[T]
+
+  a, b, c : VAR T
+
+  A, B, C : VAR setof[T]
+
+  t, t1, t2, t3 : VAR trace
+
+  u, u1, u2 : VAR trace
+
+  R : VAR setof[[T, T]]
+
+  %-----------
+  %  Prefix
+  %-----------
+
+  prefix(t1, t2) : bool = EXISTS t : t2 = append(t1, t)
+
+  prefix_equiv : LEMMA 
+    prefix(t1, t2) IFF null?(t1) 
+       OR (cons?(t1) AND cons?(t2) AND 
+	   car(t1) = car(t2) AND prefix(cdr(t1), cdr(t2)))
+
+  null_prefix : LEMMA  prefix(null, t)
+
+  prefix_null : LEMMA  prefix(t, null) IFF t = null
+
+  cons_prefix : LEMMA
+     prefix(cons(a, t1), cons(b, t2)) IFF a = b AND prefix(t1, t2)
+
+
+  prefix_append1 : LEMMA
+     prefix(t1, t2) IMPLIES prefix(t1, append(t2, t3))
+
+  prefix_append2 : LEMMA
+     prefix(t1, t2) IMPLIES prefix(append(t, t1), append(t, t2))
+
+  prefix_add1 : LEMMA  prefix(t, add(t, a))
+
+  prefix_add2 : LEMMA  prefix(t1, t2) IMPLIES prefix(t1, add(t2, a))
+
+
+  length_prefix : LEMMA
+     prefix(t1, t2) IMPLIES length(t1) <= length(t2)
+
+
+  prefix_reflexive : LEMMA prefix(t, t)
+
+  prefix_transitive : LEMMA
+     prefix(t1, t2) AND prefix(t2, t3) IMPLIES prefix(t1, t3)
+
+  prefix_antisymmetric : LEMMA
+     prefix(t1, t2) AND prefix(t2, t1) IMPLIES t1 = t2
+
+
+
+
+  %--------------
+  %  Projection 
+  %--------------
+
+  proj : [trace, set[T] -> trace] = filter
+
+
+  proj_null : LEMMA  proj(null, A) = null
+
+  proj_emptyset : LEMMA proj(t, emptyset) = null
+
+  proj_fullset : LEMMA proj(t, fullset) = t
+
+  proj_cons : LEMMA
+    proj(cons(a, t), A) =
+	IF A(a) THEN cons(a, proj(t, A)) ELSE proj(t, A) ENDIF
+
+  proj_append : LEMMA
+    proj(append(t1, t2), A) = append(proj(t1, A), proj(t2, A))
+
+  proj_add : LEMMA
+    proj(add(t, a), A) =
+	IF A(a) THEN add(proj(t, A), a) ELSE proj(t, A) ENDIF
+
+  proj_prefix : LEMMA
+    prefix(t1, t2) IMPLIES prefix(proj(t1, A), proj(t2, A))    
+
+  proj_reverse : LEMMA
+    proj(reverse(t), A) = reverse(proj(t, A))
+
+
+  prefix_of_proj : LEMMA  prefix(t1, proj(t, A)) IMPLIES
+	EXISTS t2 : prefix(t2, t) AND t1 = proj(t2, A)
+
+  prefix_of_proj2 : LEMMA  prefix(t1, proj(t, A)) IFF
+	EXISTS t2 : prefix(t2, t) AND t1 = proj(t2, A)
+
+  proj_twice : LEMMA
+    proj(proj(t, A), B) = proj(t, intersection(A, B))
+
+  cons_proj : LEMMA cons?(proj(t, A)) IMPLIES cons?(t)
+
+  every_proj : LEMMA
+    every(LAMBDA a : A(a) => B(a))(t) = every(B)(proj(t, A))
+
+  every_proj2 : LEMMA proj(t, A) = null IFF every(complement(A))(t)
+
+%% incomplete proof
+%  add_proj : LEMMA add(t, a) = proj(t1, A) IMPLIES
+%	(EXISTS t2 : prefix(add(t2, a), t1) AND t = proj(t2, A))
+
+  %------------------------------------------------
+  %  product: for parallel composition
+  %  -> prod(A)(t1, t2, t) holds if 
+  %
+  %  t is a possible interleaving of t1 and t2
+  %  with events in  A synchronized
+  %-------------------------------------------------
+
+  prod(A)(t1, t2, t) : RECURSIVE bool =
+    CASES t OF 
+  	null : null?(t1) AND null?(t2),
+	cons(x, y) :
+	  IF A(x)
+	  THEN	
+		cons?(t1) AND cons?(t2) AND
+		car(t1) = x AND car(t2) = x
+		AND prod(A)(cdr(t1), cdr(t2), y)
+	  ELSE 
+		(cons?(t1) AND car(t1) = x AND prod(A)(cdr(t1), t2, y))	
+	     OR (cons?(t2) AND car(t2) = x AND prod(A)(t1, cdr(t2), y))
+	  ENDIF
+    ENDCASES
+  MEASURE length(t)
+
+  prod_append : LEMMA (prod(A)(t1, t2, t) and prod(A)(u1, u2, u)) IMPLIES
+		prod(A)(append(t1, u1), append(t2, u2), append(t, u))
+
+  prod_add1 : LEMMA (prod(A)(t1, t2, t) AND A(a)) IMPLIES
+		prod(A)(add(t1, a), add(t2, a), add(t, a))
+
+  prod_add2 : LEMMA (prod(A)(t1, t2, t) AND NOT A(a)) IMPLIES
+			(prod(A)(t1, add(t2, a), add(t, a)) AND
+			 prod(A)(add(t1, a), t2, add(t, a)))
+
+  prod_reverse : LEMMA prod(A)(t1, t2, t) IMPLIES
+			prod(A)(reverse(t1), reverse(t2), reverse(t))
+
+  prod_reverse2 : LEMMA prod(A)(reverse(t1), reverse(t2), reverse(t)) IMPLIES
+				prod(A)(t1, t2, t)
+
+  prod_reverse3 : LEMMA
+	prod(A)(t1, t2, t) = prod(A)(reverse(t1), reverse(t2), reverse(t))
+
+
+  prod_proj2 : LEMMA prod(A)(t1, t2, t3) IMPLIES
+		(FORALL B : prod(A)(proj(t1, B), proj(t2, B), proj(t3, B)))
+
+  prod_commutes : LEMMA
+	prod(A)(t1, t2, t) IFF prod(A)(t2, t1, t)
+
+
+  proj_prod1 : LEMMA 
+	prod(A)(t1, t2, t) IMPLIES proj(t1, A) = proj(t, A)
+
+  proj_prod2 : LEMMA 
+	prod(A)(t1, t2, t) IMPLIES proj(t2, A) = proj(t, A)
+
+  prod_null1 : LEMMA
+	prod(A)(t1, null, t) IMPLIES t1 = t
+
+  prod_null2 : LEMMA
+	prod(A)(null, t2, t) IMPLIES t2 = t
+
+  prod_null3 : LEMMA
+	proj(t, A) = null IMPLIES prod(A)(t, null, t)
+
+  prod_null4 : LEMMA 
+	proj(t, A) = null IMPLIES prod(A)(null, t, t)
+
+
+  prefix_prod : LEMMA prod(A)(t1, t2, t) AND prefix(u, t) IMPLIES
+    EXISTS u1, u2 : prefix(u1, t1) AND prefix(u2, t2) AND prod(A)(u1, u2, u)
+
+
+  prod_assoc1 : LEMMA
+	prod(A)(t1, t2, u) AND prod(A)(u, t3, t)  IMPLIES
+	   EXISTS u1 : prod(A)(t1, u1, t) AND prod(A)(t2, t3, u1)
+
+  prod_assoc2 : LEMMA
+	prod(A)(t1, u, t) AND prod(A)(t2, t3, u)  IMPLIES
+	   EXISTS u1 : prod(A)(t1, t2, u1) AND prod(A)(u1, t3, t)
+
+
+  prod_assoc : LEMMA
+	 (EXISTS u : prod(A)(t1, t2, u) AND prod(A)(u, t3, t))
+     IFF (EXISTS u : prod(A)(t1, u, t) AND prod(A)(t2, t3, u))
+
+
+  prod_fullset : LEMMA
+	prod(fullset)(t1, t2, u) IFF t1 = u AND t2 = u
+
+  prod_fullset2 : LEMMA
+    prod(A)(t1, t2, t) IMPLIES
+		prod(fullset)(proj(t1, A), proj(t2, A), proj(t, A))
+
+  free_prod_left : LEMMA   prod(emptyset)(t, null, t)
+
+  free_prod_right : LEMMA   prod(emptyset)(null, t, t)
+
+
+  %--------------------------------------------------------------
+  % trename - renames a trace using an event renaming relation R
+  %--------------------------------------------------------------
+
+  trename(R, t1, t2) : RECURSIVE bool =
+    CASES t2 of
+	null : null?(t1),
+	cons(x, y) : cons?(t1) AND R(car(t1), x) AND trename(R, cdr(t1), y)
+    ENDCASES
+   MEASURE length(t2)
+
+  trename_null1 : LEMMA trename(R, null, t) IMPLIES t = null
+
+  trename_null2 : LEMMA trename(R, t, null) IMPLIES t = null
+
+  prefix_trename : LEMMA trename(R, t1, t) AND prefix(u, t) IMPLIES
+	EXISTS u1 : prefix(u1, t1) AND trename(R, u1, u)
+
+
+  %---------------------------
+  %  sigma(t) : events of t
+  %--------------------------
+
+  sigma : [trace -> set[T]] = list2set
+
+
+  sigma_equiv : LEMMA sigma(t) = { a | member(a, t) }
+
+  sigma_null : LEMMA sigma(null) = emptyset
+
+  sigma_cons : LEMMA sigma(cons(a, t)) = add(a, sigma(t))
+
+  sigma_empty : LEMMA  empty?(sigma(t)) IFF t = null
+
+  sigma_append : LEMMA  sigma(append(t1, t2)) = union(sigma(t1), sigma(t2))
+
+  sigma_add : LEMMA sigma(add(t, a)) = add(a, sigma(t))
+
+  sigma_prefix : LEMMA  prefix(t1, t2) IMPLIES subset?(sigma(t1), sigma(t2))
+
+  sigma_proj : LEMMA sigma(proj(t, A)) = intersection(sigma(t), A)
+
+  sigma_prod : LEMMA
+     prod(A)(t1, t2, t) IMPLIES sigma(t) = union(sigma(t1), sigma(t2))
+
+  sigma_prod_inter1 : LEMMA  prod(A)(t1, t2, t)
+	IMPLIES intersection(sigma(t), A) = intersection(sigma(t1), A)
+
+  sigma_prod_inter2 : LEMMA  prod(A)(t1, t2, t) 
+	IMPLIES intersection(sigma(t), A) = intersection(sigma(t2), A)
+
+  every_sigma : LEMMA every(A)(t) IFF FORALL (a : (sigma(t))) : A(a)
+
+  %----------------------
+  %   Empty projections
+  %----------------------
+
+  null_proj_equiv : LEMMA   proj(t, B) = null IFF disjoint?(sigma(t), B)
+
+  null_proj_subset : LEMMA
+     subset?(A, B) AND proj(t, B) = null IMPLIES proj(t, A) = null
+
+  null_proj_union : LEMMA
+     proj(t, union(A, B)) = null IFF proj(t, A) = null AND proj(t, B) = null
+
+
+  null_proj_prod : LEMMA
+     prod(A)(t1, t2, t) IMPLIES
+	(proj(t, B) = null IFF proj(t1, B) = null AND proj(t2, B) = null)
+
+  null_proj_prod1 : LEMMA
+     prod(A)(t1, t2, t) AND proj(t, B) = null IMPLIES proj(t1, B) = null
+
+  null_proj_prod2 : LEMMA
+     prod(A)(t1, t2, t) AND proj(t, B) = null IMPLIES proj(t2, B) = null
+
+
+  null_proj_prod3 : LEMMA
+     prod(A)(t1, t2, t) AND subset?(B, A) AND proj(t1, B) = null
+	IMPLIES proj(t, B) = null
+
+  null_proj_prod4 : LEMMA
+     prod(A)(t1, t2, t) AND subset?(B, A) AND proj(t2, B) = null
+	IMPLIES proj(t, B) = null
+
+  interleave_prod : LEMMA (disjoint?(sigma(t1), A) AND
+			   disjoint?(sigma(t2), A)) IMPLIES
+			   EXISTS t : prod(A)(t1, t2, t)
+
+%% incomplete proof
+%  prod_proj1 : LEMMA (disjoint?(A, B) AND
+%    prod(A)(proj(t1, complement(B)), proj(t2, complement(B)), t)) IMPLIES
+%	(EXISTS t3 : prod(A)(t1, t2, t3) AND t = proj(t3, complement(B)))
+
+  prod_add : LEMMA prod(A)(t1, t2, add(t, a)) =
+    IF A(a) THEN
+		EXISTS u1, u2 : t1 = add(u1, a) AND t2 = add(u2, a) AND
+				prod(A)(u1, u2, t)
+	    ELSE
+		(EXISTS u1 : t1 = add(u1, a) AND prod(A)(u1, t2, t))
+	     OR (EXISTS u2 : t2 = add(u2, a) AND prod(A)(t1, u2, t))
+    ENDIF
+
+  every_prod : LEMMA prod(A)(t1, t2, t) AND every(B)(t) IMPLIES every(B)(t1)
+
+  END traces
+
+
+
+
+
+

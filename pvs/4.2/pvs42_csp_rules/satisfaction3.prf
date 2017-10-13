@@ -1,0 +1,4 @@
+(|satisfaction3|
+ (|sat_free_par3| "" (SKOSIMP)
+  (("" (USE "interleave_subset3[U, T]")
+    (("" (REWRITE "|>" :DIR RL) (("" (FORWARD-CHAIN "sat_transitive1") NIL))))))))

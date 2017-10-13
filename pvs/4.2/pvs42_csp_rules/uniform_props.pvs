@@ -1,0 +1,142 @@
+%-----------------------------------------------
+%  trace properties of the form
+%    every(p) OR
+%    LAMBDA t : every(p1)(t) => every(p2)(t)
+%-----------------------------------------------
+
+uniform_props[T : TYPE] : THEORY
+BEGIN
+
+  IMPORTING csp_traces
+
+  e : VAR T
+  t : VAR trace[T]
+  p, p1, p2, p3, p4 : VAR pred[T]
+  A, B, B1, B2 : VAR set[T]
+  F : VAR (monotonic?[T])
+  P, P1, P2 : VAR process[T]
+  SP : VAR setof[process[T]]
+
+  uniform_true : LEMMA P |> every! e : TRUE
+
+  uniform_true2 : LEMMA
+    (P |> LAMBDA t : every(LAMBDA e : TRUE)(t) => every(p)(t)) IFF
+	P |> every(p)
+
+  uniform_strengthen : LEMMA
+    ((FORALL e : (p3(e) => p1(e)) AND (p2(e) => p4(e))) AND
+      P |> LAMBDA t : every(p1)(t) => every(p2)(t)) IMPLIES
+    P |> LAMBDA t : every(p3)(t) => every(p4)(t)
+
+  uniform_stop : LEMMA Stop[T] |> every(p)
+
+  uniform_stop2 : LEMMA Stop[T] |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_prefix : LEMMA (e >> P) |> every(p) IFF p(e) AND P |> every(p)
+
+  uniform_prefix2 : LEMMA
+    (p1(e) => (p2(e) AND P |> LAMBDA t : every(p1)(t) => every(p2)(t))) IMPLIES
+	(e >> P) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_prefix3 : LEMMA
+   ((e >> P) |> (LAMBDA t : every(p1)(t) => every(p2)(t)))
+     IMPLIES
+        (p1(e) => (p2(e) AND P |> (LAMBDA t : every(p1)(t) => every(p2)(t))))
+
+  uniform_prefix4 : LEMMA
+   (p1(e) => (p2(e) AND P |> LAMBDA t : every(p1)(t) => every(p2)(t))) IFF
+	(e >> P) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_choice : LEMMA
+    (P1 \/ P2) |> every(p) IFF (P1 |> every(p) AND P2 |> every(p))
+
+  uniform_choice2 : LEMMA
+    ((P1 \/ P2) |> LAMBDA t : every(p1)(t) => every(p2)(t)) IFF
+	(P1 |> LAMBDA t : every(p1)(t) => every(p2)(t)) AND
+	(P2 |> LAMBDA t : every(p1)(t) => every(p2)(t))
+
+  uniform2_choice : LEMMA
+    Choice(SP) |> every(p) IFF FORALL (P : (SP)) : P |> every(p)
+
+  uniform2_choice2 : LEMMA
+    (Choice(SP) |> LAMBDA t : every(p1)(t) => every(p2)(t)) IFF
+	FORALL (P : (SP)) : P |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_par23 : LEMMA
+   (EXISTS B1, B2 :
+      (subset?(B1, A) AND subset?(B2, A) AND disjoint?(B1, B2)) AND
+      (P1 |> (LAMBDA t : (every! e : (B1(e) => p(e)))(t) IMPLIES
+		         (every! e : (complement(B1)(e) => p(e)))(t))) AND
+      (P2 |> (LAMBDA t : (every! e : (B2(e) => p(e)))(t) IMPLIES
+		         (every! e : (complement(B2)(e) => p(e)))(t))))
+   IMPLIES
+      Par(A)(P1, P2) |> every(p)
+
+  uniform_par56 : LEMMA
+   (EXISTS B1, B2 :
+     (subset?(B1, A) AND subset?(B2, A) AND disjoint?(B1, B2)) AND
+     (P1 |> (LAMBDA t :
+	    (every! e : p1(e) AND (B1(e) => p2(e)))(t) IMPLIES
+	    (every! e : (complement(B1)(e) => p2(e)))(t))) AND
+     (P2 |> (lambda t :
+	    (every! e : p1(e) AND (B2(e) => p2(e)))(t) IMPLIES
+	    (every! e : (complement(B2)(e) => p2(e)))(t))))
+   IMPLIES
+     Par(A)(P1, P2) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_interleave : LEMMA (P1 // P2) |> every(p) IFF
+					(P1 |> every(p) AND P2 |> every(p))
+
+  uniform_interleave2 : LEMMA
+    ((P1 // P2) |> LAMBDA t : every(p1)(t) => every(p2)(t)) IFF
+		(P1 |> LAMBDA t : every(p1)(t) => every(p2)(t)) AND
+		(P2 |> LAMBDA t : every(p1)(t) => every(p2)(t))
+
+  uniform_fix1 : LEMMA
+    (EXISTS p1 : (FORALL e : p1(e) => p2(e)) AND
+    (FORALL P : P |> every(p1) IMPLIES F(P) |> every(p1))) IMPLIES
+		mu(F) |> every(p2)
+
+  uniform_fix2 : LEMMA
+    (EXISTS p3, p4 : (FORALL e : (p1(e) => p3(e)) AND (p4(e) => p2(e))) AND
+    (FORALL P : (P |> LAMBDA t : every(p3)(t) => every(p4)(t)) IMPLIES
+	(F(P) |> LAMBDA t : every(p3)(t) => every(p4)(t)))) IMPLIES
+		mu(F) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_run : LEMMA p(e) IMPLIES RUN(e) |> every(p)
+
+  uniform_run2 : LEMMA
+    (p1(e) => p2(e)) IMPLIES RUN(e) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform_run3 : LEMMA
+    (FORALL (e : (A)) : p(e)) IMPLIES RUN(A) |> every(p)
+
+  uniform_run4 : LEMMA
+    (FORALL (e : (A)) : p1(e) => p2(e)) IMPLIES
+       RUN(A) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+%% incomplete proof
+%  uni_test : LEMMA
+%   FORALL B1, B2, (b1 : [(B1) -> bool]), (b2 : [(B2) -> bool]) :
+%      (subset?(B1, A) AND subset?(B2, A) AND disjoint?(B1, B2)) AND
+%      (P1 |> (LAMBDA t : (every! e : (B1(e) => b1(e)))(t) IMPLIES
+%	((every! e : complement(B1)(e) => (B2(e) => b2(e)))(t) AND every(p)(t)))) AND
+%      (P2 |> (LAMBDA t : (every! e : (B2(e) => b2(e)))(t) IMPLIES
+%	((every! e : complement(B2)(e) => (B1(e) => b1(e)))(t) AND every(p)(t))))
+%   IMPLIES
+%      Par(A)(P1, P2) |> every! e : (B1(e) => b1(e)) AND (B2(e) => b2(e)) AND p(e)
+
+  uni_test2 : LEMMA
+   FORALL B1, B2, (b1 : [(B1) -> bool]), (b2 : [(B2) -> bool]) :
+      (subset?(B1, A) AND subset?(B2, A) AND disjoint?(B1, B2)) AND
+      (P1 |> (LAMBDA t : (every! e : (B1(e) => b1(e)))(t) IMPLIES
+	                 (every! e : (B2(e) => b2(e)))(t))) AND
+      (P2 |> (LAMBDA t : (every! e : (B2(e) => b2(e)))(t) IMPLIES
+ 	                 (every! e : (B1(e) => b1(e)))(t)))
+   IMPLIES
+      Par(A)(P1, P2) |> (LAMBDA t : (every! e : (B1(e) => b1(e)))(t) AND 
+                                    (every! e : (B2(e) => b2(e)))(t))
+
+      
+
+END uniform_props

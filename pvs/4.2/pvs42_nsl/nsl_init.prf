@@ -1,0 +1,430 @@
+(nsl_initiator
+ (b_TCC1 0
+  (b_TCC1-1 nil 3377094834 3416211823
+   ("" (use "b_ax") (("" (skolem!) (("" (inst 1 "b!1") nil nil)) nil))
+    nil)
+   unchecked
+   (nil nil (/= const-decl "boolean" notequal nil)
+    (boolean nonempty-type-decl nil booleans nil) nil nil)
+   30021 30 t nil))
+ (Nonces_TCC1 0
+  (Nonces_TCC1-1 nil 3377094834 3416211735
+   ("" (skolem!)
+    (("" (typepred "pt[[Identity,Role],Nonce]")
+      (("" (delete -1)
+        (("" (inst -1 "(i!1,r!1)")
+          (("" (skolem!)
+            (("" (inst 1 "n!1")
+              (("" (expand "IRpart") (("" (propax) nil nil)) nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((pt const-decl "{p |
+         (FORALL i, j, n: i /= j AND p(i)(n) => NOT p(j)(n)) AND
+          (FORALL i: EXISTS n: p(i)(n))}" partition nil)
+    (setof type-eq-decl nil defined_types nil)
+    (/= const-decl "boolean" notequal nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    nil (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil) nil)
+   129719 90 t nil))
+ (n_prop 0
+  (n_prop-1 nil 3416214023 3416214031
+   ("" (skosimp*)
+    (("" (typepred "na" "pt[[Identity, Role], Nonce]")
+      (("" (delete -3)
+        (("" (inst -2 "(i!1, r!1)" "(a,init)" "na")
+          (("" (grind) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Identity nonempty-type-decl nil nsl_initiator nil)
+    (Role type-decl nil nsl_initiator nil)
+    (Nonce nonempty-type-decl nil nsl_initiator nil)
+    (setof type-eq-decl nil defined_types nil)
+    (IRpart const-decl "[[Identity, Role] -> setof[Nonce]]"
+     nsl_initiator nil)
+    (a const-decl "Identity" nsl_initiator nil)
+    (init? adt-recognizer-decl "[Role -> boolean]" nsl_initiator nil)
+    (init adt-constructor-decl "(init?)" nsl_initiator nil)
+    (Nonces nonempty-type-eq-decl nil nsl_initiator nil)
+    (na const-decl "Nonces(a, init)" nsl_initiator nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (/= const-decl "boolean" notequal nil)
+    (pt const-decl "{p |
+         (FORALL i, j, n: i /= j AND p(i)(n) => NOT p(j)(n)) AND
+          (FORALL i: EXISTS n: p(i)(n))}" partition nil))
+   4359 130 t nil))
+ (n_orig 0
+  (n_orig-1 nil 3416214064 3416214069
+   ("" (skosimp)
+    (("" (typepred "pt[[Identity, Role], Nonce]" "na")
+      (("" (delete -2)
+        (("" (inst -1 "(i!1, init)" "(a, init)" "na")
+          (("" (grind) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Identity nonempty-type-decl nil nsl_initiator nil)
+    (Role type-decl nil nsl_initiator nil)
+    (Nonce nonempty-type-decl nil nsl_initiator nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (/= const-decl "boolean" notequal nil)
+    (setof type-eq-decl nil defined_types nil)
+    (pt const-decl "{p |
+         (FORALL i, j, n: i /= j AND p(i)(n) => NOT p(j)(n)) AND
+          (FORALL i: EXISTS n: p(i)(n))}" partition nil)
+    (IRpart const-decl "[[Identity, Role] -> setof[Nonce]]"
+     nsl_initiator nil)
+    (a const-decl "Identity" nsl_initiator nil)
+    (init? adt-recognizer-decl "[Role -> boolean]" nsl_initiator nil)
+    (init adt-constructor-decl "(init?)" nsl_initiator nil)
+    (Nonces nonempty-type-eq-decl nil nsl_initiator nil)
+    (na const-decl "Nonces(a, init)" nsl_initiator nil))
+   2747 80 t nil))
+ (E_TCC1 0
+  (E_TCC1-1 nil 3377094834 3416211545 ("" (cases-tcc) nil nil)
+   unchecked
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil) nil nil nil
+    nil)
+   104 80 nil nil))
+ (rho_TCC1 0
+  (rho_TCC1-1 nil 3377094835 3416211545 ("" (termination-tcc) nil nil)
+   unchecked (nil) 47 40 nil shostak))
+ (rho_TCC2 0
+  (rho_TCC2-1 nil 3377094835 3416211545 ("" (termination-tcc) nil nil)
+   unchecked (nil) 76 30 nil shostak))
+ (rho_TCC3 0
+  (rho_TCC3-1 nil 3377094837 3416211545 ("" (termination-tcc) nil nil)
+   unchecked
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil) nil nil nil nil
+    nil)
+   76 40 nil shostak))
+ (authenticated 0
+  (authenticated-1 nil 3377094834 3416215700
+   ("" (auto-rewrite-theory "sets")
+    (("" (rewrite "authentication_by_rank" + ("rho" "rho"))
+      (("1" (delete 2) (("1" (grind) nil nil)) nil)
+       ("2" (delete 2)
+        (("2" (expand "|-")
+          (("2" (rule-induct "Gen")
+            (("2" (skolem!)
+              (("2" (smash)
+                (("1" (inst?) (("1" (assert) nil nil)) nil)
+                 ("2" (delete -2)
+                  (("2" (skosimp)
+                    (("2" (replace -3 1)
+                      (("2" (delete -3) (("2" (grind) nil nil)) nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("3" (delete -2)
+                  (("3" (skolem!) (("3" (grind) nil nil)) nil)) nil)
+                 ("4" (delete -2)
+                  (("4" (skolem!) (("4" (grind) nil nil)) nil)) nil)
+                 ("5" (delete -2)
+                  (("5" (skosimp)
+                    (("5" (replace -3 1)
+                      (("5" (delete -3) (("5" (grind) nil nil)) nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("3" (delete 2)
+        (("3" (skolem!)
+          (("3" (expand "USER")
+            (("3" (expand "RankUser")
+              (("3" (interleaving)
+                (("1" (interleaving2)
+                  (("1" (expand "UINIT")
+                    (("1" (lift-if)
+                      (("1" (prop)
+                        (("1" (prefix)
+                          (("1" (delete 2 3)
+                            (("1" (lemma "n_orig" ("i" "i!1"))
+                              (("1"
+                                (typepred "i!2")
+                                (("1" (grind) nil nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (delete 2 3)
+                            (("2" (choice3)
+                              (("2"
+                                (prefix)
+                                (("2"
+                                  (delete +)
+                                  (("2" (grind-dec-eq) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("2" (choice3)
+                          (("2" (prefix)
+                            (("1" (delete 2 3) (("1" (grind) nil nil))
+                              nil)
+                             ("2" (delete 2 3)
+                              (("2"
+                                (choice3)
+                                (("2"
+                                  (prefix)
+                                  (("2"
+                                    (delete 2 3)
+                                    (("2"
+                                      (prefix)
+                                      (("1"
+                                        (delete 2 3)
+                                        (("1" (grind-dec-eq) nil nil))
+                                        nil)
+                                       ("2"
+                                        (delete 2 3)
+                                        (("2"
+                                          (prefix)
+                                          (("1"
+                                            (delete 2 3)
+                                            (("1" (grind) nil nil))
+                                            nil)
+                                           ("2"
+                                            (delete - 2 3 4)
+                                            (("2" (stop) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (interleaving2)
+                  (("2" (expand "URESP")
+                    (("2" (choice3)
+                      (("2" (prefix)
+                        (("2" (delete 2 3)
+                          (("2" (prefix)
+                            (("1" (delete - 2 3)
+                              (("1"
+                                (expand "rho")
+                                (("1" (propax) nil nil))
+                                nil))
+                              nil)
+                             ("2" (delete 3)
+                              (("2"
+                                (case "i!3`1=a AND i!1=b AND i!3`2=na")
+                                (("1"
+                                  (delete -2 1)
+                                  (("1" (grind) nil nil))
+                                  nil)
+                                 ("2"
+                                  (prefix)
+                                  (("1"
+                                    (delete 2 3 5)
+                                    (("1"
+                                      (typepred "i!2")
+                                      (("1"
+                                        (lemma
+                                         "n_prop"
+                                         ("i" "i!1" "r" "resp"))
+                                        (("1" (grind-dec-eq) nil nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (delete 2 3 4 5)
+                                    (("2"
+                                      (prefix)
+                                      (("2"
+                                        (delete - 2 3)
+                                        (("2" (stop) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("4" (delete 2)
+        (("4" (skolem-typepred)
+          (("4" (expand "T")
+            (("4" (replace -1)
+              (("4" (delete -1)
+                (("4" (assert)
+                  (("4" (expand "rho") (("4" (propax) nil nil)) nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((URESP const-decl "process[event]" nsl_initiator nil)
+    (resp adt-constructor-decl "(resp?)" nsl_initiator nil)
+    (resp? adt-recognizer-decl "[Role -> boolean]" nsl_initiator nil)
+    (UINIT const-decl "process[event]" nsl_initiator nil)
+    (Interleave const-decl "process[T]" multipar "../pvs41_csp-rules/")
+    (Nonces nonempty-type-eq-decl nil nsl_initiator nil)
+    (init adt-constructor-decl "(init?)" nsl_initiator nil)
+    (init? adt-recognizer-decl "[Role -> boolean]" nsl_initiator nil)
+    (IRpart const-decl "[[Identity, Role] -> setof[Nonce]]"
+     nsl_initiator nil)
+    (Role type-decl nil nsl_initiator nil)
+    (Nonce nonempty-type-decl nil nsl_initiator nil)
+    (restriction_free_par formula-decl nil restriction_rules
+     "../pvs41_csp-rules/")
+    (uniform_interleave2 formula-decl nil uniform_props
+     "../pvs41_csp-rules/")
+    (|#| const-decl "process[T]" restriction_rules
+     "../pvs41_csp-rules/")
+    (pred type-eq-decl nil defined_types nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (rec? adt-recognizer-decl "[event -> boolean]" dynetwork nil)
+    (msg shared-adt-accessor-decl "[event -> M]" dynetwork nil)
+    (complement const-decl "set" sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (x_public adt-accessor-decl "[(public?) -> Identity]" nsl_initiator
+     nil)
+    (y_conc adt-accessor-decl "[(conc?) -> Message]" nsl_initiator nil)
+    (na const-decl "Nonces(a, init)" nsl_initiator nil)
+    (x_conc adt-accessor-decl "[(conc?) -> Message]" nsl_initiator nil)
+    (uniform3_choice2 formula-decl nil uniform_props2
+     "../pvs41_csp-rules/")
+    (restriction_choice3 formula-decl nil restriction_rules2
+     "../pvs41_csp-rules/")
+    (n_orig formula-decl nil nsl_initiator nil)
+    (uniform_prefix2 formula-decl nil uniform_props
+     "../pvs41_csp-rules/")
+    (uniform_stop2 formula-decl nil uniform_props
+     "../pvs41_csp-rules/")
+    (restriction_pref formula-decl nil restriction_rules
+     "../pvs41_csp-rules/")
+    (Choice const-decl "process[T]" parametric_choice
+     "../pvs41_csp-rules/")
+    (>> const-decl "process" processes "../pvs41_csp-rules/")
+    (rec adt-constructor-decl "[[I, I, M] -> (rec?)]" dynetwork nil)
+    (a const-decl "Identity" nsl_initiator nil)
+    (b const-decl "{i: Identity | i /= a}" nsl_initiator nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (public? adt-recognizer-decl "[Message -> boolean]" nsl_initiator
+     nil)
+    (secret? adt-recognizer-decl "[Message -> boolean]" nsl_initiator
+     nil)
+    (Key type-eq-decl nil nsl_initiator nil)
+    (public adt-constructor-decl "[Identity -> (public?)]"
+     nsl_initiator nil)
+    (conc3 const-decl "Message" nsl_initiator nil)
+    (nonce? adt-recognizer-decl "[Message -> boolean]" nsl_initiator
+     nil)
+    (nonce adt-constructor-decl "[Nonce -> (nonce?)]" nsl_initiator
+     nil)
+    (user? adt-recognizer-decl "[Message -> boolean]" nsl_initiator
+     nil)
+    (user adt-constructor-decl "[Identity -> (user?)]" nsl_initiator
+     nil)
+    (trans? adt-recognizer-decl "[event -> boolean]" dynetwork nil)
+    (trans adt-constructor-decl "[[I, I, M] -> (trans?)]" dynetwork
+     nil)
+    (signal? adt-recognizer-decl "[event -> boolean]" dynetwork nil)
+    (signal adt-constructor-decl "[M -> (signal?)]" dynetwork nil)
+    (commit_resp? adt-recognizer-decl "[Message -> boolean]"
+     nsl_initiator nil)
+    (commit_init adt-constructor-decl
+     "[[Identity, Identity, Nonce] -> (commit_resp?)]" nsl_initiator
+     nil)
+    (Stop const-decl "process" processes "../pvs41_csp-rules/")
+    (conc? adt-recognizer-decl "[Message -> boolean]" nsl_initiator
+     nil)
+    (conc adt-constructor-decl "[[Message, Message] -> (conc?)]"
+     nsl_initiator nil)
+    (restriction_stop formula-decl nil restriction_rules
+     "../pvs41_csp-rules/")
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (uniform2_interleave2 formula-decl nil uniform_props3
+     "../pvs41_csp-rules/")
+    (restriction_free_par2 formula-decl nil restriction_rules3
+     "../pvs41_csp-rules/")
+    (n_prop formula-decl nil nsl_initiator nil)
+    (x_user adt-accessor-decl "[(user?) -> Identity]" nsl_initiator
+     nil)
+    (Message_user_extensionality formula-decl nil nsl_initiator nil)
+    (Message_conc_extensionality formula-decl nil nsl_initiator nil)
+    (Message_public_extensionality formula-decl nil nsl_initiator nil)
+    (running_init? adt-recognizer-decl "[Message -> boolean]"
+     nsl_initiator nil)
+    (running_resp adt-constructor-decl
+     "[[Identity, Identity, Nonce] -> (running_init?)]" nsl_initiator
+     nil)
+    (RankUser const-decl "setof[trace[event]]" dynetwork nil)
+    (Gen_weak_induction formula-decl nil nsl_initiator nil)
+    (conc2 const-decl "Message" nsl_initiator nil)
+    (E const-decl "Message" nsl_initiator nil)
+    (/= const-decl "boolean" notequal nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (\|- const-decl "bool" nsl_initiator nil)
+    (setof type-eq-decl nil defined_types nil)
+    (INIT const-decl "bool" nsl_initiator nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (Message type-decl nil nsl_initiator nil)
+    (Identity nonempty-type-decl nil nsl_initiator nil)
+    (USER const-decl "process[event]" nsl_initiator nil)
+    (process type-eq-decl nil processes "../pvs41_csp-rules/")
+    (prefix_closed const-decl "bool" processes "../pvs41_csp-rules/")
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (trace type-eq-decl nil traces "../pvs41_csp-rules/")
+    (list type-decl nil list_adt nil)
+    (rho def-decl "bool" nsl_initiator nil)
+    (T const-decl "set[event]" nsl_initiator nil)
+    (R const-decl "set[event]" nsl_initiator nil)
+    (set type-eq-decl nil sets nil) (event type-decl nil dynetwork nil)
+    (authentication_by_rank formula-decl nil dynetwork nil))
+   1550766 15070 t nil)))
+

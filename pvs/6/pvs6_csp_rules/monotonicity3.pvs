@@ -1,0 +1,25 @@
+%
+%  Monotonicity rules for indexed parallel composition
+%
+
+monotonicity3 [ U : NONEMPTY_TYPE, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING csp_traces
+
+  P, Q : VAR [U -> process[T]]
+
+  A : VAR set[T]
+
+  i : VAR U
+
+  monotonic_par2 : LEMMA 
+     (FORALL i : subset?(P(i), Q(i))) 
+	  IMPLIES  subset?(Par[U,T](A)(P), Par[U,T](A)(Q))
+
+  monotonic_free_par2 : LEMMA  
+     (FORALL i : subset?(P(i), Q(i))) 
+	  IMPLIES  subset?(Interleave(P), Interleave(Q))
+
+  END monotonicity3

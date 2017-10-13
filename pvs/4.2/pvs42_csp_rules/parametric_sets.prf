@@ -1,0 +1,4 @@
+(|parametric_sets| (|union_is_bound| "" (GRIND) NIL)
+ (|union_is_lub| "" (GRIND) NIL) (|inter_is_bound| "" (GRIND) NIL)
+ (|inter_is_glb| "" (GRIND) NIL NIL))
+

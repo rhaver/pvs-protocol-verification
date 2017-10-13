@@ -1,0 +1,49 @@
+%
+%  Definition of the satisfaction relation
+%  - if P is a process, E a trace predicate
+%    P |> E  means "P sat E"
+%  - if E is also a process, 
+%    P |> E can  mean "P is a refinement of E"
+%
+
+satisfaction [T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING process_rules
+
+  P, Q : VAR process[T]
+
+  E, F : VAR pred[trace[T]]
+
+  SP : VAR set[process[T]]
+
+
+
+  |> (P, E) : bool = subset?(P, E)
+
+
+  sat_idempotent : LEMMA P |> P
+
+  sat_transitive1 : LEMMA (P |> Q) AND (Q |> E) IMPLIES (P |> E)
+
+  sat_transitive2 : LEMMA (P |> E) AND subset?(E, F) IMPLIES (P |> F)
+
+  sat_choice1 : LEMMA  (P \/ Q) |> E IFF P |> E  AND Q |> E 
+
+  sat_choice2 : LEMMA  Choice(SP) |> E IFF
+	Stop[T] |> E AND (FORALL (P : (SP)) : P |> E )
+
+
+  sat_free_par1 : LEMMA  (P // Q) |> E IMPLIES P |> E
+
+  sat_free_par2 : LEMMA  (P // Q) |> E IMPLIES Q |> E
+
+  sat_par_fullset : LEMMA (P |> E AND Q |> E) IMPLIES Par(fullset)(P, Q) |> E
+
+  sat_par_fullset2 : LEMMA (P |> E AND Q |> F)
+			IMPLIES Par(fullset)(P, Q) |> intersection(E, F)
+
+
+  END satisfaction
+

@@ -1,0 +1,106 @@
+%
+%  Processes with alphabet T
+%  (trace semantics)
+%
+
+processes [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING traces
+
+  a, b : VAR T
+
+  S : VAR setof[trace[T]]
+
+  A : VAR setof[T]
+ 
+  t, t1, t2 : VAR trace[T]
+
+  R : VAR setof[[T, T]]
+
+
+  %===================================================
+  %  process: non-empty, prefix closed set of traces
+  %===================================================
+
+  prefix_closed(S) : bool =
+	FORALL t1, t2 : prefix(t1, t2) AND S(t2) IMPLIES S(t1)
+ 
+  process : TYPE = { S | S(null) AND prefix_closed(S) }
+
+  P, P1, P2 : VAR process
+
+  SP : VAR set[process]
+
+
+  %===================
+  %  Process algebra
+  %===================
+
+  %-----------
+  %  Stop[T]
+  %-----------
+
+  Stop : process = { t | t = null };
+
+  %------------------
+  %  Bounded choice
+  %------------------
+
+  \/(P1, P2) : process = union(P1, P2)
+
+  %---------------------
+  %   Unbounded choice
+  %---------------------
+
+  Choice(SP) : process = { t | null?(t) OR EXISTS (P : (SP)) : P(t) };
+
+  %-----------
+  %  a >> P
+  %-----------
+
+  >> (a, P) : process = { t | null?(t) OR EXISTS (t1 : (P)) : t = cons(a, t1) }
+
+  %------------------------
+  %  Parallel composition
+  %------------------------
+
+  Par(A)(P1, P2) : process =
+	{ t | EXISTS (t1 : (P1)), (t2 : (P2)) : prod(A)(t1, t2, t) };
+
+  %----------------
+  %  Interleaving 
+  %----------------
+
+  //(P1, P2) : process = Par(emptyset)(P1, P2);
+
+  %----------------
+  %  Hiding
+  %----------------
+
+  /(P, A) : process = { t | EXISTS (t1 : (P)) : t = proj(t1, complement(A)) }
+
+  
+
+  %==========================
+  %  sigma(P) = events of P
+  %==========================
+
+  sigma(P) : setof[T] = { a | EXISTS (t : (P)) : sigma(t)(a) }
+
+  sigma_monotonic : LEMMA subset?(P1, P2) IMPLIES subset?(sigma(P1), sigma(P2))
+
+
+  %-------------
+  %  Renaming
+  %-------------
+
+  dom(R) : setof[T] = { a | EXISTS b : R(a, b) }
+
+  ran(R) : setof[T] = { b | EXISTS a : R(a, b) }
+
+  rename(P, R) : process = { t | EXISTS (t1 : (P)) : trename(R, t1, t) }
+
+
+  END processes

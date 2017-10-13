@@ -1,0 +1,31 @@
+%
+%  Restriction of parametric choice
+%
+
+restriction_rules2 [ U, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING restriction_rules
+
+  P : VAR [U -> process[T]]
+ 
+  i : VAR U
+
+  A : VAR set[T]
+
+  F : VAR (monotonic?[U, T])
+
+  E : VAR [U -> set[trace[T]]]
+
+
+  restriction_choice3 : LEMMA  Choice(P) # A = Choice! i : P(i) # A
+
+  monotonic_lemma2 : LEMMA monotonic?(LAMBDA P: LAMBDA i: ((F(P)(i) # A)))
+
+  restriction_fix2 : LEMMA
+    (FORALL P :
+      (FORALL i :F(P)(i) # A = F(LAMBDA i : (P(i) # A))(i) # A)) IMPLIES
+    (mu(F)(i) # A) = (mu(LAMBDA P : (LAMBDA i : (F(P)(i) # A)))(i))
+
+  END restriction_rules2

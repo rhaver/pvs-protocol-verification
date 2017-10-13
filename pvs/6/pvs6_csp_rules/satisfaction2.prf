@@ -1,0 +1,18 @@
+(satisfaction2
+ (sat_choice3 0
+  (sat_choice3-1 nil 3662229309
+   ("" (grind :exclude ("prefix_closed")) nil nil)
+   ((Stop const-decl "process" processes nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (Choice const-decl "process[T]" parametric_choice nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil satisfaction2 nil)
+    (U formal-type-decl nil satisfaction2 nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (boolean nonempty-type-decl nil booleans nil))
+   nil)))
+

@@ -1,0 +1,10 @@
+(satisfaction4
+ (sat_if_lift 0
+  (sat_if_lift-1 nil 3662392440
+   ("" (skolem!) (("" (lift-if) (("" (prop) nil nil)) nil)) nil) nil
+   shostak))
+ (sat_if_lift_implies 0
+  (sat_if_lift_implies-1 nil 3664127194
+   ("" (skolem!) (("" (lift-if) (("" (prop) nil nil)) nil)) nil) nil
+   shostak)))
+

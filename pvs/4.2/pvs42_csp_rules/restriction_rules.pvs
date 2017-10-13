@@ -1,0 +1,88 @@
+%
+%  Rules for restrictions (simple processes)
+%
+%  restriction operator: P # B =  Par(B)(P, Stop)
+%
+
+restriction_rules [ T : TYPE] : THEORY
+
+  BEGIN
+
+  IMPORTING csp_traces
+  
+  P, P1, P2 : VAR process[T]
+
+  SP : VAR set[process[T]]
+
+  a, b : Var T
+
+  t : VAR trace[T]
+
+  A, B : VAR set[T];
+
+  F : VAR (monotonic?[T])
+
+  E : VAR set[trace[T]]
+
+  R : VAR set[[T, T]]
+
+  r : VAR [T, T]
+
+  %------------------------
+  %  Restriction operator
+  %------------------------  
+
+  #(P, B) : process[T] = Par(B)(P, Stop)
+
+  restriction_equiv : LEMMA  P # B = { t | P(t) AND proj(t, B) = null }
+
+  restriction_twice : LEMMA  (P # A) # B = P # union(A, B)
+
+  restriction_prop : LEMMA subset?(P1, P2) IMPLIES subset?(P1 # B, P2 # B)
+
+  restriction_prop2 : LEMMA subset?(P # B, P)
+
+  %---------
+  %  Rules
+  %---------
+
+  restriction_stop : LEMMA   Stop # B = Stop
+
+
+  restriction_pref1 : LEMMA  B(a) IMPLIES  (a >> P) # B = Stop
+
+  restriction_pref2 : LEMMA  NOT B(a) IMPLIES  (a >> P) # B = a >> (P # B)
+
+  restriction_pref : LEMMA
+     (a >> P) # B = IF B(a) THEN Stop ELSE a >> (P # B) ENDIF
+
+
+  restriction_choice : LEMMA  (P1 \/ P2) # B = (P1 # B \/ P2 # B)
+
+  restriction_choice2 : LEMMA  Choice(SP) # B = Choice! (P : (SP)) : P # B
+
+  restriction_par : LEMMA  Par(A)(P1, P2) # B = Par(A)(P1 # B, P2 # B)
+
+  restriction_fullset : LEMMA Par(fullset)(P1, P2) # B =
+				Par(fullset)(P1, P2 # B)
+
+  restriction_free_par : LEMMA  (P1 // P2) # B = (P1 # B) // (P2 # B)
+
+  restriction_hide : LEMMA (P / A) # B = (P # difference(B, A)) / A
+
+  restriction_rename : LEMMA
+      rename(P, R) # B = rename(P, { (a, b) | R(a, b) AND NOT B(b) })
+
+  restriction_sat_equiv : LEMMA  
+      P # B |> E IFF P |> { t | proj(t, B) = null IMPLIES E(t) }
+
+  monotonic_lemma : LEMMA monotonic?(LAMBDA P1 : (F(P1) # B))
+
+  restriction_fix1 : LEMMA
+      (FORALL P : F(P) # B = F(P # B) # B) IMPLIES
+				mu(F) # B = mu(LAMBDA P1 : (F(P1) # B))
+
+  restriction_elim : LEMMA P |> E IMPLIES P # B |> E
+
+
+  END restriction_rules

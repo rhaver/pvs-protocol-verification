@@ -1,0 +1,6 @@
+(partition
+ (pt_TCC1 0
+  (pt_TCC1-1 nil 3662308535
+   ("" (lemma "pax") (("" (propax) nil nil)) nil)
+   ((pax formula-decl nil partition nil)) nil)))
+

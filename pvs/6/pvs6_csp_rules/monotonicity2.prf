@@ -1,0 +1,13 @@
+(monotonicity2
+ (monotonic_choice3 0
+  (monotonic_choice3-1 nil 3662229313
+   ("" (grind :exclude ("prefix_closed")) nil nil)
+   ((Choice const-decl "process[T]" parametric_choice nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (U formal-type-decl nil monotonicity2 nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil monotonicity2 nil))
+   nil)))
+

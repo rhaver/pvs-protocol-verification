@@ -1,0 +1,574 @@
+(restriction_rules4
+ (restriction_run1 0
+  (restriction_run1-1 nil 3417191626 3417191744
+   ("" (skosimp)
+    (("" (expand "RUN")
+      (("" (use "fixed_point2[T]")
+        (("1" (replace -1 1 :dir rl)
+          (("1" (expand "FRUN" 1 1)
+            (("1" (rewrite "restriction_pref1")
+              (("1" (rewrite "RUN_TCC1") nil nil)) nil))
+            nil))
+          nil)
+         ("2" (rewrite "RUN_TCC1") nil nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((RUN const-decl "process[T]" csp_run nil)
+    (restriction_pref1 formula-decl nil restriction_rules nil)
+    (set type-eq-decl nil sets nil)
+    (mu const-decl "process[T]" fixed_points2 nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (monotonic? const-decl "bool" fixed_points2 nil)
+    (FRUN const-decl "process[T]" csp_run nil)
+    (T formal-type-decl nil restriction_rules4 nil)
+    (fixed_point2 formula-decl nil fixed_points2 nil))
+   158 120 nil nil))
+ (eq_lemma 0
+  (eq_lemma-1 nil 3417191626 3417191744
+   ("" (skosimp)
+    (("" (expand "FRUN")
+      (("" (use "restriction_pref2[T]")
+        (("" (assert)
+          (("" (replace -1 2 :dir rl)
+            (("" (expand "RUN" 2 2)
+              (("" (use "fixed_point2[T]")
+                (("1" (replace -1 2 :dir rl)
+                  (("1" (expand "RUN" 2)
+                    (("1" (expand "FRUN" 2 2) (("1" (propax) nil nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (rewrite "RUN_TCC1") nil nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((FRUN const-decl "process[T]" csp_run nil)
+    (monotonic? const-decl "bool" fixed_points2 nil)
+    (fixed_point2 formula-decl nil fixed_points2 nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil) (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (RUN const-decl "process[T]" csp_run nil)
+    (T formal-type-decl nil restriction_rules4 nil)
+    (restriction_pref2 formula-decl nil restriction_rules nil))
+   209 140 nil nil))
+ (res_lemma 0
+  (res_lemma-1 nil 3417191626 3417191744
+   ("" (skosimp)
+    (("" (rewrite "restriction_equiv") (("" (grind) nil nil)) nil))
+    nil)
+   proved
+   ((restriction_equiv formula-decl nil restriction_rules nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil) (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (T formal-type-decl nil restriction_rules4 nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (proj const-decl "[trace, set[T] -> trace]" traces nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil))
+   119 90 nil nil))
+ (restriction_run2 0
+  (restriction_run2-1 nil 3417191626 3417191745
+   ("" (skosimp)
+    (("" (use "eq_lemma")
+      (("" (assert)
+        (("" (use "least_fixed_point2[T]")
+          (("1" (assert)
+            (("1" (use "res_lemma")
+              (("1" (expand "RUN" -1 2)
+                (("1" (expand "RUN" 2 2)
+                  (("1" (delete -3 1)
+                    (("1" (rewrite "subset_antisymmetric")
+                      (("1" (rewrite "RUN_TCC1") nil nil)) nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (rewrite "RUN_TCC1") nil nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((eq_lemma formula-decl nil restriction_rules4 nil)
+    (set type-eq-decl nil sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (T formal-type-decl nil restriction_rules4 nil)
+    (least_fixed_point2 formula-decl nil fixed_points2 nil)
+    (RUN const-decl "process[T]" csp_run nil)
+    (|#| const-decl "process[T]" restriction_rules nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (monotonic? const-decl "bool" fixed_points2 nil)
+    (FRUN const-decl "process[T]" csp_run nil)
+    (a!1 skolem-const-decl "T" restriction_rules4 nil)
+    (res_lemma formula-decl nil restriction_rules4 nil)
+    (mu const-decl "process[T]" fixed_points2 nil)
+    (subset_antisymmetric formula-decl nil sets_lemmas nil)
+    (RUN_TCC1 subtype-tcc nil csp_run nil))
+   154 80 nil nil))
+ (restriction_run 0
+  (restriction_run-1 nil 3417191626 3417191745
+   ("" (skosimp)
+    (("" (lift-if)
+      (("" (split)
+        (("1" (rewrite "restriction_run1") nil nil)
+         ("2" (rewrite "restriction_run2") nil nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((restriction_run2 formula-decl nil restriction_rules4 nil)
+    (restriction_run1 formula-decl nil restriction_rules4 nil)
+    (T formal-type-decl nil restriction_rules4 nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil))
+   66 20 nil nil))
+ (restriction_run3 0
+  (restriction_run3-1 nil 3417193926 3417193947
+   ("" (skolem!)
+    ((""
+      (case "subset?(RUN(A!1) # B!1, RUN(difference(A!1, B!1))) AND subset?(RUN(difference(A!1, B!1)), RUN(A!1) # B!1)")
+      (("1" (rewrite "subset_antisymmetric") nil)
+       ("2" (delete 2)
+        (("2" (split)
+          (("1" (expand "RUN")
+            (("1"
+              (case "mu(FRUN(A!1)) # B!1 |> mu(FRUN(difference(A!1, B!1)))")
+              (("1" (expand "|>") (("1" (propax) nil)))
+               ("2" (delete 2)
+                (("2" (rewrite "restriction_sat_equiv")
+                  (("2" (rewrite "induction")
+                    (("1" (delete 2) (("1" (grind) nil)))
+                     ("2" (delete 2)
+                      (("2" (skosimp)
+                        (("2" (rewrite "restriction_sat_equiv" :dir rl)
+                          (("1"
+                            (rewrite "restriction_sat_equiv" :dir rl)
+                            (("1" (expand "FRUN")
+                              (("1"
+                                (choice3)
+                                (("1"
+                                  (eta "process[T]")
+                                  (("1"
+                                    (inst
+                                     -1
+                                     "mu(LAMBDA (R: process[T]):
+                                             (Choice! (x: (difference(A!1, B!1))): x >> R))")
+                                    (("1"
+                                      (replace -1)
+                                      (("1"
+                                        (delete -1)
+                                        (("1"
+                                          (expand "|>")
+                                          (("1"
+                                            (expand "subset?")
+                                            (("1"
+                                              (expand "member")
+                                              (("1"
+                                                (skosimp)
+                                                (("1"
+                                                  (expand "Choice" -2)
+                                                  (("1"
+                                                    (split)
+                                                    (("1" (grind) nil)
+                                                     ("2"
+                                                      (skolem-typepred)
+                                                      (("2"
+                                                        (prefix)
+                                                        (("1"
+                                                          (flatten)
+                                                          (("1"
+                                                            (grind)
+                                                            nil)))
+                                                         ("2"
+                                                          (flatten)
+                                                          (("2"
+                                                            (expand
+                                                             ">>"
+                                                             -1)
+                                                            (("2"
+                                                              (split)
+                                                              (("1"
+                                                                (grind)
+                                                                nil)
+                                                               ("2"
+                                                                (skolem-typepred)
+                                                                (("2"
+                                                                  (replace
+                                                                   -2)
+                                                                  (("2"
+                                                                    (inst
+                                                                     -4
+                                                                     "t1!1")
+                                                                    (("2"
+                                                                      (assert)
+                                                                      (("2"
+                                                                        (lemma
+                                                                         "fixed_point2[T]")
+                                                                        (("2"
+                                                                          (inst?)
+                                                                          (("1"
+                                                                            (replace
+                                                                             -1
+                                                                             2
+                                                                             rl)
+                                                                            (("1"
+                                                                              (delete
+                                                                               -1)
+                                                                              (("1"
+                                                                                (expand
+                                                                                 "Choice"
+                                                                                 2
+                                                                                 1)
+                                                                                (("1"
+                                                                                  (inst
+                                                                                   2
+                                                                                   "i!1")
+                                                                                  (("1"
+                                                                                    (expand
+                                                                                     ">>"
+                                                                                     2
+                                                                                     1)
+                                                                                    (("1"
+                                                                                      (inst?)
+                                                                                      nil)))
+                                                                                   ("2"
+                                                                                    (expand
+                                                                                     "difference"
+                                                                                     1)
+                                                                                    (("2"
+                                                                                      (expand
+                                                                                       "member")
+                                                                                      (("2"
+                                                                                        (propax)
+                                                                                        nil)))))))))))))
+                                                                           ("2"
+                                                                            (delete
+                                                                             -1
+                                                                             -2
+                                                                             -3
+                                                                             -4
+                                                                             2
+                                                                             3)
+                                                                            (("2"
+                                                                              (grind
+                                                                               :if-match
+                                                                               nil)
+                                                                              (("2"
+                                                                                (inst
+                                                                                 -7
+                                                                                 "t1!2")
+                                                                                (("2"
+                                                                                  (assert)
+                                                                                  (("2"
+                                                                                    (inst
+                                                                                     3
+                                                                                     "i!2")
+                                                                                    (("2"
+                                                                                      (inst
+                                                                                       3
+                                                                                       "t1!2")
+                                                                                      nil)))))))))))))))))))))))))))))))))))))))))))))))))
+                                     ("2"
+                                      (delete -1 2)
+                                      (("2"
+                                        (grind :if-match nil)
+                                        (("2"
+                                          (inst -7 "t1!1")
+                                          (("2"
+                                            (assert)
+                                            (("2"
+                                              (inst 3 "i!1")
+                                              (("2"
+                                                (inst 3 "t1!1")
+                                                nil)))))))))))))))))))
+                             ("2"
+                              (lemma "RUN_TCC2"
+                               ("A" "difference[T](A!1, B!1)"))
+                              (("2" (propax) nil)))))
+                           ("2"
+                            (lemma "RUN_TCC2"
+                             ("A" "difference[T](A!1, B!1)"))
+                            (("2" (propax) nil)))))))))
+                     ("3" (skosimp)
+                      (("3" (rewrite "RUN_TCC2[T]") nil)))))))))))))
+           ("2" (expand "RUN")
+            (("2"
+              (case "mu(FRUN(difference(A!1, B!1))) |> mu(FRUN(A!1)) # B!1")
+              (("1" (expand "|>") (("1" (propax) nil)))
+               ("2" (delete 2)
+                (("2" (rewrite "induction")
+                  (("1" (delete 2)
+                    (("1" (typepred "mu(FRUN(A!1)) # B!1")
+                      (("1" (expand "Stop")
+                        (("1" (expand "|>")
+                          (("1" (expand "subset?")
+                            (("1" (expand "member")
+                              (("1"
+                                (skolem-typepred)
+                                (("1"
+                                  (flatten)
+                                  (("1"
+                                    (rewrite -3)
+                                    nil)))))))))))))))))
+                   ("2" (delete 2)
+                    (("2" (skosimp)
+                      (("2" (expand "FRUN")
+                        (("2" (expand "|>")
+                          (("2" (expand "subset?")
+                            (("2" (expand "member")
+                              (("2"
+                                (skosimp)
+                                (("2"
+                                  (expand "Choice" -2)
+                                  (("2"
+                                    (split)
+                                    (("1" (grind) nil)
+                                     ("2"
+                                      (skolem-typepred)
+                                      (("2"
+                                        (expand ">>" -2)
+                                        (("2"
+                                          (split)
+                                          (("1" (grind) nil)
+                                           ("2"
+                                            (skolem-typepred)
+                                            (("2"
+                                              (replace -2)
+                                              (("2"
+                                                (inst -4 "t1!1")
+                                                (("2"
+                                                  (assert)
+                                                  (("2"
+                                                    (lemma
+                                                     "fixed_point2[T]")
+                                                    (("2"
+                                                      (inst?)
+                                                      (("1"
+                                                        (replace
+                                                         -1
+                                                         1
+                                                         rl)
+                                                        (("1"
+                                                          (delete -1)
+                                                          (("1"
+                                                            (choice3)
+                                                            (("1"
+                                                              (expand
+                                                               "Choice"
+                                                               1
+                                                               1)
+                                                              (("1"
+                                                                (inst
+                                                                 1
+                                                                 "i!1")
+                                                                (("1"
+                                                                  (prefix)
+                                                                  (("1"
+                                                                    (flatten)
+                                                                    (("1"
+                                                                      (expand
+                                                                       "difference")
+                                                                      (("1"
+                                                                        (expand
+                                                                         "member")
+                                                                        (("1"
+                                                                          (flatten)
+                                                                          nil)))))))
+                                                                   ("2"
+                                                                    (flatten)
+                                                                    (("2"
+                                                                      (expand
+                                                                       ">>"
+                                                                       2
+                                                                       1)
+                                                                      (("2"
+                                                                        (inst?)
+                                                                        nil)))))
+                                                                   ("3"
+                                                                    (delete
+                                                                     -1
+                                                                     -2
+                                                                     -3
+                                                                     -4
+                                                                     2)
+                                                                    (("3"
+                                                                      (grind
+                                                                       :if-match
+                                                                       nil)
+                                                                      (("3"
+                                                                        (inst
+                                                                         -7
+                                                                         "t1!2")
+                                                                        (("3"
+                                                                          (assert)
+                                                                          (("3"
+                                                                            (inst
+                                                                             2
+                                                                             "i!2")
+                                                                            (("3"
+                                                                              (inst
+                                                                               2
+                                                                               "t1!2")
+                                                                              nil)))))))))))))
+                                                                 ("2"
+                                                                  (expand
+                                                                   "difference")
+                                                                  (("2"
+                                                                    (expand
+                                                                     "member")
+                                                                    (("2"
+                                                                      (flatten)
+                                                                      nil)))))))))
+                                                             ("2"
+                                                              (delete
+                                                               -1
+                                                               -2
+                                                               -3
+                                                               -4
+                                                               2)
+                                                              (("2"
+                                                                (grind
+                                                                 :if-match
+                                                                 nil)
+                                                                (("2"
+                                                                  (inst
+                                                                   -8
+                                                                   "t1!2")
+                                                                  (("2"
+                                                                    (assert)
+                                                                    (("2"
+                                                                      (inst
+                                                                       2
+                                                                       "i!2")
+                                                                      (("2"
+                                                                        (inst
+                                                                         2
+                                                                         "t1!2")
+                                                                        nil)))))))))))))))))
+                                                       ("2"
+                                                        (delete
+                                                         -1
+                                                         -2
+                                                         -3
+                                                         -4
+                                                         2)
+                                                        (("2"
+                                                          (grind
+                                                           :if-match
+                                                           nil)
+                                                          (("2"
+                                                            (inst
+                                                             -7
+                                                             "t1!2")
+                                                            (("2"
+                                                              (assert)
+                                                              (("2"
+                                                                (inst
+                                                                 2
+                                                                 "i!2")
+                                                                (("2"
+                                                                  (inst
+                                                                   2
+                                                                   "t1!2")
+                                                                  nil))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+    nil)
+   proved
+   ((prod def-decl "bool" traces nil)
+    (i!1 skolem-const-decl "(difference(A!1, B!1))" restriction_rules4
+     nil)
+    (proj const-decl "[trace, set[T] -> trace]" traces nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (induction formula-decl nil fixed_points2 nil)
+    (ext const-decl "[dummy -> process[T]]" fixed_points2 nil)
+    (>> const-decl "process" processes nil)
+    (Choice const-decl "process[T]" parametric_choice nil)
+    (member const-decl "bool" sets nil)
+    (<= const-decl "bool" fixed_points nil)
+    (mu const-decl "[U -> process[T]]" fixed_points nil)
+    (glb const-decl "process[T]" fixed_points nil)
+    (Stop const-decl "process" processes nil)
+    (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (dummy nonempty-type-decl nil fixed_points2 nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (filter def-decl "list[T]" filters nil)
+    (restriction_choice3 formula-decl nil restriction_rules2 nil)
+    (A!1 skolem-const-decl "set[T]" restriction_rules4 nil)
+    (B!1 skolem-const-decl "set[T]" restriction_rules4 nil)
+    (Par const-decl "process" processes nil)
+    (restriction_pref formula-decl nil restriction_rules nil)
+    (fixed_point2 formula-decl nil fixed_points2 nil)
+    (prefix const-decl "bool" traces nil)
+    (i!1 skolem-const-decl "(A!1)" restriction_rules4 nil)
+    (RUN_TCC2 subtype-tcc nil csp_run nil)
+    (restriction_sat_equiv formula-decl nil restriction_rules nil)
+    (pred type-eq-decl nil defined_types nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (monotonic? const-decl "bool" fixed_points2 nil)
+    (mu const-decl "process[T]" fixed_points2 nil)
+    (FRUN const-decl "process[T]" csp_run nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (subset_antisymmetric formula-decl nil sets_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (T formal-type-decl nil restriction_rules4 nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil) (set type-eq-decl nil sets nil)
+    (subset? const-decl "bool" sets nil)
+    (setof type-eq-decl nil defined_types nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (|#| const-decl "process[T]" restriction_rules nil)
+    (RUN const-decl "process[T]" csp_run nil)
+    (difference const-decl "set" sets nil))
+   19065 3140 nil nil)))
+

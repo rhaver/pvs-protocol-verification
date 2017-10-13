@@ -1,0 +1,17 @@
+% partitions N into I-indexed, nonempty sets of type N
+
+partition[I : NONEMPTY_TYPE, N : NONEMPTY_TYPE] : THEORY
+BEGIN
+ ASSUMING
+  i, j : VAR I
+  n : VAR N
+  p : VAR [I -> setof[N]]
+
+  pax : ASSUMPTION EXISTS (x: {p |
+                     (FORALL i, j, n: i /= j AND p(i)(n) => NOT p(j)(n)) AND
+                      (FORALL i: EXISTS n: p(i)(n))}): TRUE;
+ ENDASSUMING
+
+ pt : { p | (FORALL i, j, n : i /= j AND p(i)(n) => NOT p(j)(n)) AND
+	    (FORALL i : EXISTS n : p(i)(n)) }
+END partition

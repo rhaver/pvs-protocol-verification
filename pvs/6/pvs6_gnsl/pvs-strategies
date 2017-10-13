@@ -1,0 +1,241 @@
+;;
+;; Proof rules for CSP 
+;;
+;; Each rule corresponds to a step in a proof of A # R |> E
+;;
+
+;; stop
+
+(defstep stop ()
+  (then (rewrite "restriction_stop")
+        (try (rewrite "uniform_stop")
+	     (skip)
+	     (try (rewrite "uniform_stop2")
+		  (skip)
+		  (skip))))
+
+  "CSP rule for Stop # R |> E AND Stop |> E."
+  "Applying stop rule")
+
+;; choice: applies the simple choice rule
+
+(defstep choice ()
+  (then (rewrite "restriction_choice")
+        (try (rewrite "uniform_choice")
+	     (ground)
+	     (try (rewrite "uniform_choice2")
+		  (ground)
+		  (skip))))
+
+  "CSP rule for (P1 \/ P2) # R |> E AND (P1 \/ P2) |> E."
+  "Applying choice rule")
+
+;; choice2: same thing for unbounded choice
+
+(defstep choice2 ()
+  (then (rewrite "restriction_choice2")
+        (try (rewrite "uniform2_choice")
+	     (skolem!)
+	     (try (rewrite "uniform2_choice2")
+		  (skolem!)
+		  (skip))))
+
+  "CSP rule for Choice(SP) # R |> E AND Choice(SP) |> E."
+  "Applying choice rule")
+
+;; choice3: parametric choice
+
+(defstep choice3 ()
+  (then (rewrite "restriction_choice3")
+        (try (rewrite "uniform3_choice")
+	     (skolem!)
+	     (try (rewrite "uniform3_choice2")
+		  (skolem!)
+		  (skip))))
+
+  "CSP rule for Choice! i : P(i) # R |> E AND Choice! i : P(i) |> E."
+  "Applying choice rule")
+
+
+;; prefix
+
+(defstep prefix ()
+  (then (try (rewrite "restriction_pref")
+             (let ((x (car *new-fmla-nums*)))
+		 (then (lift-if)
+                       (split x)
+		       (try (rewrite "uniform_stop")
+	     		    (skip)
+	     		    (try (rewrite "uniform_stop2")
+		  		 (skip)
+		  		 (skip)))))
+	     (skip))
+	(try (rewrite "uniform_prefix")
+	     (let ((x (car *new-fmla-nums*))) (split x))
+	     (try (rewrite "uniform_prefix2")
+		  (let ((x (car *new-fmla-nums*))) (then (flatten) (split x)))
+		  (skip))))
+
+  "CSP rule for (a >> P) # R |> E AND (a >> P) |> E."
+  "Applying prefix rule")
+
+;; prefix2
+
+(defstep prefix2 ()
+  (then (try (rewrite "restriction_pref")
+             (let ((x (car *new-fmla-nums*)))
+		 (then (else (lift-if) (try (then (rewrite "sat_iflift") (rewrite "sat_if_lift_implies")) (split +) (skip)))
+                       (split x)
+		       (try (rewrite "uniform_stop")
+	     		    (skip)
+	     		    (try (rewrite "uniform_stop2")
+		  		 (skip)
+		  		 (skip)))))
+	     (skip))
+	(try (rewrite "uniform_prefix")
+	     (let ((x (car *new-fmla-nums*))) (split x))
+	     (try (rewrite "uniform_prefix2")
+		  (let ((x (car *new-fmla-nums*))) (then (flatten) (split x)))
+		  (skip))))
+
+  "CSP rule for (a >> P) # R |> E AND (a >> P) |> E and work-around for if-lifting."
+  "Applying prefix rule with adjusted if-lifting")
+
+;; free parallel composition
+
+(defstep interleaving ()
+  (then (rewrite "restriction_free_par")
+	(try (rewrite "uniform_interleave")
+	     (ground)
+	     (try (rewrite "uniform_interleave2")
+		  (ground)
+		  (skip))))
+
+  "CSP rule for (P1 // P2) # R |> E AND (P1 // P2) |> E."
+  "Applying interleaving rule")
+
+;; multiple interleaving
+
+(defstep interleaving2 ()
+  (then (rewrite "restriction_free_par2")
+        (try (rewrite "uniform2_interleave")
+	     (skolem!)
+	     (try (rewrite "uniform2_interleave2")
+		  (skolem!)
+		  (skip))))
+
+  "CSP rule for Interleave(P) # R |> E AND Interleave(P) |> E."
+  "Applying interleaving rule")
+
+;; parallel composition with synchro
+
+(defstep parallel ()
+  (then (rewrite "restriction_par")
+        (try (rewrite "uniform_par23")
+	     (skip)
+	     (try (rewrite "uniform_par56")
+		  (skip)
+		  (skip))))
+
+  "CSP rule for Par(A)(P1, P2) # R |> E AND Par(A)(P1, P2) |> E."
+  "Applying parallel rule")
+  
+
+;; multiple parallel composition
+
+(defstep parallel2 ()
+  (then (rewrite "restriction_par2")
+       	(try (rewrite "uniform2_par23")
+	     (skip)
+	     (try (rewrite "uniform2_par56")
+		  (skip)
+		  (skip))))
+
+  "CSP rule for Par(A)(P(i)) # R |> E AND Par(A)(P(i)) |> E."
+  "Applying parallel rule")
+
+;; parameterless fixed points
+
+(defstep fix1 ()
+  (then (rewrite "restriction_fix1")
+        (try (rewrite "uniform_fix1")
+	     (skip)
+	     (try (rewrite "uniform_fix2")
+		  (skip)
+		  (skip))))
+
+  "CSP rule for mu(F) # R |> E AND mu(F) |> E."
+  "Applying fixed point rule")
+
+;; parameterised fixed points
+
+(defstep fix2 ()
+  (then (rewrite "restriction_fix2")
+        (try (rewrite "uniform2_fix")
+	     (skip)
+	     (try (rewrite "uniform2_fix2")
+		  (skip)
+		  (skip))))
+
+  "CSP rule for mu(F)(i) # R |> E AND mu(F)(i) |> E."
+  "Applying fixed point rule")
+
+(defstep run ()
+  (then (try (rewrite "restriction_run")
+             (let ((x (car *new-fmla-nums*)))
+		 (then (lift-if)
+		       (split x)
+		       (try (rewrite "uniform_stop")
+	     		    (skip)
+	     		    (try (rewrite "uniform_stop2")
+		  		 (skip)
+		  		 (skip)))))
+	     (try (rewrite "restriction_run3")
+                  (then (assert)
+		        (rewrite "run_empty")
+		        (try (rewrite "uniform_stop")
+	     		     (skip)
+	     		     (try (rewrite "uniform_stop2")
+		  		  (skip)
+		  		  (skip))))
+	          (skip)))
+	(try (rewrite "uniform_run")
+	     (assert)
+	     (try (rewrite "uniform_run2")
+		  (assert)
+		  (try (rewrite "uniform_run3")
+		       (skip)
+		       (try (rewrite "uniform_run4")
+			    (skip)
+			    (skip))))))
+
+  "CSP rule for RUN(A) # R |> E AND RUN(A) |> E."
+  "Applying run rule")
+
+;; repeated decomposition of equalities
+
+(defstep mdecompose-equality (&optional n)
+  (then (decompose-equality n)(repeat* (decompose-equality)))
+
+  "Repeated decomposition of equalities"
+  "Decomposing equalities")
+
+(defstep mdec-eq-last ()
+  (then (let ((x (car (reverse (gather-fnums (s-forms (current-goal *ps*)) '- nil #'(lambda (sf) (negation? (formula sf)))))) )) (then (mdecompose-equality x))) )
+
+  "Repeated decomposition of the last antecedent"
+  "Decomposing equalities")
+
+(defstep grind-dec-eq ()
+  (then (branch (grind) ((mdec-eq-last))))
+
+  "Grinding followed by mdec-eq-last on each subtree"
+  "Grinding and decomposing-equalities")
+
+;; list has tail iff length is non-zero
+
+(defstep nonemptylist (lst)
+  (try (then (typepred lst) (lemma "length_non_zero" ("l" lst))) (ground) (skip))
+  "A list has a tail iff its length is greater than zero"
+  "Relating existence of a tail to a list's length"
+)

@@ -1,0 +1,21 @@
+%
+% IF-LIFTING ON SATISFACTION
+%
+
+satisfaction4 [T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING satisfaction
+
+  b1, b2 : VAR bool
+
+  P, Q : VAR process[T]
+
+  E : VAR set[trace[T]]
+
+  sat_if_lift : LEMMA (IF b1 THEN P ELSE Q ENDIF |> E) IFF (IF b1 THEN P |> E ELSE Q |> E ENDIF)  
+
+  sat_if_lift_implies : LEMMA (b1 IMPLIES (IF b2 THEN P ELSE Q ENDIF |> E)) IFF IF b2 THEN (b1 IMPLIES P |> E) ELSE (b1 IMPLIES Q |> E) ENDIF
+
+  END satisfaction4

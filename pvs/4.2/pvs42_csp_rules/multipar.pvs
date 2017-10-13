@@ -1,0 +1,80 @@
+%
+%  Parallel composition of a non-empty family of processes
+%
+%   T : event type
+%   U : parameter type
+%
+
+multipar [ U : NONEMPTY_TYPE, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING multiprod, process_rules
+
+  P : VAR [U -> process[T]]
+
+  A : VAR set[T]
+
+  S : VAR [U -> set[T]]
+
+  u : VAR trace[T]
+
+  i, j : VAR U  
+
+
+  %--------------------------------------------------
+  %  Parallel composition with synchronisation on A
+  %--------------------------------------------------
+
+  Par(A)(P) : process[T] =
+      { u | EXISTS (t : [i:U -> (P(i))]) : prod(A)(t, u) }
+
+
+  %----------------
+  %  Interleaving
+  %----------------
+
+  Interleave(P) : process[T] = Par(emptyset)(P)    
+
+
+
+  %--------------
+  %  Properties
+  %--------------
+
+  sigma_par2 : LEMMA subset?(sigma(Par(A)(P)), union! i : sigma(P(i)))
+
+  sigma_free_par2 : LEMMA sigma(Interleave(P)) = union! i : sigma(P(i))
+
+  par_full2 : LEMMA Par(fullset)(P) = intersection! i : P(i)
+
+  interleave_subset3 : LEMMA  subset?(P(i), Interleave(P))
+
+
+  %--------------------------------------------------------
+  %  Interleaving when processes have disjoint interfaces
+  %--------------------------------------------------------
+
+  interleave_disjoint : LEMMA
+	(FORALL i : subset?(sigma(P(i)), S(i)))
+    AND (FORALL i, j : i /= j IMPLIES disjoint?(S(i), S(j)))
+   IMPLIES 
+       subset?(Interleave(P), { u | FORALL i : P(i)(proj(u, S(i))) }) 
+
+  par_disjoint : LEMMA
+	(FORALL i : subset?(sigma(P(i)), S(i))) AND
+	(FORALL i, j : i /= j IMPLIES
+		disjoint?(difference(S(i), A), difference(S(j), A)))
+    IMPLIES
+	subset?(Par(A)(P), { u | FORALL i : P(i)(proj(u, S(i))) })
+
+ END multipar
+
+
+
+
+
+
+
+
+

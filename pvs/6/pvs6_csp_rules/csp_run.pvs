@@ -1,0 +1,38 @@
+csp_run [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING parametric_choice, fixed_points2
+
+  a : VAR T
+
+  l : VAR trace[T]
+
+  A : VAR setof[T]
+
+  P, R : VAR process[T] 
+
+  FRUN(a)(R) : process[T] = (a >> R)
+
+  RUN(a) : process[T] = mu(FRUN(a))
+
+  FRUN(A)(R) : process[T] = (Choice! (x : (A)) : x >> R)
+
+  RUN(A) : process[T] = mu(FRUN(A))
+
+  run_def : THEOREM RUN(a) = a >> RUN(a)
+
+  run_def2 : THEOREM RUN(A) = (Choice! (x : (A)) : x >> RUN(A))
+
+  run_equality : LEMMA RUN(a) = RUN(singleton(a))
+
+  run_empty : LEMMA RUN(emptyset) = Stop
+
+  run_hide : LEMMA RUN(A) / A = Stop
+
+  run_run : LEMMA RUN(A) // RUN(A) = RUN(A)
+
+%% incomplete proof
+%  run_inter : LEMMA P // RUN(A) = (P / A) // RUN(A)
+
+  END csp_run

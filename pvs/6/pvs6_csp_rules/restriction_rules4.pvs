@@ -1,0 +1,25 @@
+restriction_rules4 [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING restriction_rules, restriction_rules2
+
+  a : VAR T
+
+  A, B : VAR set[T]
+
+  P : VAR process[T]
+
+  restriction_run1 : LEMMA B(a) IMPLIES RUN(a) # B = Stop
+
+  eq_lemma : LEMMA NOT B(a) IMPLIES FRUN(a)(RUN(a) # B) = RUN(a) # B
+
+  res_lemma : LEMMA subset?(P # B, P)
+
+  restriction_run2 : LEMMA NOT B(a) IMPLIES RUN(a) # B = RUN(a)
+
+  restriction_run  : LEMMA RUN(a) # B = IF B(a) THEN Stop ELSE RUN(a) ENDIF
+
+  restriction_run3 : LEMMA RUN(A) # B = RUN(difference(A, B))
+
+  END restriction_rules4

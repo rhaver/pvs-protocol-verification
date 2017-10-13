@@ -1,0 +1,23 @@
+%
+%  Restriction rules for multiple parallel composition
+%
+
+restriction_rules3 [ U : NONEMPTY_TYPE, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING restriction_rules
+
+  
+  P : VAR [U -> process[T]]
+
+  A, B : VAR set[T]
+
+  i : VAR U
+  
+
+  restriction_par2 : LEMMA  Par(A)(P) # B = Par(A)(lambda i : P(i) # B)
+
+  restriction_free_par2 : LEMMA  Interleave(P) # B = Interleave ! i : P(i) # B
+
+  END restriction_rules3

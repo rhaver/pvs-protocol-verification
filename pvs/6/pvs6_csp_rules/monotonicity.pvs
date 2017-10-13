@@ -1,0 +1,47 @@
+%
+%  Monotonicity of process operators
+%  
+
+monotonicity [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING csp_traces
+
+  P, P1, P2, Q, Q1, Q2 : VAR process[T]
+
+  SP, SQ : VAR set[process[T]]
+
+  a : Var T
+
+  A : VAR set[T]
+
+  R : VAR set[[T, T]]
+
+  monotonic_stop : LEMMA subset?(Stop[T], P)
+
+  monotonic_pref : LEMMA
+	subset?(a >> P, a >> Q) IFF subset?(P, Q)
+
+  monotonic_choice : LEMMA
+	subset?(P1, Q1) AND subset?(P2, Q2) IMPLIES subset?(P1 \/ P2, Q1 \/ Q2)
+
+  monotonic_choice2 : LEMMA
+	(FORALL (P : (SP)) : EXISTS (Q : (SQ)) : subset?(P, Q))	
+	    IMPLIES  subset?(Choice(SP), Choice(SQ))
+
+  monotonic_par : LEMMA
+	subset?(P1, Q1) AND subset?(P2, Q2) 
+	    IMPLIES subset?(Par(A)(P1, P2), Par(A)(Q1, Q2))
+
+  monotonic_free_par : LEMMA
+	subset?(P1, Q1) AND subset?(P2, Q2) 
+	    IMPLIES subset?(P1 // P2, Q1 // Q2)
+	
+  monotonic_hide : LEMMA subset?(P1, Q1) IMPLIES subset?(P1 / A, Q1 / A)
+
+  monotonic_rename : LEMMA (subset?(sigma(P1), dom(R)) AND
+			    subset?(sigma(Q1), dom(R)) AND subset?(P1, Q1))
+			IMPLIES subset?(rename(P1, R), rename(Q1, R))
+
+  END monotonicity

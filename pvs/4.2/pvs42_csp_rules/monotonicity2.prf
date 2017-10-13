@@ -1,0 +1,1 @@
+(|monotonicity2| (|monotonic_choice3| "" (GRIND :EXCLUDE ("prefix_closed")) NIL))

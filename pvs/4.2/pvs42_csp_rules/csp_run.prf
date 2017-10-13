@@ -1,0 +1,1475 @@
+(csp_run
+ (RUN_TCC1 0
+  (RUN_TCC1-1 nil 3286261312 nil
+   ("" (expand "monotonic?")
+    (("" (skosimp*)
+      (("" (expand "FRUN")
+        (("" (grind 1 :if-match nil)
+          (("" (inst?) (("" (inst?) (("" (assert) nil nil)) nil)) nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil))
+ (RUN_TCC2 0
+  (RUN_TCC2-1 nil 3286261312 nil
+   ("" (expand "monotonic?")
+    (("" (skosimp*)
+      (("" (expand "FRUN")
+        (("" (grind 1 :if-match nil)
+          (("" (inst?) (("" (inst?) (("" (assert) nil nil)) nil)) nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil))
+ (run_def 0
+  (run_def-1 nil 3286261312 nil
+   ("" (skolem!)
+    (("" (expand "RUN")
+      (("" (use "fixed_point2[T]")
+        (("1" (replace -1 1 rl)
+          (("1" (expand "FRUN" 1 1)
+            (("1" (replace -1 1) (("1" (propax) nil nil)) nil)) nil))
+          nil)
+         ("2" (rewrite "RUN_TCC1") nil nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil))
+ (run_def2 0
+  (run_def2-1 nil 3286261312 nil
+   ("" (skolem!)
+    (("" (expand "RUN")
+      (("" (use "fixed_point2[T]")
+        (("1" (replace -1 1 rl)
+          (("1" (expand "FRUN" 1 1)
+            (("1" (replace -1 1) (("1" (propax) nil nil)) nil)) nil))
+          nil)
+         ("2" (rewrite "RUN_TCC2") nil nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil))
+ (run_equality 0
+  (run_equality-1 nil 3286261312 nil
+   ("" (skolem!)
+    (("" (apply-extensionality :hide? t)
+      (("" (iff)
+        (("" (split)
+          (("1" (generalize "x!1" "x")
+            (("1" (induct "x")
+              (("1" (flatten)
+                (("1" (typepred "RUN(singleton(a!1))")
+                  (("1" (propax) nil nil)) nil))
+                nil)
+               ("2" (skosimp*)
+                (("2" (rewrite "run_def" -2)
+                  (("2" (expand ">>" -2)
+                    (("2" (skolem-typepred)
+                      (("2"
+                        (case "cons1_var!1 = a!1 AND cons2_var!1 = t1!1")
+                        (("1" (flatten)
+                          (("1" (replace -1)
+                            (("1" (replace -2)
+                              (("1"
+                                (delete -1 -2 -5)
+                                (("1"
+                                  (rewrite "run_def2" 1)
+                                  (("1"
+                                    (expand "Choice" 1)
+                                    (("1"
+                                      (inst?)
+                                      (("1"
+                                        (expand ">>" 1)
+                                        (("1"
+                                          (inst?)
+                                          (("1"
+                                            (rewrite "run_def" :dir rl)
+                                            (("1"
+                                              (rewrite
+                                               "run_def2"
+                                               :dir
+                                               rl)
+                                              (("1" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (delete -)
+                                        (("2" (grind) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("2" (delete -1 -2 2)
+                          (("2" (split)
+                            (("1" (lemma "list_car_cons[T]")
+                              (("1"
+                                (inst -1 "a!1" "t1!1")
+                                (("1"
+                                  (replace -2 -1 rl)
+                                  (("1" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("2" (lemma "list_cdr_cons[T]")
+                              (("2"
+                                (inst -1 "a!1" "t1!1")
+                                (("2"
+                                  (replace -2 -1 rl)
+                                  (("2" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (generalize "x!1" "x")
+            (("2" (induct "x")
+              (("1" (flatten)
+                (("1" (typepred "RUN(a!1)") (("1" (propax) nil nil))
+                  nil))
+                nil)
+               ("2" (skosimp*)
+                (("2" (rewrite "run_def2" -2)
+                  (("2" (expand "Choice" -2)
+                    (("2" (rewrite "run_def2" -1 :dir rl)
+                      (("2" (skolem-typepred)
+                        (("2" (expand "singleton" -1)
+                          (("2" (replace -1)
+                            (("2" (delete -1)
+                              (("2"
+                                (expand ">>")
+                                (("2"
+                                  (skolem-typepred)
+                                  (("2"
+                                    (case
+                                     "cons1_var!1 = a!1 AND cons2_var!1 = t1!1")
+                                    (("1"
+                                      (flatten)
+                                      (("1"
+                                        (replace -1)
+                                        (("1"
+                                          (replace -2)
+                                          (("1"
+                                            (delete -1 -2 -5)
+                                            (("1"
+                                              (assert)
+                                              (("1"
+                                                (delete -1)
+                                                (("1"
+                                                  (rewrite "run_def" 1)
+                                                  (("1"
+                                                    (expand ">>" 1)
+                                                    (("1"
+                                                      (inst?)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (delete -1 -2 2)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (lemma "list_car_cons[T]")
+                                          (("1"
+                                            (inst -1 "a!1" "t1!1")
+                                            (("1"
+                                              (replace -2 -1 rl)
+                                              (("1" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (lemma "list_cdr_cons[T]")
+                                          (("2"
+                                            (inst -1 "a!1" "t1!1")
+                                            (("2"
+                                              (replace -2 -1 rl)
+                                              (("2" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil))
+ (run_empty 0
+  (run_empty-1 nil 3286261312 3286261375
+   ("" (rewrite "run_def2")
+    (("" (expand "Choice")
+      (("" (apply-extensionality :hide? t)
+        (("" (iff)
+          (("" (split)
+            (("1" (flatten)
+              (("1" (split)
+                (("1" (grind) nil nil)
+                 ("2" (skolem-typepred)
+                  (("2" (expand "emptyset") (("2" (propax) nil nil))
+                    nil))
+                  nil))
+                nil))
+              nil)
+             ("2" (flatten) (("2" (grind) nil nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((Choice const-decl "process[T]" parametric_choice nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (trace type-eq-decl nil traces nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (>> const-decl "process" processes nil)
+    (RUN const-decl "process[T]" csp_run nil)
+    (Stop const-decl "process" processes nil)
+    (list type-decl nil list_adt nil)
+    (emptyset const-decl "set" sets nil)
+    (set type-eq-decl nil sets nil)
+    (setof type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (T formal-type-decl nil csp_run nil)
+    (run_def2 formula-decl nil csp_run nil))
+   29631 2400 t nil))
+ (run_hide 0
+  (run_hide-1 nil 3286261312 3286261548
+   ("" (skolem!)
+    (("" (apply-extensionality :hide? t)
+      (("" (iff)
+        (("" (split)
+          (("1" (flatten)
+            (("1" (expand "/")
+              (("1" (skolem-typepred)
+                (("1" (replace -2 1)
+                  (("1"
+                    (case "FORALL (t : trace[T]) : RUN(A!1)(t) IMPLIES Stop(proj(t, complement(A!1)))")
+                    (("1" (inst?) (("1" (assert) nil nil)) nil)
+                     ("2" (delete -1 -2 2)
+                      (("2" (induct "t")
+                        (("1" (grind) nil nil)
+                         ("2" (skosimp)
+                          (("2" (rewrite "run_def2" -2)
+                            (("2" (expand "Choice" -2)
+                              (("2"
+                                (rewrite "run_def2" -1 :dir rl)
+                                (("2"
+                                  (skolem-typepred)
+                                  (("2"
+                                    (expand ">>")
+                                    (("2"
+                                      (skolem-typepred)
+                                      (("2"
+                                        (decompose-equality)
+                                        (("2"
+                                          (replace -1)
+                                          (("2"
+                                            (replace -2)
+                                            (("2"
+                                              (delete -1 -2 -6)
+                                              (("2"
+                                                (assert)
+                                                (("2" (grind) nil nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (flatten) (("2" (grind) nil nil)) nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((T formal-type-decl nil csp_run nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (Stop const-decl "process" processes nil)
+    (RUN const-decl "process[T]" csp_run nil)
+    (/ const-decl "process" processes nil)
+    (process type-eq-decl nil processes nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (run_def2 formula-decl nil csp_run nil)
+    (filter def-decl "list[T]" filters nil)
+    (glb const-decl "process[T]" fixed_points nil)
+    (mu const-decl "process[T]" fixed_points2 nil)
+    (mu const-decl "[U -> process[T]]" fixed_points nil)
+    (<= const-decl "bool" fixed_points nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (Choice const-decl "process[T]" parametric_choice nil)
+    (>> const-decl "process" processes nil)
+    (ext const-decl "[dummy -> process[T]]" fixed_points2 nil)
+    (FRUN const-decl "process[T]" csp_run nil)
+    (list_induction formula-decl nil list_adt nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (set type-eq-decl nil sets nil)
+    (proj const-decl "[trace, set[T] -> trace]" traces nil)
+    (complement const-decl "set" sets nil)
+    (NOT const-decl "[bool -> bool]" booleans nil))
+   168503 6340 t nil))
+ (run_run 0
+  (run_run-1 nil 3286261312 nil
+   ("" (skolem!)
+    (("" (apply-extensionality :hide? t)
+      (("" (generalize "x!1" "x")
+        (("" (induct "x")
+          (("1" (grind) nil nil)
+           ("2" (skosimp)
+            (("2" (iff 1)
+              (("2" (ground)
+                (("1" (expand "//" -1)
+                  (("1" (expand "Par")
+                    (("1" (skolem-typepred)
+                      (("1" (expand "prod" -3)
+                        (("1" (ground)
+                          (("1" (expand "emptyset")
+                            (("1" (propax) nil nil)) nil)
+                           ("2" (lemma "list_cons_eta[T]")
+                            (("2" (inst -1 "t1!1")
+                              (("2"
+                                (replace -1 -5 rl)
+                                (("2"
+                                  (replace -3)
+                                  (("2"
+                                    (rewrite "run_def2" -5)
+                                    (("2"
+                                      (expand "Choice" -5)
+                                      (("2"
+                                        (rewrite "run_def2" :dir rl)
+                                        (("2"
+                                          (skolem-typepred)
+                                          (("2"
+                                            (expand ">>")
+                                            (("2"
+                                              (skolem-typepred)
+                                              (("2"
+                                                (decompose-equality -7)
+                                                (("2"
+                                                  (replace -1)
+                                                  (("2"
+                                                    (rewrite
+                                                     "run_def2"
+                                                     2)
+                                                    (("2"
+                                                      (expand
+                                                       "Choice"
+                                                       2)
+                                                      (("2"
+                                                        (rewrite
+                                                         "run_def2"
+                                                         :dir
+                                                         rl)
+                                                        (("2"
+                                                          (inst?)
+                                                          (("1"
+                                                            (expand
+                                                             ">>")
+                                                            (("1"
+                                                              (inst
+                                                               2
+                                                               "cons2_var!1")
+                                                              (("1"
+                                                                (replace
+
+                                                                 -1)
+                                                                (("1"
+                                                                  (propax)
+                                                                  nil
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (replace
+
+                                                                 -10
+                                                                 1
+
+                                                                 rl)
+                                                                (("2"
+                                                                  (expand
+                                                                   "//"
+                                                                   1)
+                                                                  (("2"
+                                                                    (expand
+                                                                     "Par")
+                                                                    (("2"
+                                                                      (inst?)
+                                                                      (("2"
+                                                                        (replace
+
+                                                                         -2)
+                                                                        (("2"
+                                                                          (propax)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil)
+                                                           ("2"
+                                                            (replace
+
+                                                             -1)
+                                                            (("2"
+                                                              (propax)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("3" (lemma "list_cons_eta[T]")
+                            (("3" (inst -1 "t2!1")
+                              (("3"
+                                (replace -1 -6 rl)
+                                (("3"
+                                  (replace -3)
+                                  (("3"
+                                    (rewrite "run_def2" -6)
+                                    (("3"
+                                      (expand "Choice" -6)
+                                      (("3"
+                                        (rewrite "run_def2" :dir rl)
+                                        (("3"
+                                          (skolem-typepred)
+                                          (("3"
+                                            (expand ">>")
+                                            (("3"
+                                              (skolem-typepred)
+                                              (("3"
+                                                (decompose-equality -8)
+                                                (("3"
+                                                  (replace -1)
+                                                  (("3"
+                                                    (replace -2)
+                                                    (("3"
+                                                      (rewrite
+                                                       "run_def2"
+                                                       2)
+                                                      (("3"
+                                                        (expand
+                                                         "Choice"
+                                                         2)
+                                                        (("3"
+                                                          (rewrite
+                                                           "run_def2"
+                                                           :dir
+                                                           rl)
+                                                          (("3"
+                                                            (inst?)
+                                                            (("1"
+                                                              (expand
+                                                               ">>")
+                                                              (("1"
+                                                                (inst
+                                                                 2
+                                                                 "cons2_var!1")
+                                                                (("1"
+                                                                  (replace
+
+                                                                   -1)
+                                                                  (("1"
+                                                                    (propax)
+                                                                    nil
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (replace
+
+                                                                   -10
+                                                                   1
+
+                                                                   rl)
+                                                                  (("2"
+                                                                    (expand
+                                                                     "//"
+                                                                     1)
+                                                                    (("2"
+                                                                      (expand
+                                                                       "Par"
+                                                                       1)
+                                                                      (("2"
+                                                                        (inst?)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (replace
+
+                                                               -1)
+                                                              (("2"
+                                                                (propax)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (use "interleaves_subset1[T]")
+                  (("2" (expand "subset?")
+                    (("2" (expand "member")
+                      (("2" (inst?) (("2" (assert) nil nil)) nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil))
+ (run_inter 0
+  (run_inter-1 nil 3286261312 nil
+   ("" (auto-rewrite-theory "sets")
+    (("" (skolem!)
+      (("" (apply-extensionality :hide? t)
+        (("" (iff)
+          (("" (split)
+            (("1" (flatten)
+              (("1" (generalize "P!1" "P")
+                (("1" (generalize "x!1" "x")
+                  (("1" (induct "x")
+                    (("1" (grind) nil nil)
+                     ("2" (skosimp*)
+                      (("2" (expand "//" -2)
+                        (("2" (expand "Par")
+                          (("2" (skolem-typepred)
+                            (("2" (expand "prod" -4)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (split)
+                                  (("1"
+                                    (flatten)
+                                    (("1"
+                                      (inst
+                                       -6
+                                       "{ t : trace[T] | prefix(t, cdr(t1!1)) }")
+                                      (("1"
+                                        (split)
+                                        (("1"
+                                          (expand "//" -1)
+                                          (("1"
+                                            (expand "Par")
+                                            (("1"
+                                              (skolem-typepred)
+                                              (("1"
+                                                (expand "/" -1)
+                                                (("1"
+                                                  (skolem-typepred)
+                                                  (("1"
+                                                    (expand "/")
+                                                    (("1"
+                                                      (expand "//")
+                                                      (("1"
+                                                        (expand "Par")
+                                                        (("1"
+                                                          (case
+                                                           "A!1(cons1_var!1)")
+                                                          (("1"
+                                                            (inst
+                                                             1
+                                                             "t1!2"
+                                                             "cons(cons1_var!1, t2!2)")
+                                                            (("1"
+                                                              (expand
+                                                               "prod"
+                                                               1)
+                                                              (("1"
+                                                                (assert)
+                                                                nil
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (rewrite
+                                                               "run_def2")
+                                                              (("2"
+                                                                (expand
+                                                                 "Choice"
+                                                                 1)
+                                                                (("2"
+                                                                  (rewrite
+                                                                   "run_def2"
+                                                                   :dir
+                                                                   rl)
+                                                                  (("2"
+                                                                    (inst?)
+                                                                    (("2"
+                                                                      (expand
+                                                                       ">>")
+                                                                      (("2"
+                                                                        (inst?)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("3"
+                                                              (inst
+                                                               1
+                                                               "cons(cons1_var!1, t1!3)")
+                                                              (("1"
+                                                                (rewrite
+                                                                 "proj_cons")
+                                                                (("1"
+                                                                  (assert)
+                                                                  nil
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (case
+                                                                 "prefix(cons[T](cons1_var!1, t1!3), t1!1)")
+                                                                (("1"
+                                                                  (typepred
+                                                                   "P!2")
+                                                                  (("1"
+                                                                    (delete
+
+                                                                     -1)
+                                                                    (("1"
+                                                                      (expand
+                                                                       "prefix_closed")
+                                                                      (("1"
+                                                                        (inst?)
+                                                                        (("1"
+                                                                          (assert)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (lemma
+                                                                   "list_cons_eta[T]")
+                                                                  (("2"
+                                                                    (inst
+                                                                     -1
+                                                                     "t1!1")
+                                                                    (("2"
+                                                                      (replace
+
+                                                                       -1
+                                                                       1
+
+                                                                       rl)
+                                                                      (("2"
+                                                                        (replace
+
+                                                                         -8)
+                                                                        (("2"
+                                                                          (rewrite
+                                                                           "prefix_equiv")
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil)
+                                                           ("2"
+                                                            (inst
+                                                             2
+                                                             "cons(cons1_var!1, t1!2)"
+                                                             "t2!2")
+                                                            (("1"
+                                                              (expand
+                                                               "prod"
+                                                               2)
+                                                              (("1"
+                                                                (assert)
+                                                                nil
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (inst
+                                                               1
+                                                               "cons(cons1_var!1, t1!3)")
+                                                              (("1"
+                                                                (rewrite
+                                                                 "proj_cons")
+                                                                (("1"
+                                                                  (assert)
+                                                                  nil
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (typepred
+                                                                 "P!2")
+                                                                (("2"
+                                                                  (delete
+
+                                                                   -1)
+                                                                  (("2"
+                                                                    (expand
+                                                                     "prefix_closed")
+                                                                    (("2"
+                                                                      (inst
+                                                                       -1
+                                                                       "cons(cons1_var!1, t1!3)"
+                                                                       "cons(cons1_var!1, cdr(t1!1))")
+                                                                      (("2"
+                                                                        (assert)
+                                                                        (("2"
+                                                                          (split)
+                                                                          (("1"
+                                                                            (rewrite
+                                                                             "prefix_equiv")
+                                                                            nil
+                                                                            nil)
+                                                                           ("2"
+                                                                            (lemma
+                                                                             "list_cons_eta[T]")
+                                                                            (("2"
+                                                                              (inst
+                                                                               -1
+                                                                               "t1!1")
+                                                                              (("2"
+                                                                                (replace
+
+                                                                                 -1
+                                                                                 -9
+
+                                                                                 rl)
+                                                                                (("2"
+                                                                                  (replace
+
+                                                                                   -7)
+                                                                                  (("2"
+                                                                                    (propax)
+                                                                                    nil
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (delete 2)
+                                          (("2"
+                                            (expand "//")
+                                            (("2"
+                                              (expand "Par")
+                                              (("2"
+                                                (inst?)
+                                                (("2"
+                                                  (lemma
+                                                   "prefix_reflexive[T]")
+                                                  (("2"
+                                                    (inst?)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (split)
+                                        (("1"
+                                          (expand "prefix")
+                                          (("1"
+                                            (inst 1 "cdr(t1!1)")
+                                            (("1"
+                                              (expand "append")
+                                              (("1" (propax) nil nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (expand "prefix_closed")
+                                          (("2"
+                                            (skosimp)
+                                            (("2"
+                                              (lemma
+                                               "prefix_transitive[T]")
+                                              (("2"
+                                                (inst
+                                                 -1
+                                                 "t1!2"
+                                                 "t2!2"
+                                                 "cdr(t1!1)")
+                                                (("2"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (flatten)
+                                    (("2"
+                                      (inst?)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (expand "//")
+                                          (("1"
+                                            (expand "Par")
+                                            (("1"
+                                              (skolem-typepred)
+                                              (("1"
+                                                (inst
+                                                 1
+                                                 "t1!2"
+                                                 "cons(cons1_var!1, t2!2)")
+                                                (("1"
+                                                  (expand "prod" 1)
+                                                  (("1"
+                                                    (assert)
+                                                    nil
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (rewrite "run_def2")
+                                                  (("2"
+                                                    (expand "Choice" 1)
+                                                    (("2"
+                                                      (rewrite
+                                                       "run_def2"
+                                                       :dir
+                                                       rl)
+                                                      (("2"
+                                                        (inst
+                                                         1
+                                                         "cons1_var!1")
+                                                        (("1"
+                                                          (expand ">>")
+                                                          (("1"
+                                                            (inst?)
+                                                            nil
+                                                            nil))
+                                                          nil)
+                                                         ("2"
+                                                          (lemma
+                                                           "list_cons_eta[T]")
+                                                          (("2"
+                                                            (inst
+                                                             -1
+                                                             "t2!1")
+                                                            (("2"
+                                                              (replace
+
+                                                               -1
+                                                               -9
+
+                                                               rl)
+                                                              (("2"
+                                                                (replace
+
+                                                                 -6)
+                                                                (("2"
+                                                                  (rewrite
+                                                                   "run_def2")
+                                                                  (("2"
+                                                                    (expand
+                                                                     "Choice"
+                                                                     -9)
+                                                                    (("2"
+                                                                      (skolem-typepred)
+                                                                      (("2"
+                                                                        (expand
+                                                                         ">>")
+                                                                        (("2"
+                                                                          (skolem!)
+                                                                          (("2"
+                                                                            (decompose-equality
+                                                                             -10)
+                                                                            (("2"
+                                                                              (replace
+
+                                                                               -1)
+                                                                              (("2"
+                                                                                (propax)
+                                                                                nil
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (expand "//" 1)
+                                          (("2"
+                                            (expand "Par")
+                                            (("2"
+                                              (inst
+                                               1
+                                               "t1!1"
+                                               "cdr(t2!1)")
+                                              (("2"
+                                                (lemma
+                                                 "list_cons_eta[T]")
+                                                (("2"
+                                                  (inst -1 "t2!1")
+                                                  (("2"
+                                                    (replace -1 -6 rl)
+                                                    (("2"
+                                                      (rewrite
+                                                       "run_def2")
+                                                      (("2"
+                                                        (expand
+                                                         "Choice"
+                                                         -6)
+                                                        (("2"
+                                                          (rewrite
+                                                           "run_def2"
+                                                           :dir
+                                                           rl)
+                                                          (("2"
+                                                            (skolem!)
+                                                            (("2"
+                                                              (expand
+                                                               ">>")
+                                                              (("2"
+                                                                (skolem-typepred)
+                                                                (("2"
+                                                                  (decompose-equality
+                                                                   -7)
+                                                                  (("2"
+                                                                    (replace
+
+                                                                     -2)
+                                                                    (("2"
+                                                                      (propax)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil)
+             ("2" (flatten)
+              (("2" (generalize "P!1" "P")
+                (("2" (generalize "x!1" "x")
+                  (("2" (induct "x")
+                    (("1" (grind) nil nil)
+                     ("2" (skosimp*)
+                      (("2" (expand "//" -2)
+                        (("2" (expand "Par")
+                          (("2" (skolem-typepred)
+                            (("2" (expand "prod" -4)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (split)
+                                  (("1"
+                                    (flatten)
+                                    (("1"
+                                      (inst
+                                       -6
+                                       "{ t : trace[T] | prefix(t, cdr(t1!1)) }")
+                                      (("1"
+                                        (split)
+                                        (("1"
+                                          (expand "//" -1)
+                                          (("1"
+                                            (expand "Par")
+                                            (("1"
+                                              (skolem-typepred)
+                                              (("1"
+                                                (expand "//")
+                                                (("1"
+                                                  (expand "Par")
+                                                  (("1"
+                                                    (expand "/")
+                                                    (("1"
+                                                      (skolem-typepred)
+                                                      (("1"
+                                                        (postpone)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (expand "/")
+                                          (("2"
+                                            (skolem-typepred)
+                                            (("2"
+                                              (expand "//")
+                                              (("2"
+                                                (expand "Par" 1)
+                                                (("2"
+                                                  (inst
+                                                   1
+                                                   "cdr(t1!1)"
+                                                   "t2!1")
+                                                  (("2"
+                                                    (inst
+                                                     1
+                                                     "cdr(t1!1)")
+                                                    (("1"
+                                                      (postpone)
+                                                      nil
+                                                      nil)
+                                                     ("2"
+                                                      (lemma
+                                                       "prefix_reflexive[T]")
+                                                      (("2"
+                                                        (inst
+                                                         -1
+                                                         "cdr(t1!1)")
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (split)
+                                        (("1"
+                                          (lemma "null_prefix[T]")
+                                          (("1" (inst?) nil nil))
+                                          nil)
+                                         ("2"
+                                          (expand "prefix_closed")
+                                          (("2"
+                                            (skosimp)
+                                            (("2"
+                                              (lemma
+                                               "prefix_transitive[T]")
+                                              (("2"
+                                                (inst
+                                                 -1
+                                                 "t1!2"
+                                                 "t2!2"
+                                                 "cdr(t1!1)")
+                                                (("2"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (flatten)
+                                    (("2"
+                                      (inst?)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (expand "//")
+                                          (("1"
+                                            (expand "Par")
+                                            (("1"
+                                              (skolem-typepred)
+                                              (("1"
+                                                (inst
+                                                 1
+                                                 "t1!2"
+                                                 "cons(cons1_var!1, t2!2)")
+                                                (("1"
+                                                  (expand "prod" 1)
+                                                  (("1"
+                                                    (assert)
+                                                    nil
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (rewrite "run_def2")
+                                                  (("2"
+                                                    (expand "Choice" 1)
+                                                    (("2"
+                                                      (rewrite
+                                                       "run_def2"
+                                                       :dir
+                                                       rl)
+                                                      (("2"
+                                                        (inst
+                                                         1
+                                                         "cons1_var!1")
+                                                        (("1"
+                                                          (expand ">>")
+                                                          (("1"
+                                                            (inst?)
+                                                            nil
+                                                            nil))
+                                                          nil)
+                                                         ("2"
+                                                          (lemma
+                                                           "list_cons_eta[T]")
+                                                          (("2"
+                                                            (inst
+                                                             -1
+                                                             "t2!1")
+                                                            (("2"
+                                                              (replace
+
+                                                               -1
+                                                               -9
+
+                                                               rl)
+                                                              (("2"
+                                                                (replace
+
+                                                                 -6)
+                                                                (("2"
+                                                                  (rewrite
+                                                                   "run_def2")
+                                                                  (("2"
+                                                                    (expand
+                                                                     "Choice"
+                                                                     -9)
+                                                                    (("2"
+                                                                      (skolem-typepred)
+                                                                      (("2"
+                                                                        (expand
+                                                                         ">>")
+                                                                        (("2"
+                                                                          (skolem!)
+                                                                          (("2"
+                                                                            (case
+                                                                             "cons1_var!1 = i!1")
+                                                                            (("1"
+                                                                              (replace
+
+                                                                               -1)
+                                                                              (("1"
+                                                                                (propax)
+                                                                                nil
+                                                                                nil))
+                                                                              nil)
+                                                                             ("2"
+                                                                              (lemma
+                                                                               "list_car_cons[T]")
+                                                                              (("2"
+                                                                                (inst
+                                                                                 -1
+                                                                                 "i!1"
+                                                                                 "t1!3")
+                                                                                (("2"
+                                                                                  (replace
+
+                                                                                   -11
+                                                                                   -1
+
+                                                                                   rl)
+                                                                                  (("2"
+                                                                                    (assert)
+                                                                                    nil
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (expand "//" 1)
+                                          (("2"
+                                            (expand "/")
+                                            (("2"
+                                              (skolem-typepred)
+                                              (("2"
+                                                (expand "Par")
+                                                (("2"
+                                                  (inst
+                                                   1
+                                                   "t1!1"
+                                                   "cdr(t2!1)")
+                                                  (("1"
+                                                    (lemma
+                                                     "list_cons_eta[T]")
+                                                    (("1"
+                                                      (inst -1 "t2!1")
+                                                      (("1"
+                                                        (replace
+
+                                                         -1
+                                                         -7
+
+                                                         rl)
+                                                        (("1"
+                                                          (rewrite
+                                                           "run_def2")
+                                                          (("1"
+                                                            (expand
+                                                             "Choice"
+                                                             -7)
+                                                            (("1"
+                                                              (rewrite
+                                                               "run_def2"
+                                                               :dir
+                                                               rl)
+                                                              (("1"
+                                                                (skolem!)
+                                                                (("1"
+                                                                  (expand
+                                                                   ">>")
+                                                                  (("1"
+                                                                    (skolem-typepred)
+                                                                    (("1"
+                                                                      (case
+                                                                       "cdr(t2!1) = t1!3")
+                                                                      (("1"
+                                                                        (replace
+
+                                                                         -1)
+                                                                        (("1"
+                                                                          (propax)
+                                                                          nil
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (lemma
+                                                                         "list_cdr_cons[T]")
+                                                                        (("2"
+                                                                          (inst
+                                                                           -1
+                                                                           "i!1"
+                                                                           "t1!3")
+                                                                          (("2"
+                                                                            (replace
+
+                                                                             -9
+                                                                             -1
+
+                                                                             rl)
+                                                                            (("2"
+                                                                              (assert)
+                                                                              nil
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil)
+                                                                       ("3"
+                                                                        (propax)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (inst?)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished nil nil nil nil nil)))
+

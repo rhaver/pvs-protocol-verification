@@ -1,0 +1,121 @@
+fixed_points [ U, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING satisfaction
+
+  x, x1, x2 : VAR U  
+
+  X, Y, Z : VAR [U -> process[T]];
+
+  t : VAR trace[T]
+
+  Q : VAR process[T]
+
+  A : VAR set[T]
+
+ 
+  %=================================================
+  %  Fixed points of a monotonic function F
+  %   F : [[U -> process[T]] -> [U -> process[T]]]
+  %=================================================
+
+  %--------------------------------------
+  %  Order between parametric processes
+  %--------------------------------------
+
+
+  <=(X, Y) : bool = FORALL x : subset?(X(x), Y(x))
+
+  reflexive : LEMMA  X <= X
+
+  antisymmetric : LEMMA X <= Y AND Y <= X IMPLIES X = Y
+
+  transitive : LEMMA  X <= Y AND Y <= Z IMPLIES X <= Z
+
+
+  %------------------------
+  %  greater lower bounds
+  %------------------------  
+
+  SX : VAR set[[U -> process[T]]]
+
+  glb(SX)(x) : process[T] = { t | FORALL (X : (SX)) : X(x)(t) }
+
+
+  glb_is_bound : LEMMA   FORALL (X : (SX)) : glb(SX) <= X
+
+  glb_is_inf : LEMMA
+     (FORALL (X : (SX)) : Y <= X) IMPLIES Y <= glb(SX)
+
+
+
+  %---------------
+  %  Fixed point
+  %---------------
+
+  F : VAR [[U -> process[T]] -> [U -> process[T]]]
+
+  monotonic?(F) : bool =
+	FORALL X, Y : X <= Y IMPLIES F(X) <= F(Y)
+
+  G : VAR (monotonic?)
+
+  mu(G) : [U -> process[T]] = glb({X | G(X) <= X})
+
+
+  closure_mu : LEMMA  G(mu(G)) <= mu(G)
+
+  smallest_closed : LEMMA  G(X) <= X  IMPLIES mu(G) <= X
+
+  fixed_point : LEMMA  G(mu(G)) = mu(G)
+
+  least_fixed_point : LEMMA  G(X) = X IMPLIES mu(G) <= X
+
+
+
+  %-------------------
+  %  Induction rule
+  %-------------------
+
+  E : VAR [ U -> pred[trace[T]] ]
+
+  <(X, E) : bool = FORALL x : X(x) |> E(x)
+
+  pseudo_transitive : LEMMA  X <= Y AND Y < E IMPLIES X < E
+
+
+  SY : VAR { SX | not empty?(SX) }
+
+  lub(SY)(x) : process[T] = { t | EXISTS (X : (SY)) : X(x)(t) }
+
+  lub_is_bound : LEMMA FORALL (X : (SY)) : X <= lub(SY)
+
+  lub_is_sup : LEMMA (FORALL (X : (SY)) : X < E) IMPLIES lub(SY) < E
+
+
+  induction_aux : LEMMA 
+     (EXISTS X : X < E) AND (FORALL X : X < E implies G(X) < E)
+	IMPLIES mu(G) < E
+
+  param_induction0 : PROPOSITION
+         (FORALL x : EXISTS Q : Q |> E(x))
+     AND (FORALL X : (FORALL x : X(x) |> E(x)) => (FORALL x : G(X)(x) |> E(x)))
+    IMPLIES (FORALL x : mu(G)(x) |> E(x))
+
+  param_induction : PROPOSITION
+         (FORALL x : Stop[T] |> E(x))
+     AND (FORALL X : (FORALL x : X(x) |> E(x)) => (FORALL x : G(X)(x) |> E(x)))
+    IMPLIES (FORALL x : mu(G)(x) |> E(x))
+
+  param_induction2 : PROPOSITION
+         (FORALL x : E(x)(null))
+     AND (FORALL X : (FORALL x : X(x) |> E(x)) => (FORALL x : G(X)(x) |> E(x)))
+    IMPLIES (FORALL x : mu(G)(x) |> E(x))
+
+  sigma_fix : LEMMA
+    (FORALL X : (FORALL x : subset?(sigma(X(x)), A)) =>
+				(FORALL x : subset?(sigma(G(X)(x)), A)))
+    IMPLIES (FORALL x : subset?(sigma(mu(G)(x)), A))
+
+END fixed_points

@@ -1,0 +1,182 @@
+process_rules [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING processes, parametric_sets
+
+  P, P1, P2, P3, P4 : VAR process[T]
+
+  SP, SP1, SP2 : VAR set[process[T]]
+
+  a, b, c : VAR T
+
+  A, B, C : VAR set[T]
+
+  f : VAR [T -> T]
+
+  R : VAR set[[T, T]]
+
+  t, t1 : VAR trace[T]
+
+
+  %------------------
+  %  Prefix closure
+  %------------------
+
+  process_add : LEMMA P(add(t, a)) IMPLIES P(t)
+
+  %-------------------
+  %  Rules for sigma
+  %-------------------    
+
+  sigma_stop : LEMMA  sigma(Stop[T]) = emptyset
+
+  sigma_choice : LEMMA  sigma(P1 \/ P2) = union(sigma(P1), sigma(P2))
+
+  sigma_choice2 : LEMMA sigma(Choice(SP)) = union! (P : (SP)) : sigma(P)
+
+  sigma_pref : LEMMA sigma(a >> P) = add(a, sigma(P))
+
+  sigma_par : LEMMA subset?(sigma(Par(A)(P1, P2)), union(sigma(P1), sigma(P2)))
+
+  sigma_free_par : LEMMA  sigma(P1 // P2) =  union(sigma(P1), sigma(P2))
+
+
+  sigma_empty : LEMMA  sigma(P) = emptyset IFF P = Stop[T]
+
+  sigma_union : LEMMA  sigma(P) = union! (t : (P)) : sigma(t)
+
+  sigma_subset : LEMMA  FORALL (t : (P)) : subset?(sigma(t), sigma(P))
+
+  sigma_hide : LEMMA sigma(P / A) = difference(sigma(P), A)
+
+  %--------------------------------
+  %  Stop is the smallest process
+  %--------------------------------
+
+  stop_subset : LEMMA  subset?(Stop[T], P)
+
+  stop_smallest : LEMMA  subset?(P, Stop[T]) IFF P = Stop[T]
+
+
+  %----------------------------
+  %  Rules for bounded choice
+  %----------------------------
+
+  choice_commutes : LEMMA  (P1 \/ P2) = (P2 \/ P1)
+
+  choice_assoc : LEMMA  (P1 \/ (P2 \/ P3)) = ((P1 \/ P2) \/ P3)
+
+  choice_idempotent : LEMMA  (P \/ P) = P
+
+  choice_subset1 : LEMMA  subset?(P1, P1 \/ P2)
+
+  choice_subset2 : LEMMA  subset?(P2, P1 \/ P2)
+
+  choice_stop1 : LEMMA  (P \/ Stop[T]) = P
+
+  choice_stop2 : LEMMA  (Stop[T] \/ P) = P
+
+  choice_stop3 : LEMMA  (P1 \/ P2) = Stop[T] IFF P1 = Stop[T] AND P2 = Stop[T]
+
+
+  %------------------------------
+  %  Rules for unbounded choice
+  %------------------------------
+
+  choice_empty : LEMMA Choice(emptyset[process[T]]) = Stop[T] 
+
+  choice_add : LEMMA  Choice(add(P, SP)) = (P \/ Choice(SP))
+
+  choice_singleton : LEMMA  Choice(singleton(P)) = P
+
+  choice_union : LEMMA  Choice(union(SP1, SP2)) = (Choice(SP1) \/ Choice(SP2))
+
+  choice_member : LEMMA  FORALL (P : (SP)) : subset?(P, Choice(SP))  
+
+
+
+  %----------------------------------
+  %  Rules for parallel composition
+  %----------------------------------
+
+  par_commutes : LEMMA  Par(A)(P1, P2) = Par(A)(P2, P1)
+
+  par_assoc : LEMMA  Par(A)(P1, Par(A)(P2, P3)) = Par(A)(Par(A)(P1, P2), P3)
+
+  par_stop : LEMMA  Par(A)(P, Stop) = { t | P(t) AND proj(t, A) = null }
+
+  par_full : LEMMA  Par(fullset)(P1, P2) = intersection(P1, P2)
+
+
+  %---------------------------
+  %  Rules for interleaving 
+  %---------------------------
+
+  interleaves_commutes : LEMMA  P1 // P2 = P2 // P1
+
+  interleaves_assoc : LEMMA (P1 // P2) // P3 = P1 // (P2 // P3)
+
+  interleaves_subset1 : LEMMA  subset?(P1, P1 // P2)
+
+  interleaves_subset2 : LEMMA  subset?(P2, P1 // P2)
+
+  interleaves_stop1 : LEMMA  P // Stop[T] = P
+
+  interleaves_stop2 : LEMMA  Stop[T] // P = P
+
+
+  %---------------------
+  %  Rules for hiding
+  %---------------------
+
+  hide_equiv : LEMMA (P / A)(t) IMPLIES
+		EXISTS t1 : P(t1) AND proj(t1, complement(A)) = t
+
+  hide_stop : LEMMA Stop / A = Stop
+
+  hide_emptyset : LEMMA P / emptyset = P
+
+  hide_fullset : LEMMA P / fullset = Stop
+
+  hide_union : LEMMA (P / A) / B = P / union(A, B)
+
+  hide_prefix1 : LEMMA NOT A(a) IMPLIES (a >> P) / A = a >> (P / A)
+
+  hide_prefix2 : LEMMA A(a) IMPLIES (a >> P) / A = P / A
+
+  hide_choice1 : LEMMA (P1 \/ P2) / A = ((P1 / A) \/ (P2 / A))
+
+%% incomplete proof
+%  hide_inter : LEMMA (P1 // P2) / A = ((P1 / A) // (P2 / A))
+
+  hide_sigma : LEMMA disjoint?(sigma(P), A) IMPLIES P / A = P
+
+  hide_twice : LEMMA Par(A)(P1 / B, P2 / B) / B = Par(A)(P1 / B, P2 / B)
+
+%% proof depends on incomplete proof
+%  hide_par : LEMMA disjoint?(A, B) IMPLIES
+%			Par(A)(P1 / B, P2 / B) = (Par(A)(P1, P2)) / B
+
+%% proof depends on incomplete proof
+%  hide_par2 : LEMMA (disjoint?(A, B) AND disjoint?(sigma(P1), B)) IMPLIES
+%			Par(A)(P1, (P2 / B)) = (Par(A)(P1, P2) / B)
+
+
+  %---------------------
+  %  Rules for renaming
+  %---------------------
+
+  rename_prefix : LEMMA
+	rename(a >> P, R) =
+		Choice({ P1 | EXISTS b : R(a, b) AND P1 = b >> rename(P, R) })
+
+  rename_choice : LEMMA
+		rename(P1 \/ P2, R) = (rename(P1, R) \/ rename(P2, R))
+
+  rename_choice2 : LEMMA
+    rename(Choice(SP), R) =
+		Choice({ P1 | EXISTS (P2 : (SP)) : P1 = rename(P2, R)}) 
+
+
+  END process_rules

@@ -1,0 +1,13 @@
+%
+%  Includes all the basic theories for CSP
+%  trace semantics
+%
+
+csp_traces : THEORY
+
+  BEGIN
+
+  IMPORTING  
+	satisfaction2, satisfaction3, satisfaction4, csp_run
+
+  END csp_traces

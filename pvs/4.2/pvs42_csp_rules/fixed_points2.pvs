@@ -1,0 +1,75 @@
+%
+%  Theory for non-parametic fixed points
+%  i.e. of monotonic functions F : [process[T] -> process[T]]
+%
+
+fixed_points2  [ T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING fixed_points
+
+  F : VAR [process[T] ->   process[T]]
+
+  X, Y : VAR process[T]
+
+  A : VAR set[T]
+
+  t : VAR trace[T]
+
+  %-----------------------
+  %  Monotonic functions
+  %-----------------------
+
+  monotonic?(F) : bool =
+	FORALL X, Y : subset?(X, Y) IMPLIES subset?(F(X), F(Y))
+
+  G : VAR (monotonic?)
+
+
+  %-----------------------------------------------------------
+  %  short cut: everything translated to the parametric case
+  %-----------------------------------------------------------
+
+  dummy : NONEMPTY_TYPE
+
+  rep : dummy
+
+  x : VAR dummy
+
+  H : VAR [dummy -> process[T]]
+
+  ext(F)(H) : [dummy -> process[T]] = lambda x : F(H(x))
+    
+  mu(G) : process[T] = mu(ext(G))(rep)
+
+
+  closure_mu2 : LEMMA  subset?(G(mu(G)),  mu(G))
+
+  smallest_closed2 : LEMMA  subset?(G(X), X) IMPLIES subset?(mu(G), X)
+
+  fixed_point2 : LEMMA G(mu(G)) = mu(G)
+
+  least_fixed_point2 : LEMMA  G(X) = X IMPLIES subset?(mu(G), X)
+
+
+  %---------------------
+  %  Induction rules
+  %---------------------
+
+  E : VAR set[trace[T]]
+
+  induction : PROPOSITION
+	Stop[T] |> E AND (FORALL X : X |> E IMPLIES G(X) |> E)
+     IMPLIES  mu(G) |> E
+
+  induction2 : PROPOSITION
+	E(null) AND (FORALL X : X |> E IMPLIES G(X) |> E)
+     IMPLIES  mu(G) |> E
+
+
+  sigma_fix2 : LEMMA
+    (FORALL X : subset?(sigma(X), A) => subset?(sigma(G(X)), A)) IMPLIES
+	subset?(sigma(mu(G)), A)
+
+  END fixed_points2

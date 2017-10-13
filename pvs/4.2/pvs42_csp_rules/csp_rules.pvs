@@ -1,0 +1,13 @@
+%
+%  This theory encapsulates all the rules
+%  for restriction and interface
+%
+
+csp_rules : THEORY
+BEGIN
+
+  IMPORTING uniform_props2, uniform_props3,
+	    restriction_rules2, restriction_rules3, restriction_rules4,
+	    authentication, monotonicity, monotonicity2, monotonicity3
+
+END csp_rules

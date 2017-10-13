@@ -1,0 +1,18 @@
+%
+%  Monotonicity for parametric choice
+%
+
+monotonicity2 [U, T: TYPE] : THEORY
+
+  BEGIN
+
+  IMPORTING csp_traces
+
+  P, Q : VAR [U -> process[T]]
+
+  i : VAR U
+
+  monotonic_choice3 : LEMMA
+     (FORALL i : subset?(P(i), Q(i))) IMPLIES subset?(Choice(P), Choice(Q))
+
+  END monotonicity2

@@ -1,0 +1,11 @@
+(|monotonicity3|
+ (|monotonic_par2| "" (GRIND)
+  (("" (INST 1 "t!1")
+    (("" (SKOLEM!) (("" (INST?) (("" (ASSERT) NIL NIL)) NIL)) NIL))
+    NIL))
+  NIL)
+ (|monotonic_free_par2| "" (SKOSIMP)
+  (("" (EXPAND "Interleave") (("" (REWRITE "monotonic_par2") NIL NIL))
+    NIL))
+  NIL))
+
