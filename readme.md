@@ -1,8 +1,12 @@
 # Verifying multi-party authentication protocols
 
+* [Publications](#publications)
+* [Accompanying PVS Code](#pvscode)
+* [Running the ```gnsl``` theory](#running-gnsl)
+
 For my MSc thesis at Eindhoven University of Technology, I did some work on the verification of multi-party authentication protocols, using rank functions and the theorem prover [PVS](http://pvs.csl.sri.com/). This resulted in a published paper .
 
-## Publications
+## <a name="publications"></a>Publications
 * Master’s thesis [*Proving correctness of a multi-party authentication protocol with rank functions*](http://repository.tue.nl/631698)&nbsp;(2007)<br>
   ```tex
   @MASTERSTHESIS{verhoeven2007multiparty,
@@ -15,7 +19,7 @@ For my MSc thesis at Eindhoven University of Technology, I did some work on the 
   ```
 * Article [*Verifying Multi-party Authentication Using Rank Functions and PVS*](http://link.springer.com/chapter/10.1007%2F978-3-642-01465-9_15?LI=true), with Francien Dechesne (2008)
 
-## Accompanying PVS code
+## <a name="pvscode"></a>Accompanying PVS code
 The PVS code is available for multiple versions of PVS. There are three theories.
 
 | Theory | Description |
@@ -26,7 +30,7 @@ The PVS code is available for multiple versions of PVS. There are three theories
 
 \* Requires the ```csp_rules``` theory as a library, for which the appropriate path must be set in the file ```dynetwork.pvs```.
 
-## Running the ```gnsl``` theory
+## <a name="running-gnsl"></a>Running the ```gnsl``` theory
 
 * Initial set up
   1. Install PVS
