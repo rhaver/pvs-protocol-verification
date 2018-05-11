@@ -10,11 +10,11 @@ For my MSc thesis at Eindhoven University of Technology, I did some work on the 
 * Master’s thesis [*Proving correctness of a multi-party authentication protocol with rank functions*](http://repository.tue.nl/631698)&nbsp;(2007)<br>
   ```tex
   @MASTERSTHESIS{verhoeven2007multiparty,
-	author	= {R.H.A. Verhoeven},
-	title	= {Proving correctness of a multi-party authentication protocol with rank functions},
-	school	= {Eindhoven University of Technology},
-	year	= {2007},
-	url	= {http://repository.tue.nl/631698}
+    author  = {R.H.A. Verhoeven},
+    title   = {Proving correctness of a multi-party authentication protocol with rank functions},
+    school  = {Eindhoven University of Technology},
+    year    = {2007},
+    url     = {http://repository.tue.nl/631698}
   }
   ```
 * Article [*Verifying Multi-party Authentication Using Rank Functions and PVS*](http://link.springer.com/chapter/10.1007%2F978-3-642-01465-9_15?LI=true), with Francien Dechesne (2008)
