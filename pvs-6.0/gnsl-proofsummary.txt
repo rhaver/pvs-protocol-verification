@@ -1,9 +1,3 @@
-Note: some theorems and lemmas are labelled as `incomplete'. This is because
-they depend on the library (invoked in dynetwork.pvs) of CSP in PVS. When all
-files (these files and the library source files) are contained within one
-directory and theory `csp_rules' is imported directly, all theorems and lemmas
-are proved and labelled `complete'.
-
  Proof summary for theory gnsl_init
     p_TCC1...............................proved - complete   [shostak]( 0.04 s)
     hu_TCC1..............................proved - complete   [shostak]( 0.06 s)
