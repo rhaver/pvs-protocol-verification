@@ -1,0 +1,11 @@
+% NSL
+
+nsl : THEORY
+
+  BEGIN
+
+  IMPORTING 
+	nsl_initiator,
+	nsl_responder
+
+  END nsl

@@ -1,0 +1,20 @@
+%
+%  Properties of sat and unbounded interleave
+%
+
+satisfaction3 [U : NONEMPTY_TYPE, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING satisfaction, multipar
+
+  P : VAR [U -> process[T]]
+
+  x : VAR U
+
+  E : VAR set[trace[T]]
+
+
+  sat_free_par3 : LEMMA  Interleave(P) |> E IMPLIES P(x) |> E    
+
+  END satisfaction3

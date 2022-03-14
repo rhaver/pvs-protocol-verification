@@ -1,0 +1,32 @@
+(parametric_sets
+ (union_is_bound 0
+  (union_is_bound-1 nil 3662229310 ("" (grind) nil nil)
+   ((U formal-type-decl nil parametric_sets nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set[T]" parametric_sets nil)
+    (subset? const-decl "bool" sets nil))
+   nil))
+ (union_is_lub 0
+  (union_is_lub-1 nil 3662229310 ("" (grind) nil nil)
+   ((U formal-type-decl nil parametric_sets nil)
+    (T formal-type-decl nil parametric_sets nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (union const-decl "set[T]" parametric_sets nil))
+   nil))
+ (inter_is_bound 0
+  (inter_is_bound-1 nil 3662229310 ("" (grind) nil nil)
+   ((U formal-type-decl nil parametric_sets nil)
+    (intersection const-decl "set[T]" parametric_sets nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil))
+   nil))
+ (inter_is_glb 0
+  (inter_is_glb-1 nil 3662229310 ("" (grind) nil nil)
+   ((U formal-type-decl nil parametric_sets nil)
+    (T formal-type-decl nil parametric_sets nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (intersection const-decl "set[T]" parametric_sets nil))
+   nil)))
+

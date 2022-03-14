@@ -1,0 +1,47 @@
+uniform_props3[U : NONEMPTY_TYPE, T : TYPE] : THEORY
+BEGIN
+
+  IMPORTING uniform_props[T]
+
+  P : VAR [U -> process[T]]
+
+  i : VAR U
+
+  e : VAR T
+
+  t : VAR trace[T]
+
+  p, p1, p2 : VAR pred[T]
+
+  A : VAR setof[T]
+
+  B : VAR [U -> setof[T]]
+
+  uniform2_par23 : LEMMA
+    (EXISTS B :
+	(FORALL i : subset?(B(i), A)) AND
+	(intersection(B) = emptyset[T]) AND
+	(FORALL i : (P(i) |> (LAMBDA t :
+	    (every! e : (B(i)(e) => p(e)))(t) IMPLIES
+	    (every! e : (complement(B(i))(e) => p(e)))(t)))))
+    IMPLIES
+	Par(A)(P) |> every(p)
+
+  uniform2_par56 : LEMMA
+    (EXISTS B :
+	(FORALL i : subset?(B(i), A)) AND
+	(intersection(B) = emptyset[T]) AND
+	(FORALL i : (P(i) |> (LAMBDA t :
+	    (every! e : p1(e) AND (B(i)(e) => p2(e)))(t) IMPLIES
+	    (every! e : (complement(B(i))(e) => p2(e)))(t)))))
+    IMPLIES
+	Par(A)(P) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform2_interleave : LEMMA Interleave(P) |> every(p) IFF
+					FORALL i : P(i) |> every(p)
+
+  uniform2_interleave2 : LEMMA
+    (Interleave(P) |> LAMBDA t : every(p1)(t) => every(p2)(t)) IFF
+		FORALL i : P(i) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+END uniform_props3

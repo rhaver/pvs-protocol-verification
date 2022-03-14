@@ -1,0 +1,348 @@
+(restriction_rules2
+ (restriction_choice3 0
+  (restriction_choice3-1 nil 3417191626
+   ("" (skolem!)
+    (("" (auto-rewrite "restriction_equiv[T]")
+      (("" (assert)
+        (("" (expand "Choice")
+          (("" (apply-extensionality :hide? t)
+            (("" (grind) nil))))))))))
+    nil)
+   ((Choice const-decl "process[T]" parametric_choice nil)
+    (filter def-decl "list[T]" filters nil)
+    (trace type-eq-decl nil traces nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (U formal-type-decl nil restriction_rules2 nil)
+    (setof type-eq-decl nil defined_types nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (set type-eq-decl nil sets nil)
+    (proj const-decl "[trace, set[T] -> trace]" traces nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil restriction_rules2 nil)
+    (restriction_equiv formula-decl nil restriction_rules nil))
+   nil))
+ (monotonic_lemma2 0
+  (monotonic_lemma2-1 nil 3417191626
+   ("" (auto-rewrite-theory "sets")
+    (("" (skolem!)
+      (("" (expand "monotonic?")
+        (("" (expand "<=")
+          (("" (skosimp*)
+            (("" (assert)
+              (("" (skosimp)
+                (("" (rewrite "restriction_equiv")
+                  (("" (assert)
+                    (("" (flatten)
+                      (("" (rewrite "restriction_equiv")
+                        (("" (assert)
+                          (("" (typepred "F!1")
+                            (("" (expand "monotonic?")
+                              ((""
+                                (expand "<=")
+                                ((""
+                                  (inst?)
+                                  ((""
+                                    (inst -1 "Y!1")
+                                    ((""
+                                      (split)
+                                      (("1"
+                                        (assert)
+                                        (("1"
+                                          (inst?)
+                                          (("1" (assert) nil nil))
+                                          nil))
+                                        nil)
+                                       ("2" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((<= const-decl "bool" fixed_points nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil)
+    (restriction_equiv formula-decl nil restriction_rules nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil) (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (U formal-type-decl nil restriction_rules2 nil)
+    (T formal-type-decl nil restriction_rules2 nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (monotonic? const-decl "bool" fixed_points nil))
+   nil))
+ (restriction_fix2_TCC1 0
+  (restriction_fix2_TCC1-1 nil 3417191626
+   ("" (skosimp*) (("" (rewrite "monotonic_lemma2") nil nil)) nil)
+   ((monotonic_lemma2 formula-decl nil restriction_rules2 nil)
+    (T formal-type-decl nil restriction_rules2 nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil)
+    (U formal-type-decl nil restriction_rules2 nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (monotonic? const-decl "bool" fixed_points nil))
+   nil))
+ (restriction_fix2 0
+  (restriction_fix2-1 nil 3417193819
+   ("" (auto-rewrite "monotonic_lemma2")
+    (("" (skolem!)
+      ((""
+        (case "(FORALL P: FORALL i: F!1(P)(i) # A!1 = F!1(LAMBDA i: (P(i) # A!1))(i) # A!1) IMPLIES (FORALL i : subset?(mu(F!1)(i) # A!1, mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(i))) AND (FORALL i : subset?(mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(i), mu(F!1)(i) # A!1))")
+        (("1" (split)
+          (("1" (auto-rewrite-theory "sets")
+            (("1" (assert)
+              (("1" (flatten)
+                (("1" (apply-extensionality :hide? t)
+                  (("1" (iff)
+                    (("1" (ground)
+                      (("1" (inst? -2) (("1" (assert) nil)))
+                       ("2" (inst? -3)
+                        (("2" (assert) nil)))))))))))))))
+           ("2" (flatten) nil)))
+         ("2" (delete 2)
+          (("2" (flatten)
+            (("2" (split)
+              (("1" (skolem!)
+                (("1"
+                  (case "mu(F!1)(i!1) # A!1 |> mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(i!1)")
+                  (("1" (expand "|>") (("1" (propax) nil)))
+                   ("2" (delete 2)
+                    (("2" (rewrite "restriction_sat_equiv")
+                      (("2" (hide -1)
+                        (("2" (generalize "i!1" "i1")
+                          (("2" (reveal -1)
+                            (("2" (rewrite "param_induction")
+                              (("1" (delete 2) (("1" (grind) nil)))
+                               ("2"
+                                (delete 2)
+                                (("2"
+                                  (skosimp*)
+                                  (("2"
+                                    (case
+                                     "FORALL (x: U): X!1(x) # A!1 |> mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(x)")
+                                    (("1"
+                                      (delete -2)
+                                      (("1"
+                                        (rewrite
+                                         "restriction_sat_equiv"
+                                         :dir
+                                         rl)
+                                        (("1"
+                                          (expand "|>")
+                                          (("1"
+                                            (eta "process[T]")
+                                            (("1"
+                                              (inst
+                                               -1
+                                               "mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(x!1)")
+                                              (("1"
+                                                (replace -1)
+                                                (("1"
+                                                  (delete -1)
+                                                  (("1"
+                                                    (typepred "F!1")
+                                                    (("1"
+                                                      (expand
+                                                       "monotonic?")
+                                                      (("1"
+                                                        (expand "<=")
+                                                        (("1"
+                                                          (inst
+                                                           -1
+                                                           "lambda (x : U) : X!1(x) # A!1"
+                                                           "lambda (x : U) : mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(x)")
+                                                          (("1"
+                                                            (split)
+                                                            (("1"
+                                                              (delete
+                                                               -2)
+                                                              (("1"
+                                                                (inst?)
+                                                                (("1"
+                                                                  (lemma
+                                                                   "restriction_prop[T]")
+                                                                  (("1"
+                                                                    (inst
+                                                                     -1
+                                                                     "A!1"
+                                                                     "F!1(LAMBDA (x: U): X!1(x) # A!1)(x!1)"
+                                                                     "F!1(LAMBDA (x: U): mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(x))(x!1)")
+                                                                    (("1"
+                                                                      (assert)
+                                                                      (("1"
+                                                                        (delete
+                                                                         -2)
+                                                                        (("1"
+                                                                          (inst
+                                                                           -2
+                                                                           "X!1")
+                                                                          (("1"
+                                                                            (inst?)
+                                                                            (("1"
+                                                                              (replace
+                                                                               -2
+                                                                               -1
+                                                                               rl)
+                                                                              (("1"
+                                                                                (delete
+                                                                                 -2)
+                                                                                (("1"
+                                                                                  (lemma
+                                                                                   "fixed_point[U,T]")
+                                                                                  (("1"
+                                                                                    (inst
+                                                                                     -1
+                                                                                     "LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1)")
+                                                                                    (("1"
+                                                                                      (replace
+                                                                                       -1
+                                                                                       1
+                                                                                       rl)
+                                                                                      (("1"
+                                                                                        (delete
+                                                                                         -1)
+                                                                                        (("1"
+                                                                                          (eta
+                                                                                           "[U -> process[T]]")
+                                                                                          (("1"
+                                                                                            (inst
+                                                                                             -1
+                                                                                             "mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))")
+                                                                                            (("1"
+                                                                                              (replace
+                                                                                               -1
+                                                                                               1
+                                                                                               rl)
+                                                                                              (("1"
+                                                                                                (assert)
+                                                                                                nil)))))))))))))))))))))))))))))))))))
+                                                             ("2"
+                                                              (propax)
+                                                              nil)))))))))))))))))))))))))
+                                     ("2"
+                                      (delete -2 2)
+                                      (("2"
+                                        (skolem!)
+                                        (("2"
+                                          (inst?)
+                                          (("2"
+                                            (rewrite
+                                             "restriction_sat_equiv"
+                                             :dir
+                                             rl)
+                                            (("2"
+                                              (eta "process[T]")
+                                              (("2"
+                                                (inst
+                                                 -1
+                                                 "mu(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(x!2)")
+                                                (("2"
+                                                  (replace -1)
+                                                  (("2"
+                                                    (propax)
+                                                    nil)))))))))))))))))))))))))))))))))))))
+               ("2" (inst -1 "mu(F!1)")
+                (("2" (lemma "fixed_point[U, T]")
+                  (("2" (inst?)
+                    (("2" (replace -1)
+                      (("2" (delete -1)
+                        (("2" (skolem!)
+                          (("2"
+                            (case "FORALL i : F!1(LAMBDA i: (mu(F!1)(i) # A!1))(i) # A!1 = ((LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))(lambda (x : U) : mu(F!1)(x) # A!1))(i)")
+                            (("1" (lemma "least_fixed_point[U, T]")
+                              (("1"
+                                (inst
+                                 -1
+                                 "(LAMBDA P: LAMBDA i: (F!1(P)(i) # A!1))"
+                                 "LAMBDA i : mu(F!1)(i) # A!1")
+                                (("1"
+                                  (split)
+                                  (("1"
+                                    (expand "<=")
+                                    (("1" (inst?) nil)))
+                                   ("2"
+                                    (delete 2)
+                                    (("2"
+                                      (apply-extensionality :hide? t)
+                                      (("2"
+                                        (inst? -2)
+                                        (("2" (assert) nil)))))))))))))
+                             ("2" (assert)
+                              nil))))))))))))))))))))))))))
+    nil)
+   ((pred type-eq-decl nil defined_types nil)
+    (\|> const-decl "bool" satisfaction nil)
+    (restriction_sat_equiv formula-decl nil restriction_rules nil)
+    (proj const-decl "[trace, set[T] -> trace]" traces nil)
+    (param_induction formula-decl nil fixed_points nil)
+    (Par const-decl "process" processes nil)
+    (<= const-decl "bool" fixed_points nil)
+    (glb const-decl "process[T]" fixed_points nil)
+    (Stop const-decl "process" processes nil)
+    (prod def-decl "bool" traces nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (filter def-decl "list[T]" filters nil)
+    (restriction_prop formula-decl nil restriction_rules nil)
+    (fixed_point formula-decl nil fixed_points nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (least_fixed_point formula-decl nil fixed_points nil)
+    (member const-decl "bool" sets nil)
+    (monotonic_lemma2 formula-decl nil restriction_rules2 nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (U formal-type-decl nil restriction_rules2 nil)
+    (T formal-type-decl nil restriction_rules2 nil)
+    (list type-decl nil list_adt nil)
+    (trace type-eq-decl nil traces nil)
+    (setof type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (process type-eq-decl nil processes nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (set type-eq-decl nil sets nil)
+    (|#| const-decl "process[T]" restriction_rules nil)
+    (monotonic? const-decl "bool" fixed_points nil)
+    (subset? const-decl "bool" sets nil)
+    (mu const-decl "[U -> process[T]]" fixed_points nil))
+   nil)))
+

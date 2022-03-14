@@ -1,0 +1,28 @@
+(satisfaction3
+ (sat_free_par3 0
+  (sat_free_par3-1 nil 3662229311
+   ("" (skosimp)
+    (("" (use "interleave_subset3[U, T]")
+      (("" (rewrite "|>" :dir rl)
+        (("" (forward-chain "sat_transitive1") nil))))))
+    nil)
+   ((interleave_subset3 formula-decl nil multipar nil)
+    (U formal-nonempty-type-decl nil satisfaction3 nil)
+    (T formal-type-decl nil satisfaction3 nil)
+    (process type-eq-decl nil processes nil)
+    (prefix_closed const-decl "bool" processes nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (setof type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (trace type-eq-decl nil traces nil)
+    (list type-decl nil list_adt nil)
+    (sat_transitive1 formula-decl nil satisfaction nil)
+    (set type-eq-decl nil sets nil)
+    (Interleave const-decl "process[T]" multipar nil)
+    (pred type-eq-decl nil defined_types nil)
+    (\|> const-decl "bool" satisfaction nil))
+   nil)))
+

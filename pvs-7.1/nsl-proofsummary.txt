@@ -1,0 +1,40 @@
+ Proof summary for theory nsl_initiator
+    b_TCC1................................proved - complete   [shostak](0.03 s)
+    Nonces_TCC1...........................proved - complete   [shostak](0.02 s)
+    n_prop................................proved - complete   [shostak](0.04 s)
+    n_orig................................proved - complete   [shostak](0.03 s)
+    E_TCC1................................proved - complete   [shostak](0.06 s)
+    rho_TCC1..............................proved - complete   [shostak](0.04 s)
+    rho_TCC2..............................proved - complete   [shostak](0.04 s)
+    rho_TCC3..............................proved - complete   [shostak](0.04 s)
+    authenticated.........................proved - incomplete [shostak](4.13 s)
+    Theory nsl_initiator totals: 9 formulas, 9 attempted, 9 succeeded (4.44 s)
+
+ Proof summary for theory nsl_responder
+    b_TCC1................................proved - complete   [shostak](0.01 s)
+    Nonces_TCC1...........................proved - complete   [shostak](0.02 s)
+    n_prop................................proved - complete   [shostak](0.01 s)
+    n_orig................................proved - complete   [shostak](0.02 s)
+    E_TCC1................................proved - complete   [shostak](0.06 s)
+    rho_TCC1..............................proved - complete   [shostak](0.05 s)
+    rho_TCC2..............................proved - complete   [shostak](0.04 s)
+    rho_TCC3..............................proved - complete   [shostak](0.04 s)
+    authenticated.........................proved - incomplete [shostak](4.14 s)
+    Theory nsl_responder totals: 9 formulas, 9 attempted, 9 succeeded (4.39 s)
+
+ Proof summary for theory partition
+    pt_TCC1...............................proved - complete   [shostak](0.00 s)
+    Theory partition totals: 1 formulas, 1 attempted, 1 succeeded (0.00 s)
+
+ Proof summary for theory dynetwork
+    enemy_TCC1............................proved - incomplete [shostak](0.30 s)
+    enemy_def.............................proved - incomplete [shostak](0.04 s)
+    invariant.............................proved - incomplete [shostak](0.26 s)
+    enemy_prop2...........................proved - incomplete [shostak](0.39 s)
+    authentication_by_rank................proved - incomplete [shostak](0.38 s)
+    Theory dynetwork totals: 5 formulas, 5 attempted, 5 succeeded (1.37 s)
+
+ Proof summary for theory nsl
+    Theory nsl totals: 0 formulas, 0 attempted, 0 succeeded (0.00 s)
+
+Grand Totals: 24 proofs, 24 attempted, 24 succeeded (10.20 s)

@@ -1,0 +1,41 @@
+uniform_props2[U, T : TYPE] : THEORY
+BEGIN
+
+  IMPORTING uniform_props[T]
+
+  P : VAR [U -> process[T]]
+
+  e : VAR T
+
+  i : VAR U
+
+  t : VAR trace[T]
+
+  p, p1, p2 : VAR pred[T]
+
+  q, q1, q2 : VAR [U -> pred[T]]
+
+  F : VAR (monotonic?[U, T])
+
+  uniform3_choice : LEMMA
+    Choice(P) |> every(p) IFF FORALL i : P(i) |> every(p)
+
+  uniform3_choice2 : LEMMA
+    (Choice(P) |> LAMBDA t : every(p1)(t) => every(p2)(t)) IFF
+	FORALL i : P(i) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+  uniform2_fix : LEMMA
+    (EXISTS q : (FORALL e : q(i)(e) IMPLIES p(e)) AND
+     FORALL P : (FORALL i : P(i) |> every(q(i)))
+	IMPLIES FORALL i : F(P)(i) |> every(q(i))) 
+  IMPLIES mu(F)(i) |> every(p)
+
+  uniform2_fix2 : LEMMA
+    (EXISTS q1, q2 :
+	(FORALL e : (p1(e) => q1(i)(e)) AND (q2(i)(e) => p2(e))) AND
+    (FORALL P :
+     (FORALL i : P(i) |> LAMBDA t : every(q1(i))(t) => every(q2(i))(t)) IMPLIES
+	(FORALL i : F(P)(i) |> LAMBDA t : every(q1(i))(t) => every(q2(i))(t))))
+  IMPLIES mu(F)(i) |> LAMBDA t : every(p1)(t) => every(p2)(t)
+
+END uniform_props2

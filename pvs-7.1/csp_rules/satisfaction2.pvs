@@ -1,0 +1,16 @@
+satisfaction2 [ T : TYPE, U : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING satisfaction, parametric_choice
+
+  P : VAR [U -> process[T]]
+
+  x : VAR U
+
+  E : VAR set[trace[T]]
+
+  sat_choice3 : LEMMA
+	Choice(P) |> E IFF Stop[T] |> E AND (FORALL x : P(x) |> E)
+
+  END satisfaction2

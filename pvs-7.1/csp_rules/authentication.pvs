@@ -1,0 +1,26 @@
+%
+%  Definition of event-based authentication
+%
+
+authentication [T : TYPE]: THEORY
+BEGIN
+	
+  IMPORTING restriction_rules
+
+  A, B : VAR setof[T]
+  P : VAR process[T]  
+  t : VAR trace[T]
+
+
+  auth(A, B) : setof[trace[T]] =
+	{ t | proj(t, B) = null IMPLIES proj(t, A) = null }
+
+  authentication_equiv : LEMMA
+     P |> auth(A, B) IFF P # B |> every(complement(A))
+
+  authentication_equiv2 : LEMMA
+     P |> auth(A, B) IFF
+     P |> LAMBDA t : every(complement(B))(t) => every(complement(A))(t)
+
+END authentication
+

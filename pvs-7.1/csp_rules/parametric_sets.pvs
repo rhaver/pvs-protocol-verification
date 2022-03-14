@@ -1,0 +1,46 @@
+%
+%  union and intersection of a family of sets
+%
+%  T : element type
+%  U : index type
+%
+
+parametric_sets [ U, T : TYPE ] : THEORY
+
+  BEGIN
+
+  A : VAR [U -> set[T]]
+
+  i : VAR U  
+
+  x : VAR T
+
+  S : VAR set[T]
+
+
+  %---------------
+  %  Definitions
+  %---------------
+
+  union(A) : set[T] = { x | EXISTS i : A(i)(x) }
+
+  intersection(A) : set[T] = { x | FORALL i : A(i)(x) }
+
+
+
+  %--------------
+  %  Properties
+  %--------------
+
+  union_is_bound : LEMMA  subset?(A(i), union(A))
+
+  union_is_lub : LEMMA
+     (FORALL i : subset?(A(i), S)) IMPLIES subset?(union(A), S)
+
+
+  inter_is_bound : LEMMA  subset?(intersection(A), A(i))
+
+  inter_is_glb : LEMMA
+     (FORALL i : subset?(S, A(i))) IMPLIES subset?(S, intersection(A))
+
+  END parametric_sets

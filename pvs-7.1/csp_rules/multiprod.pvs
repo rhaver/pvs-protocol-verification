@@ -1,0 +1,125 @@
+%
+%  products of a non-empty family of traces
+%
+
+multiprod [ U : NONEMPTY_TYPE, T : TYPE ] : THEORY
+
+  BEGIN
+
+  IMPORTING traces, parametric_sets
+
+  t, t1, t2 : VAR [U -> trace[T]]
+
+  u, v : VAR trace[T]
+
+  i, j, k : VAR U
+
+  A, B, C : VAR set[T]
+
+  S : VAR [U -> set[T]]
+
+  a : VAR T
+
+
+  %----------------------------------------------------------------
+  %  prod(A)(t, u) : "u is a product of the traces {t(i) | i in U}
+  %  with synchronisations on A
+  %----------------------------------------------------------------
+
+  prod(A)(t, u) : RECURSIVE bool =
+     CASES u OF
+        null: (FORALL i : t(i) = null),
+	cons(x, y):
+	   IF A(x) THEN 
+               (FORALL i : cons?(t(i)) AND car(t(i)) = x)
+	        AND prod(A)(lambda i : cdr(t(i)), y)
+	   ELSE
+	       EXISTS i : cons?(t(i)) AND car(t(i)) = x
+		AND prod(A)(t with [(i) := cdr(t(i))], y)
+           ENDIF
+     ENDCASES
+   MEASURE length(u)
+
+  multiprod_add1 : LEMMA (prod(A)(t, u) AND A(a)) IMPLIES
+			prod(A)(LAMBDA i : add(t(i), a), add(u, a))
+
+  multiprod_add2 : LEMMA (prod(A)(t, u) AND NOT A(a)) IMPLIES
+		FORALL i : prod(A)(t WITH [(i) := add(t(i), a)], add(u, a))
+
+  multiprod_reverse : LEMMA
+    prod(A)(t, u) IMPLIES prod(A)(LAMBDA i : reverse(t(i)), reverse(u))
+
+  multiprod_reverse2 : LEMMA
+    prod(A)(LAMBDA i : reverse(t(i)), reverse(u)) IMPLIES prod(A)(t, u)
+
+  multiprod_reverse3 : LEMMA
+    prod(A)(t, u) = prod(A)(LAMBDA i : reverse(t(i)), reverse(u))
+
+  multiprod_add : LEMMA prod(A)(t, add(u, a)) =
+    IF A(a) THEN EXISTS t1 : (t = LAMBDA i : add(t1(i), a)) AND prod(A)(t1, u)
+	    ELSE EXISTS t1, i : t = t1 WITH [(i) := add(t1(i), a)] AND
+				prod(A)(t1, u)
+    ENDIF
+
+  proj_multiprod : LEMMA
+      prod(A)(t, u) IMPLIES FORALL i : proj(t(i), A) = proj(u, A)
+
+  prefix_multiprod : LEMMA  prod(A)(t, u) AND prefix(v, u) IMPLIES
+      EXISTS t1 : prod(A)(t1, v) AND FORALL i : prefix(t1(i), t(i))
+   
+  multiprod_fullset : LEMMA 
+      prod(fullset)(t, u) IFF (FORALL i : t(i) = u)
+
+  free_multiprod : LEMMA  prod(emptyset)((lambda i : null[T]) WITH [(j) := u], u)
+
+  sigma_multiprod : LEMMA
+      prod(A)(t, u) IMPLIES sigma(u) = union! i : sigma(t(i))
+
+  sigma_multiprod_inter : LEMMA
+      prod(A)(t, u) IMPLIES
+	intersection(sigma(t(i)), A) = intersection(sigma(u), A)
+
+
+  %----------------------------------------------------------------
+  % Interleaving when the traces have mutually disjoint alphabets
+  %----------------------------------------------------------------
+
+  sub_alphabet(t, S) : bool = FORALL i : subset?(sigma(t(i)), S(i))
+
+  disj_alphabet(S) : bool =
+      FORALL i, j : i /= j IMPLIES disjoint?(S(i), S(j))
+
+  inter_disjoint : LEMMA
+      disj_alphabet(S) AND sub_alphabet(t, S) AND 
+ 	 prod(emptyset)(t, u) IMPLIES FORALL i : t(i) = proj(u, S(i))
+
+  prod_disjoint : LEMMA
+      sub_alphabet(t, S) AND
+      (FORALL i, j : i /= j IMPLIES
+		disjoint?(difference(S(i), A), difference(S(j), A))) AND
+      prod(A)(t, u) IMPLIES FORALL i : t(i) = proj(u, S(i))
+
+  %---------------------------------------
+  %  Projections/restrictions
+  %-----------------------------------------
+
+  inter_proj : LEMMA
+     prod(emptyset)(t, u) IMPLIES
+	prod(emptyset)(lambda i : proj(t(i), B), proj(u, B))
+
+  null_proj_multiprod : LEMMA
+     prod(A)(t, u) IMPLIES 
+        (proj(u, B) = null IFF FORALL i : proj(t(i), B) = null)
+
+  null_proj_multiprod2 : LEMMA
+     prod(A)(t, u) AND subset?(B, A) AND proj(t(i), B) = null
+	IMPLIES proj(u, B) = null
+
+  null_inter_proj : LEMMA
+     prod(emptyset)(t, u) IMPLIES
+	(proj(u, B) = null IFF  FORALL i : proj(t(i), B) = null)
+
+  every_multiprod : LEMMA prod(A)(t, u) AND every(B)(u) IMPLIES
+						FORALL i : every(B)(t(i))
+
+  END multiprod

@@ -1,0 +1,92 @@
+%
+% Extension of the pre-defined operations on lists
+% and extra properties
+%
+
+more_list_props [ T : TYPE] : THEORY
+
+  BEGIN
+
+  l, l1, l2 : VAR list[T]
+
+  cons_l, cons_l1, cons_l2 : VAR (cons?[T])
+
+  a, b, c : VAR T  
+
+  P : VAR [list[T] -> bool]
+
+  P1, P2, P3, P4 : VAR [T -> bool]
+
+  A : VAR setof[T]
+
+
+  %----------------------------------------
+  %  add(l, a) : append a at the end of l
+  %----------------------------------------
+
+  add(l, a) : (cons?[T]) = append(l, cons(a, null))
+
+  add_null : LEMMA add(null, a) = (: a :)
+
+  add_cons : LEMMA add(cons(a, l), b) = cons(a, add(l, b))
+
+
+
+  %------------------------
+  %  Properties of length
+  %------------------------
+
+  length_append : LEMMA  length(append(l1, l2)) = length(l1) + length(l2)
+
+  length_add : LEMMA  length(add(l, a)) = length(l) + 1
+
+  length_reverse : LEMMA   length(reverse(l)) = length(l)
+
+  length_cdr : LEMMA  length(cdr(cons_l)) = length(cons_l) - 1
+
+  length_zero : LEMMA  length(l) = 0 IFF l = null
+
+  length_non_zero : LEMMA  length(l) > 0 IFF cons?(l)
+
+
+
+  %-----------------------
+  %  Induction using add
+  %-----------------------
+
+  reverse_cons : LEMMA reverse(cons(a, l)) = add(reverse(l), a)
+
+  reverse_add : LEMMA reverse(add(l, a)) = cons(a, reverse(l))
+
+  cons_to_add : LEMMA
+     FORALL cons_l : EXISTS a, l : cons_l = add(l, a)
+
+  add_induction : PROPOSITION
+     P(null) AND (FORALL l, a : P(l) IMPLIES P(add(l, a)))
+	IMPLIES (FORALL l : P(l))
+
+
+  %----------------
+  % every property
+  %----------------
+
+  every_true : LEMMA (every! a : TRUE)(l)
+
+  every_implies : LEMMA
+    every(P1)(l) IMPLIES (FORALL P2 : every(LAMBDA a : P2(a) => P1(a))(l))
+
+  every_implies2 : LEMMA
+    (every! a : (A(a) => P1(a)))(l) AND (every! a : (NOT A(a) => P1(a)))(l)
+	IFF every(P1)(l)
+
+  every_implies3 : LEMMA
+    (FORALL a : P1(a) IMPLIES P2(a)) IMPLIES
+	FORALL l : every(P1)(l) IMPLIES every(P2)(l)
+
+  every_implies4 : LEMMA
+    ((FORALL a : (P1(a) IMPLIES P3(a))) AND
+      FORALL a : (P4(a) IMPLIES P2(a))) IMPLIES
+	FORALL l : (LAMBDA l1 : every(P3)(l1) => every(P4)(l1))(l) IMPLIES
+		   (LAMBDA l1 : every(P1)(l1) => every(P2)(l1))(l)
+
+  END more_list_props

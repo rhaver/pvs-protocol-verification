@@ -1,0 +1,12 @@
+% gNSL
+
+gnsl : THEORY
+
+  BEGIN
+
+  IMPORTING 
+	gnsl_init,
+	gnsl_middle,
+	gnsl_last
+
+  END gnsl
