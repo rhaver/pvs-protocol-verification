@@ -6,7 +6,7 @@ dynetwork[ I : NONEMPTY_TYPE, M : TYPE,
 	   INIT : setof[M], |- : setof[[setof[M], M]] ] : THEORY
 BEGIN
 
-  lib : LIBRARY = "/home/rob/code/41/rules"
+  lib : LIBRARY = "/home/ubuntu/Desktop/pvs-6.0/csp_rules"
   IMPORTING lib@csp_rules
 
 %----------------------------------
